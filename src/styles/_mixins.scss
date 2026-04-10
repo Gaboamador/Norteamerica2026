@@ -1,0 +1,27 @@
+@use "sass:map";
+@use "breakpoints" as bp;
+
+@mixin down($key) {
+  @media (max-width: map.get(bp.$breakpoints, $key)) {
+    @content;
+  }
+}
+
+@mixin up($key) {
+  @media (min-width: map.get(bp.$breakpoints, $key)) {
+    @content;
+  }
+}
+
+@mixin between($min, $max) {
+  @media (min-width: map.get(bp.$breakpoints, $min)) and 
+         (max-width: map.get(bp.$breakpoints, $max)) {
+    @content;
+  }
+}
+
+@mixin font-down($key) {
+  @media (max-width: map.get(bp.$font-breakpoints, $key)) {
+    @content;
+  }
+}

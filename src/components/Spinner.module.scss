@@ -1,0 +1,49 @@
+@use '../styles/variables' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.spinner {
+  border-radius: 50%;
+  border-style: solid;
+  border-color: #262a3b;
+  border-top-color: $pd3-lightgreen;
+  animation: spin 0.9s linear infinite;
+}
+
+/* Sizes */
+.sm {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.md {
+  width: 32px;
+  height: 32px;
+  border-width: 3px;
+}
+
+.lg {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+.label {
+  font-size: 13px;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

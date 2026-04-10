@@ -1,0 +1,74 @@
+$na-main: #689c80;
+$na-hover: darkseagreen;
+$pd3-lightgreen: #00FF91;
+$bg: #05070d;
+$bg-gradient: radial-gradient(circle at top, #202c46 0, #05070d 45%, #020308 100%);
+$card-bg: #141620;
+$card-border: #262a3b;
+// $card-border-highlight: #3c7fff;
+$card-border-highlight: #00FF91;
+$card-border-data: green;
+$text: #f0f0f0;
+$text-muted: #9ca3af;
+$accent: #57a6ff;
+$accent-soft: rgba(87, 166, 255, 0.2);
+$mod-slot-inactive: #7f7f7f;
+
+$radius-lg: 14px;
+$radius-md: 10px;
+$shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.65);
+
+$pd3-main: #689c80;
+$pd3-hover: darkseagreen;
+$pd3-lightgreen: #00FF91;
+
+$color-skill: #8c5a6e;
+$color-weapon: #4f6fa3;
+$color-armor: #8a7a4f;
+$color-throwable: #744f8a;
+$color-deployable: #5f7f8a;
+$color-tool: #6b8a5a;
+$color-build: #4f8a72;
+/* _variables.scss */
+
+/* Spacing */
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 12px;
+$space-lg: 16px;
+$space-xl: 24px;
+
+/* Radius */
+$radius-xs: 4px;
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 14px;
+$chamfer: 8px;
+
+/* Colors – neutrals */
+$color-bg-surface: #111418;
+$color-bg-elevated: #161a20;
+$color-bg-contrast: #1e2430;
+
+$color-border: #2a3140;
+
+$color-text-primary: #e6e8ec;
+$color-text-muted: #9aa3b2;
+
+/* Accent */
+$color-accent: $pd3-lightgreen;
+
+/* Semantic */
+$color-danger: #e05252;
+
+:root {
+  --pd3-main: #{$pd3-main};
+  --color-skill: #{$color-skill};
+  --color-weapon: #{$color-weapon};
+  --color-armor: #{$color-armor};
+  --color-throwable: #{$color-throwable};
+  --color-deployable: #{$color-deployable};
+  --color-tool: #{$color-tool};
+  --color-build: #{$color-build};
+  --color-default: rgba(255,255,255,0.08);
+}

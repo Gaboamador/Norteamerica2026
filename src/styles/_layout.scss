@@ -1,0 +1,10 @@
+%page {
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+%page-grid {
+  @extend %page;
+  display: grid;
+  gap: 16px;
+}

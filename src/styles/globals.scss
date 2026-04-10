@@ -1,0 +1,78 @@
+@use "./variables" as *;
+@use "./fonts.scss" as *;
+@use "sass:color";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  color-scheme: dark;
+  font-size: $font-md;
+  // height: 100%;
+}
+
+body {
+  font-family: 'Rift', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: $text;
+
+    width: 100%;
+    background: #333;
+}
+
+input, select, textarea, label, .font-din {
+  font-family: 'DIN2014';
+}
+
+button {
+  cursor: pointer;
+  width: fit-content;
+  font-weight: 700;
+  color: $color-text-primary;
+  border-radius: 8px;
+  background: rgba($na-main, 1);
+  padding: 8px 12px;
+  border: none;
+  transition: filter 0.2s;
+
+  &:hover {
+    background: rgba($na-hover, 0.5);
+  }
+
+  &.primary {
+
+  }
+  
+  &.secondary {
+    font-family: 'DIN2014';
+    padding: $space-sm $space-md;
+    background: $color-bg-surface;
+      &:hover {
+        filter: brightness(1.5);
+      }
+    @include font-down(compact) {
+      font-size: 12px;
+      padding: 4px 12px;
+    }
+  }
+
+  &.danger {
+    font-family: 'DIN2014';
+    padding: $space-sm $space-md;
+    background: rgba($color-danger, 0.12);
+      &:hover {
+        filter: brightness(1.75);
+      }
+  }
+
+  @include font-down(compact) {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
