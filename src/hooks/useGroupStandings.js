@@ -2,11 +2,19 @@ import { useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase";
 
-export const useStandings = () => {
+export const useGroupStandings = (groupId) => {
   const [table, setTable] = useState([]);
 
   useEffect(() => {
-    const ref = doc(db, "standings", "global");
+    if (!groupId) return;
+
+    const ref = doc(
+      db,
+      "groups",
+      groupId,
+      "standings",
+      "main"
+    );
 
     const unsubscribe = onSnapshot(ref, (snap) => {
       if (snap.exists()) {
@@ -18,7 +26,7 @@ export const useStandings = () => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [groupId]);
 
   return table;
 };

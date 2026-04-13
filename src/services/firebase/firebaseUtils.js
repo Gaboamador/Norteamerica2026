@@ -5,6 +5,7 @@ import {
   getDoc,
   getDocs,
   collection,
+  collectionGroup,
   query,
   where,
   serverTimestamp,
@@ -196,5 +197,5 @@ export const scoreMatch = async (match) => {
  */
 export const getAllPredictions = async () => {
   const snap = await getDocs(collection(db, "predictions"));
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  return snap.docs.map((doc) => doc.data());
 };

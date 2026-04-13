@@ -5,6 +5,7 @@ import {
   registerWithEmail,
   logout,
 } from "@/services/firebase/firebaseAuth";
+import { ensureUserDoc } from "@/services/firebase/firebaseUsers";
 
 export const AuthContext = createContext();
 
@@ -16,6 +17,17 @@ export const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthChange((firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
+
+      if (firebaseUser) {
+        // 🔥 wrapper async
+        (async () => {
+          try {
+            await ensureUserDoc(firebaseUser);
+          } catch (err) {
+            console.error("Error ensureUserDoc:", err);
+          }
+        })();
+      }
     });
 
     return () => unsubscribe();

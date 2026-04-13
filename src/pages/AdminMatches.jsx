@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
-import { createMatch, getAllMatches, updateMatch, scoreMatch } from "@/services/firebase/firebaseUtils";
-import { useToast } from "../context/ToastContext";
+import { useNavigate } from "react-router-dom";
+import { useAdmin } from "../hooks/useAdmin";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "@/services/firebase/firebase";
+import { createMatch, updateMatch, scoreMatch, getAllPredictions } from "@/services/firebase/firebaseUtils";
+import { saveGlobalStandings, saveGroupStandings } from "@/services/firebase/firebaseStandings";
+import { filterStandingsByGroup } from "@/utils/filterStandingsByGroup";
+import { useToast } from "@/context/ToastContext";
 import { Timestamp } from "firebase/firestore";
+import { buildStandings } from "@/utils/buildStandings";
 import MatchRow from "@/components/MatchRow";
-import MatchesGrouped from "../components/MatchesGrouped";
+import MatchesGrouped from "@/components/MatchesGrouped";
 import { useMatches } from "@/hooks/useMatches";
 
 export default function AdminMatches() {
 
   const { matches, loading, reload } = useMatches();
+  const { isAdmin, loading: adminLoading } = useAdmin();
   const { showToast } = useToast();
+  const navigate = useNavigate();
   const [mode, setMode] = useState("date");
   // create form
   const [homeTeam, setHomeTeam] = useState("");
@@ -18,9 +27,21 @@ export default function AdminMatches() {
   const [round, setRound] = useState(1);
   const [startTime, setStartTime] = useState("");
 
+
+  // redirect if not admin
   useEffect(() => {
-    reload();
-  }, []);
+    if (!adminLoading && !isAdmin) {
+      navigate("/", { replace: true });
+    }
+  }, [adminLoading, isAdmin, navigate]);
+
+  if (adminLoading) {
+    return <div style={{ padding: 20 }}>Cargando...</div>;
+  }
+
+  if (!isAdmin) {
+    return null;
+  }
 
   // CREATE
   const handleCreate = async (e) => {
@@ -68,20 +89,45 @@ export default function AdminMatches() {
         awayGoals: Number(awayGoals),
       };
 
+      // 1. Guardar resultado
       await updateMatch(matchId, {
         result,
         status: "finished",
       });
 
-      // 🔥 calcular puntos
+      // 2. Calcular puntos en predictions
       await scoreMatch({
         id: matchId,
         result,
       });
 
+      // 🔥 3. Recalcular standings globales
+      const allPredictions = await getAllPredictions();
+      const standings = buildStandings(allPredictions);
+
+      // 🔥 4. Guardar standings en Firestore
+      await saveGlobalStandings(standings);
+
+      // 🔥 calcular standings por grupo
+      const groupsSnap = await getDocs(collection(db, "groups"));
+console.log("ALL PREDICTIONS", allPredictions);
+console.log("STANDINGS GLOBAL", standings);
+      for (const docSnap of groupsSnap.docs) {
+        const group = docSnap.data();
+        const groupId = docSnap.id;
+console.log("GROUP", groupId);
+console.log("MEMBERS", group.members);
+        const groupStandings = filterStandingsByGroup(
+          standings,
+          group.members || []
+        );
+console.log("FILTERED", groupStandings);
+        await saveGroupStandings(groupId, groupStandings);
+      }
+
       showToast({
         type: "success",
-        message: "Resultado cargado y puntos calculados",
+        message: "Resultado cargado y standings actualizados",
       });
 
       reload();
@@ -95,7 +141,7 @@ export default function AdminMatches() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div>
       <h2>Admin - Partidos</h2>
 
       {/* CREATE */}

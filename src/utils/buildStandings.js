@@ -13,7 +13,15 @@ export const buildStandings = (predictions) => {
     table[p.uid].points += p.points || 0;
   });
 
-  return Object.values(table).sort(
+  // return Object.values(table).sort(
+  //   (a, b) => b.points - a.points
+  // );
+  const sorted = Object.values(table).sort(
     (a, b) => b.points - a.points
   );
+
+  return sorted.map((row, index) => ({
+    ...row,
+    position: index + 1,
+  }));
 };

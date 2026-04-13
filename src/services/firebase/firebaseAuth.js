@@ -6,9 +6,10 @@ import {
   updateProfile,
   signOut,
   onAuthStateChanged,
+  reload,
 } from "firebase/auth";
-
-import { auth } from "./firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "./firebase";
 
 /**
  * ===============================
@@ -33,16 +34,46 @@ export const firebaseErrorMessages = {
  * ===============================
  */
 
-export const loginWithEmail = async (email, password) => {
-  if (!email || !password) {
-    throw {
-      code: "auth/missing-fields",
-      message: "Email y contraseña requeridos",
-    };
-  }
+// export const loginWithEmail = async (email, password) => {
+//   if (!email || !password) {
+//     throw {
+//       code: "auth/missing-fields",
+//       message: "Email y contraseña requeridos",
+//     };
+//   }
 
-  return await signInWithEmailAndPassword(auth, email, password);
-};
+//   return await signInWithEmailAndPassword(auth, email, password);
+// };
+  export const loginWithEmail = async (email, password) => {
+    if (!email || !password) {
+      throw {
+        code: "auth/missing-fields",
+        message: "Email y contraseña requeridos",
+      };
+    }
+
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+
+    // Refresca el estado real del usuario en Firebase Auth
+    await reload(user);
+
+    if (!auth.currentUser?.emailVerified) {
+      // await signOut(auth);
+
+      throw {
+        code: "auth/email-not-verified",
+        message: "Tenés que verificar tu correo antes de ingresar.",
+      };
+    }
+
+    return userCredential;
+  };
 
 /**
  * ===============================
@@ -74,10 +105,25 @@ export const registerWithEmail = async ({
   const displayName = `${firstName.trim()}`;
   await updateProfile(user, { displayName });
 
+  // agregar usuario a colección 'users'
+  await setDoc(doc(db, "users", user.uid), {
+    uid: user.uid,
+    displayName,
+    email: user.email,
+    createdAt: serverTimestamp(),
+  });
+
   // mail de verificación
   await sendEmailVerification(user);
 
-  return userCredential;
+   // Muy importante: no dejar sesión abierta
+  await signOut(auth);
+
+  // return userCredential;
+    return {
+      success: true,
+      requiresEmailVerification: true,
+    };
 };
 
 /**
@@ -118,4 +164,45 @@ export const logout = async () => {
 
 export const onAuthChange = (callback) => {
   return onAuthStateChanged(auth, callback);
+};
+
+
+/**
+ * ===============================
+ * REENVIAR VERIFICACIÓN
+ * ===============================
+ */
+
+export const resendVerificationEmail = async () => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw {
+      code: "auth/no-current-user",
+      message: "No hay usuario autenticado",
+    };
+  }
+
+  await sendEmailVerification(user);
+};
+
+/**
+ * ===============================
+ * REFRESCAR USUARIO
+ * ===============================
+ */
+
+export const reloadCurrentUser = async () => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw {
+      code: "auth/no-current-user",
+      message: "No hay usuario autenticado",
+    };
+  }
+
+  await reload(user);
+
+  return auth.currentUser;
 };

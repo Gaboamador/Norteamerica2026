@@ -1,0 +1,138 @@
+@use "@/styles/variables" as *;
+
+.header {
+  width: 100%;
+  padding: 10px 0;
+  backdrop-filter: blur(6px);
+  background: rgba(20, 20, 20, 0.65);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  text-align: center;
+  white-space: nowrap;
+
+    h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.02em;
+  }
+}
+
+.title {
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+
+  & span {
+    display: flex;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+
+.subtitle {
+  // color: $text-muted;
+  // font-size: 0.95rem;
+  white-space: wrap;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: $pd3-main;
+}
+
+.inner {
+  margin: 0 auto;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+    justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.4px;
+}
+
+.logo {
+  height: 42px;
+  vertical-align: middle;
+}
+
+.logoButton {
+  clip-path: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.logoButton img {
+  transition: transform 0.2s ease;
+}
+
+.logoButton.open img {
+  transform: scale(1.08) rotate(6deg);
+}
+
+.authIcon {
+  color: gray;
+}
+
+.authControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-left: 1px solid $na-main;
+  padding-left: 12px;
+}
+
+.userName {
+  font-family: 'DIN2014';
+  font-size: 0.9rem;
+  color: $pd3-main;
+  font-weight: 600;
+
+  &.smallerAuth {
+    font-size: 0.7rem;
+  }
+}
+
+.logoutButton {
+  padding: 4px 10px;
+  font-size: 0.9rem;
+  &.smallerAuth {
+    font-size: 0.7rem;
+    padding: 2px 10px;
+  }
+}
+
+@include up(sm) {
+  .header {
+    padding: 16px 0;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+  }
+
+
+  .logo {
+    height: 48px;
+  }
+}
+
+  @include down (xs) {
+    .subtitle {
+      font-size: 1.2rem;
+    }
+  }

@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   loginWithEmail,
   registerWithEmail,
   recoverPassword,
   firebaseErrorMessages,
+  resendVerificationEmail,
+  reloadCurrentUser,
 } from "@/services/firebase/firebaseAuth";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import styles from "./AuthScreen.module.scss";
@@ -12,6 +14,7 @@ import styles from "./AuthScreen.module.scss";
 export default function AuthScreen() {
   const [mode, setMode] = useState("login"); 
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -24,6 +27,13 @@ export default function AuthScreen() {
   const [message, setMessage] = useState("");
 
   const resetErrors = () => setError("");
+
+  useEffect(() => {
+    if (location.state?.mode === "verify") {
+      setMode("verify");
+      setMessage("Tenés que verificar tu correo para continuar.");
+    }
+  }, [location.state]);
 
   function redirectAfterAuth() {
     const redirect =
@@ -40,24 +50,62 @@ export default function AuthScreen() {
   const handleLogin = async (e) => {
     e.preventDefault();
     resetErrors();
+    setMessage("");
 
     try {
       setLoading(true);
       await loginWithEmail(email, password);
       redirectAfterAuth();
     } catch (err) {
+      if (err.code === "auth/email-not-verified") {
+        setMode("verify");
+        setMessage(
+          "Tenés que verificar tu correo antes de ingresar."
+        );
+        return;
+      }
+
       setError(
         firebaseErrorMessages[err.code] ??
-          "Error logging in"
+        err?.message ??
+        "Error logging in"
       );
     } finally {
       setLoading(false);
     }
   };
 
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+  //   resetErrors();
+
+  //   if (password !== repeatPassword) {
+  //     setError("Las contraseñas no coinciden");
+  //     return;
+  //   }
+
+  //   try {
+  //     setLoading(true);
+  //     await registerWithEmail({
+  //       email,
+  //       password,
+  //       firstName,
+  //     });
+  //     redirectAfterAuth();
+  //   } catch (err) {
+  //     setError(
+  //       firebaseErrorMessages[err.code] ??
+  //       err?.message??
+  //         "Error creando la cuenta"
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleRegister = async (e) => {
     e.preventDefault();
     resetErrors();
+    setMessage("");
 
     if (password !== repeatPassword) {
       setError("Las contraseñas no coinciden");
@@ -66,17 +114,31 @@ export default function AuthScreen() {
 
     try {
       setLoading(true);
-      await registerWithEmail({
+
+      const result = await registerWithEmail({
         email,
         password,
         firstName,
       });
+
+      if (result?.requiresEmailVerification) {
+        setMode("verify");
+        setMessage(
+          "Te enviamos un correo de verificación. Verificá tu email antes de iniciar sesión."
+        );
+
+        setMode("login");
+        setPassword("");
+        setRepeatPassword("");
+        return;
+      }
+
       redirectAfterAuth();
     } catch (err) {
       setError(
         firebaseErrorMessages[err.code] ??
-        err?.message??
-          "Error creando la cuenta"
+        err?.message ??
+        "Error creando la cuenta"
       );
     } finally {
       setLoading(false);
@@ -296,6 +358,78 @@ export default function AuthScreen() {
             </button>
           </div>
         </form>
+      )}
+
+      {mode === "verify" && (
+        <div className={styles.verifyContainer}>
+          <p className={styles.verifyText}>
+            Necesitás verificar tu correo electrónico para continuar.
+          </p>
+
+          <button
+            className={styles.primaryButton}
+            disabled={loading}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                setMessage("");
+                await resendVerificationEmail();
+                setMessage("Te reenviamos el correo de verificación.");
+              } catch (err) {
+                setError(
+                  firebaseErrorMessages[err.code] ??
+                  err?.message ??
+                  "No se pudo reenviar el correo"
+                );
+              } finally {
+                setLoading(false);
+              }
+            }}
+          >
+            Reenviar correo
+          </button>
+
+          <button
+            className={styles.secondaryButton}
+            disabled={loading}
+            onClick={async () => {
+              try {
+                setLoading(true);
+                setError("");
+                setMessage("");
+
+                const user = await reloadCurrentUser();
+
+                if (user?.emailVerified) {
+                  redirectAfterAuth();
+                } else {
+                  setMessage("Todavía no aparece como verificado.");
+                }
+
+              } catch (err) {
+                setError(
+                  firebaseErrorMessages[err.code] ??
+                  err?.message ??
+                  "No se pudo verificar el estado del usuario"
+                );
+              } finally {
+                setLoading(false);
+              }
+            }}
+          >
+            Ya verifiqué mi correo
+          </button>
+
+          <button
+            className={styles.linkButton}
+            onClick={() => {
+              resetErrors();
+              setMode("login");
+            }}
+          >
+            Volver al login
+          </button>
+        </div>
       )}
 
       {error && <div className={styles.error}>{error}</div>}

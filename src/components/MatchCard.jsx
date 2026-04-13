@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { usePredictions } from "@/hooks/usePredictions";
-import { useToast } from "../context/ToastContext";
+import { useToast } from "@/context/ToastContext";
 import { isMatchLocked } from "@/services/firebase/firebaseUtils";
 
 export default function MatchCard({ match }) {
