@@ -1,0 +1,77 @@
+// ==========================
+// BRAND / IDENTIDAD
+// ==========================
+// Tonos apagados, deportivos, elegantes
+$brand-blue: #14537f;
+$brand-green: #11af03;
+$brand-red: #e43834;
+
+// ==========================
+// FONDOS / NEUTRALES
+// ==========================
+$color-bg-page: #0b1016;
+$color-bg-elevated: #141b23;
+$color-bg-elevated-2: #1a2330;
+$color-bg-overlay: rgba(7, 10, 14, 0.72);
+
+$color-border: #263243;
+$color-border-strong: #35455b;
+
+// ==========================
+// TEXTO
+// ==========================
+$color-text-primary: #edf3fa;
+$color-text-secondary: #c8d2de;
+$color-text-muted: #8e9bab;
+$color-text-disabled: #6f7b89;
+
+// ==========================
+// ACENTOS DE UI
+// ==========================
+$color-accent-primary: $brand-blue;
+$color-accent-secondary: $brand-green;
+$color-accent-tertiary: $brand-red;
+
+// ==========================
+// ESTADOS SEMÁNTICOS
+// ==========================
+$color-success: $brand-green;
+$color-danger: $brand-red;
+$color-warning: #b68a4c;
+$color-info: $brand-blue;
+
+// ==========================
+// INTERACTIVOS
+// ==========================
+$color-link: $color-accent-primary;
+$color-focus-ring: rgba($brand-blue, 0.35);
+
+$color-button-primary-bg: $color-accent-primary;
+$color-button-primary-bg-hover: #527aa8;
+
+$color-button-secondary-bg: rgba($brand-blue, 0.14);
+$color-button-secondary-bg-hover: rgba($brand-blue, 0.22);
+
+$color-button-danger-bg: rgba($brand-red, 0.16);
+$color-button-danger-bg-hover: rgba($brand-red, 0.24);
+
+// ==========================
+// SUPERFICIES ESPECIALES
+// ==========================
+$color-card-bg: $color-bg-elevated;
+$color-card-bg-hover: $color-bg-elevated-2;
+$color-card-border: $color-border;
+$color-card-border-hover: $color-border-strong;
+
+$color-input-bg: #121821;
+$color-input-border: #2a3748;
+$color-input-border-focus: $brand-blue;
+
+// ==========================
+// LEGACY TEMPORAL
+// ==========================
+// Alias puente para no romper archivos viejos mientras migrás
+$color-bg: $color-bg-page;
+$color-surface: $color-bg-elevated;
+$color-surface-2: $color-bg-elevated-2;
+$accent: $color-accent-primary;

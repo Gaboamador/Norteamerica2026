@@ -1,40 +1,44 @@
-@use '@/styles/variables' as *;
-
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
   z-index: 1000;
+  background: $color-bg-overlay;
 
   &.mobile {
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.55) 120px
+      rgba($color-bg-page, 0) 0%,
+      rgba($color-bg-page, 0.72) 120px
     );
   }
 }
 
 .menu {
   position: fixed;
-  margin-top: 0px;
-  background: #141620;
-  border: 1px solid #262a3b;
-  border-radius: 14px;
-  padding: 8px 0;
-  min-width: 260px;
-  border-radius: 14px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  margin-top: 0;
+  z-index: 1001;
+
+  background: rgba($color-bg-elevated, 0.96);
+  border: 1px solid rgba($color-border, 0.96);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-soft;
+  backdrop-filter: blur(12px);
+
+  padding: $space-sm 0;
+  min-width: 100%;
+  overflow: hidden;
 
   &.mobile {
     width: 100vw;
-    border-radius: 0;
     border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: rgba($color-bg-elevated, 0.98);
   }
 
   &.desktop {
     min-width: 260px;
+    max-width: min(320px, calc(100vw - (#{$space-lg} * 2)));
   }
 }
 
@@ -45,33 +49,35 @@
 }
 
 .item {
+  min-width: 0;
 }
 
 .link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: white;
+  gap: $space-md;
+
+  width: 100%;
+  min-width: 0;
+  padding: $space-md $space-lg;
+
+  color: $color-text-primary;
   text-decoration: none;
+  border-radius: 0;
 
-  transition: background 0.15s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateX(2px);
-  }
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
 
   &.mobile {
     border-radius: 0;
   }
 }
 
-
 .active {
-  background: rgba(255, 255, 255, 0.08);
-  border-left: 3px solid $na-lightgreen;
+  background: rgba($color-accent-primary, 0.14);
+  color: $color-text-primary;
 }
 
 .disabled {
@@ -82,10 +88,18 @@
 .icon {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 20px;
   justify-content: flex-start;
-  width: 40px;
+  flex-shrink: 0;
+
+  width: $space-xl;
+  min-width: $space-xl;
+
+  color: $color-text-secondary;
+  font-size: 20px;
+
+  transition:
+    color 0.18s ease,
+    transform 0.18s ease;
 
   svg {
     stroke-width: 2.2;
@@ -93,31 +107,53 @@
 }
 
 .label {
-  font-weight: 600;
+  min-width: 0;
+
+  font-family: $font-family-label;
+  font-size: $font-size-body-sm;
+  font-weight: $font-weight-medium;
+  line-height: 1.15;
+  color: inherit;
 }
 
-/* ===== SERVICE COLORS (igual que Home) ===== */
+@include up(sm) {
+  .menu {
+    &.desktop {
+      min-width: 280px;
+    }
+  }
 
-.icon[data-service="editor"] {
-  color: $color-build;
+  .link {
+    padding: $space-md $space-xl;
+  }
+
+  .label {
+    font-size: $font-size-body;
+  }
 }
 
-.icon[data-service="random"] {
-  color: $color-throwable;
-}
+@include up(md) {
+  .link {
+    border-radius: $radius-sm;
 
-.icon[data-service="catalog"] {
-  color: $color-weapon;
-}
+    &:hover {
+      background: rgba($color-accent-primary, 0.12);
+      transform: translateX(2px);
+    }
 
-.icon[data-service="explorer"] {
-  color: $color-tool;
-}
+    &:hover .icon {
+      color: $color-accent-primary;
+      transform: scale(1.03);
+    }
+  }
 
-.icon[data-service="roulette"] {
-  color: $color-skill;
-}
+  .active {
+    background: rgba($color-accent-primary, 0.16);
+  }
 
-.icon[data-service="home"] {
-  color: white;
+  .menu {
+    &.desktop {
+      min-width: 260px;
+    }
+  }
 }

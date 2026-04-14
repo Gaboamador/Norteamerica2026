@@ -140,10 +140,7 @@ export default function NavMenu({ open, onClose, items = [], anchorRef, headerRe
                       className={`${styles.link} ${isActive ? styles.active : ""} ${isMobile ? styles.mobile : ""} ${item.disabled ? styles.disabled : ""}`}
                       onClick={onClose}
                     >
-                      <span
-                        className={styles.icon}
-                        data-service={item.service}
-                      >
+                      <span className={styles.icon}>
                         {item.icon}
                       </span>
 

@@ -110,18 +110,16 @@ export default function AdminMatches() {
 
       // 🔥 calcular standings por grupo
       const groupsSnap = await getDocs(collection(db, "groups"));
-console.log("ALL PREDICTIONS", allPredictions);
-console.log("STANDINGS GLOBAL", standings);
+
       for (const docSnap of groupsSnap.docs) {
         const group = docSnap.data();
         const groupId = docSnap.id;
-console.log("GROUP", groupId);
-console.log("MEMBERS", group.members);
+
         const groupStandings = filterStandingsByGroup(
           standings,
           group.members || []
         );
-console.log("FILTERED", groupStandings);
+
         await saveGroupStandings(groupId, groupStandings);
       }
 

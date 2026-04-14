@@ -1,5 +1,3 @@
-@use '../styles/variables' as *;
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -13,7 +11,7 @@
   border-radius: 50%;
   border-style: solid;
   border-color: #262a3b;
-  border-top-color: $pd3-lightgreen;
+  // border-top-color: $pd3-lightgreen;
   animation: spin 0.9s linear infinite;
 }
 

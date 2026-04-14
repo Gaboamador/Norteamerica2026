@@ -14,12 +14,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @use "@/styles/variables" as *;
-        @use "@/styles/typography" as *;
-        @use "@/styles/breakpoints" as *;
-        @use "@/styles/mixins" as *;
-        `
-      }
+        @use "@/styles/refs" as *;
+        `,
+      },
     }
   }
 })

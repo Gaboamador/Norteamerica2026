@@ -1,9 +1,8 @@
-@use "@/styles/variables" as *;
-
 .wrapper {
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: $space-xl;
+  height: $space-xl;
+  flex-shrink: 0;
 }
 
 .hamburger {
@@ -13,25 +12,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.hamburger span {
-  position: absolute;
-  width: 20px;
-  height: 2px;
-  background: white;
-  border-radius: 2px;
-  transition: background 0.2s ease; 
-}
+  pointer-events: none;
 
-.wrapper:hover .hamburger span {
-  background: $na-hover;
+  span {
+    position: absolute;
+    width: $space-lg;
+    height: $space-2xs;
+    border-radius: 999px;
+    background: $color-text-primary;
+
+    transition:
+      background 0.2s ease,
+      opacity 0.2s ease;
+  }
 }
 
 .logo {
   position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
   object-fit: contain;
+  pointer-events: none;
+}
+
+@include up(sm) {
+  .wrapper {
+    width: $space-2xl;
+    height: $space-2xl;
+  }
+
+  .hamburger {
+    span {
+      width: $space-xl;
+    }
+  }
+}
+
+@include up(md) {
+  .wrapper:hover {
+    .hamburger span {
+      background: $color-accent-primary;
+    }
+  }
 }

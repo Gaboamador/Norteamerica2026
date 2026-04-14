@@ -1,0 +1,67 @@
+// ==========================
+// FONT FAMILIES
+// ==========================
+$font-family-brand: "Rift", system-ui, sans-serif;
+$font-family-ui: system-ui, sans-serif;
+$font-family-data: system-ui, sans-serif;
+
+// ==========================
+// FONT SIZES — PRIMITIVOS
+// ==========================
+$font-size-xs: 0.8rem;
+$font-size-sm: 0.9rem;
+$font-size-md: 1rem;
+$font-size-lg: 1.1rem;
+$font-size-xl: 1.2rem;
+$font-size-2xl: 1.3rem;
+$font-size-3xl: 1.4rem;
+
+// ==========================
+// FONT WEIGHTS
+// ==========================
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// ==========================
+// FONT FAMILIES — SEMÁNTICOS
+// ==========================
+$font-family-heading: $font-family-brand;
+$font-family-body: $font-family-ui;
+$font-family-label: $font-family-ui;
+$font-family-data-display: $font-family-data;
+
+// ==========================
+// FONT SIZES — SEMÁNTICOS GLOBALES
+// ==========================
+$font-size-body-xs: $font-size-xs;
+$font-size-body-sm: $font-size-sm;
+$font-size-body: $font-size-md;
+
+$font-size-label-sm: $font-size-sm;
+$font-size-label: $font-size-sm;
+
+$font-size-heading-card: $font-size-lg;
+$font-size-heading-section: $font-size-2xl;
+$font-size-heading-page: $font-size-3xl;
+
+// ==========================
+// FONT SIZES — SEMÁNTICOS DE HEADER
+// ==========================
+$font-size-header-eyebrow-mobile: $font-size-xs;
+$font-size-header-eyebrow-desktop: $font-size-label;
+
+$font-size-header-title-mobile: $font-size-sm;
+$font-size-header-title-tablet: $font-size-md;
+$font-size-header-title-desktop: $font-size-lg;
+
+$font-size-header-subtitle-mobile: $font-size-lg;
+$font-size-header-subtitle-tablet: $font-size-xl;
+$font-size-header-subtitle-desktop: $font-size-3xl;
+
+$font-size-header-user-mobile: $font-size-body-xs;
+$font-size-header-user-tablet: $font-size-body-sm;
+
+$font-size-header-button-mobile: $font-size-label-sm;
+$font-size-header-button-tablet: $font-size-body-sm;

@@ -15,7 +15,7 @@ export default function HeaderMenuIcon({ open }) {
         <motion.span variants={line3} />
       </motion.div>
 
-      {/* PD3 Icon */}
+      {/* NA26 Icon */}
       <motion.img
         src="/icons/icon-512.png"
         className={styles.logo}
