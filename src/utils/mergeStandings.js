@@ -3,13 +3,10 @@ export const mergeStandings = (groupTables) => {
 
   for (const table of groupTables) {
     for (const row of table) {
-      const existing = map.get(row.uid);
-
-      if (!existing) {
+      if (!map.has(row.uid)) {
         map.set(row.uid, { ...row });
-      } else {
-        existing.points += row.points;
       }
+      // 🚫 NO sumar puntos
     }
   }
 
