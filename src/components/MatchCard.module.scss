@@ -1,0 +1,347 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+
+  padding: $space-md;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-border, 0.7);
+
+  background: rgba($color-bg-elevated, 0.9);
+
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+/* ===== MATCH INFO ===== */
+
+.matchGrid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  width: 100%;
+}
+
+.teamLeft {
+  justify-self: end;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 60px;
+}
+
+.teamRight {
+  justify-self: start;
+}
+
+.teamChip {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+
+  padding: 6px 10px;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-border, 0.55);
+
+  background: rgba($color-bg-elevated, 0.55);
+
+  backdrop-filter: blur(6px);
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.teamChip.winner {
+  border-color: $color-accent-secondary;
+  background: rgba($color-accent-secondary, 0.12);
+}
+
+.teamChip.loser {
+  opacity: 0.6;
+}
+
+.teamChip.draw {
+  border-color: rgba($color-text-muted, 0.4);
+}
+
+.teamChip.active {
+  border-color: $color-accent-primary;
+}
+
+.teamChip.correct {
+  box-shadow: 0 0 0 2px rgba($color-accent-secondary, 0.3);
+}
+
+.teamName {
+  font-family: $font-family-heading;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+
+  line-height: 1;
+
+  color: $color-text-primary;
+
+  white-space: nowrap;
+}
+
+.flag {
+  display: block;
+  width: 24px;
+  height: 16px;
+
+  object-fit: cover;
+  border-radius: 3px;
+
+  box-shadow: 0 0 0 1px rgba($color-border, 0.4);
+
+  flex-shrink: 0;
+}
+
+.vs {
+  font-family: $font-family-label;
+  font-size: $font-size-body-xs;
+
+  color: $color-text-muted;
+}
+
+.score {
+  font-family: $font-family-data-display;
+
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+
+  letter-spacing: 0.04em;
+
+  color: $color-text-primary;
+
+  min-width: 48px;
+  text-align: center;
+
+  transition: transform 0.2s ease;
+}
+
+.points {
+  font-family: $font-family-data-display;
+
+  font-size: 14px;
+  font-weight: $font-weight-bold;
+
+  padding: 4px 8px;
+
+  border-radius: $radius-sm;
+
+  border: 1px solid rgba($color-border, 0.5);
+  background: rgba($color-bg-elevated, 0.6);
+
+  min-width: 40px;
+  text-align: center;
+}
+
+// PLENO
+.points8 {
+  color: $color-accent-secondary;
+
+  border-color: rgba($color-accent-secondary, 0.6);
+  background: rgba($color-accent-secondary, 0.18);
+
+  box-shadow: 0 0 5px rgba($color-accent-secondary, 0.25);
+}
+// BUEN RESULTADO
+.points5,
+.points4,
+.points3 {
+  color: $color-text-primary;
+
+  border-color: rgba($color-accent-primary, 0.4);
+  background: rgba($color-accent-primary, 0.12);
+}
+// PARCIAL
+.points2,
+.points1 {
+  color: $color-text-muted;
+}
+// FALLO
+.points0 {
+  opacity: 0.6;
+}
+
+/* ===== ACTIONS ===== */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  align-items: center;
+}
+
+/* ===== INPUTS ===== */
+
+.inputsTitle {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.title {
+  justify-self: end;
+  margin-right: $space-sm;
+  font-family: $font-family-label;
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.inputs {
+  display: flex;
+  gap: $space-xs;
+  justify-self: center;
+}
+
+.input {
+  width: $space-2xl;
+  height: $space-2xl;
+
+  text-align: center;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.8);
+  color: $color-text-primary;
+
+  font-family: $font-family-data-display;
+  font-size: $font-size-body;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+
+  // QUITA EL SPINNER INTERNO DEL INPUT PARA QUE SE VEA CENTRADO EL NÚMERO
+  appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  // Firefox
+  -moz-appearance: textfield;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent-primary;
+    box-shadow: 0 0 0 3px rgba($color-accent-primary, 0.2);
+  }
+}
+
+.pointsWrapper {
+  justify-self: start;
+
+  display: flex;
+  align-items: center;
+
+  margin-left: $space-sm;
+}
+
+/* ===== BUTTON ===== */
+
+.button {
+  padding: $space-2xs $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-accent-primary, 0.5);
+
+  background: rgba($color-accent-primary, 0.18);
+  color: $color-text-primary;
+
+  font-family: $font-family-label;
+  font-size: $font-size-body-sm;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+/* ===== STATES ===== */
+
+.lockedMessage {
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.loginMessage {
+  text-align: center;
+
+  font-size: $font-size-body-sm;
+  color: $color-text-muted;
+}
+
+.lockInfo {
+  font-size: $font-size-body-xs;
+  text-align: center;
+}
+
+.countdown {
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+/* ===== BREAKPOINTS ===== */
+
+@include up(sm) {
+  .card {
+    padding: $space-lg;
+  }
+
+  .team {
+    font-size: $font-size-body;
+  }
+}
+
+@include up(md) {
+  .card:hover {
+    border-color: rgba($color-accent-primary, 0.3);
+    background: rgba($color-bg-elevated-2, 1);
+    transform: translateY(-1px);
+  }
+
+  .card:hover .score {
+    transform: scale(1.05);
+  }
+
+  .button:hover {
+    background: rgba($color-accent-primary, 0.28);
+    border-color: rgba($color-accent-primary, 0.7);
+  }
+
+  .team:hover .flag {
+    transform: scale(1.08);
+  }
+
+  .flag {
+    transition: transform 0.15s ease;
+  }
+
+  .teamChip:hover {
+    background: rgba($color-accent-primary, 0.08);
+    border-color: rgba($color-accent-primary, 0.3);
+    transform: translateY(-1px);
+  }
+}

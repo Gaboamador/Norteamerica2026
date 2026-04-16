@@ -1,26 +1,42 @@
 .authScreen {
-  max-width: bp(sm);
-  width: 90%;
-  padding: 2rem;
-  margin: 0 auto;
-  background: #141620;
-  border: 1px solid #262a3b;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
-  color: #f0f0f0;
-  margin: 2rem auto;
-  border-radius: 20px;
+  width: 100%;
+  max-width: $layout-content-xs;
+
+  margin: $space-xl auto;
+  padding: $space-lg;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+
+  background: linear-gradient(
+    180deg,
+    rgba($color-card-bg, 0.98) 0%,
+    rgba($color-bg-elevated-2, 0.96) 100%
+  );
+
+  border: 1px solid $color-card-border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-soft;
+
+  color: $color-text-primary;
 }
 
 .title {
-  margin-bottom: 24px;
+  margin: 0;
   text-align: center;
-  font-size: 22px;
-  font-weight: 700;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-heading-card;
+  font-weight: $font-weight-bold;
+  line-height: 1.1;
+
+  color: $color-text-primary;
 }
 
 .form {
   display: grid;
-  gap: 14px;
+  gap: $space-md;
 }
 
 .loginButtonWrapper {
@@ -28,87 +44,160 @@
   justify-content: center;
 }
 
+/* ===== INPUT ===== */
+
 .input {
-  background: #05070d;
-  border: 1px solid #262a3b;
-  border-radius: 10px;
-  padding: 12px 14px;
-  color: #f0f0f0;
-  font-size: 14px;
+  width: 100%;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.9);
+  color: $color-text-primary;
+
+  font-family: $font-family-body;
+  font-size: $font-size-body-sm;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
 
   &:focus {
     outline: none;
-    // border-color: $na-lightgreen;
+    border-color: $color-accent-primary;
+    box-shadow: 0 0 0 3px rgba($color-accent-primary, 0.2);
+    background: rgba($color-bg-elevated, 1);
   }
 }
+
+/* ===== LINKS ===== */
 
 .authLinks {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
-  gap: 10px;
+  gap: $space-sm;
+  margin-top: $space-sm;
 }
 
 .linkButton {
-  clip-path: none;
-  background: #80808066;
-  border: 1px solid gray;
   display: inline-flex;
-  padding: 5px 10px 5px;
-  color: white;
-  font-size: 0.8rem;
+  align-items: center;
+  justify-content: center;
+
+  padding: $space-2xs $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-border, 0.7);
+
+  background: rgba($color-bg-elevated, 0.6);
+  color: $color-text-secondary;
+
+  font-family: $font-family-label;
+  font-size: $font-size-body-xs;
+
   cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+/* ===== STATES ===== */
+
+.error,
+.success {
+  margin-top: $space-sm;
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+
+  font-family: $font-family-body;
+  font-size: $font-size-body-sm;
+  text-align: center;
 }
 
 .error {
-  font-family: 'DIN2014';
-  margin-top: 16px;
-  padding: 10px 12px;
-  background: rgba(255, 80, 80, 0.15);
-  border: 1px solid rgba(255, 80, 80, 0.4);
-  border-radius: 8px;
-  color: #ffb4b4;
-  font-size: 13px;
-  text-align: center;
+  background: rgba($color-accent-tertiary, 0.14);
+  border: 1px solid rgba($color-accent-tertiary, 0.35);
+  color: rgba($color-accent-tertiary, 0.95);
 }
 
 .success {
-  font-family: 'DIN2014';
-  margin-top: 16px;
-  padding: 10px 12px;
-  background: rgba(80, 255, 80, 0.15);
-  border: 1px solid rgba(80, 255, 80, 0.4);
-  border-radius: 8px;
-  color: #b4ffb4;
-  font-size: 13px;
-  text-align: center;
+  background: rgba($color-accent-secondary, 0.14);
+  border: 1px solid rgba($color-accent-secondary, 0.35);
+  color: rgba($color-accent-secondary, 0.95);
 }
+
+/* ===== PASSWORD ===== */
 
 .passwordWrapper {
   position: relative;
   display: flex;
   align-items: center;
-}
 
-.passwordWrapper .input {
-  width: 100%;
-  padding-right: 40px; // espacio para el ícono
+  .input {
+    padding-right: $space-xl;
+  }
 }
 
 .eyeButton {
-  clip-path: none;
   position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
+  right: $space-sm;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 0;
-  color: #888;
+  border: none;
+  background: none;
+
+  color: $color-text-muted;
+  cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    transform 0.18s ease;
 }
 
-.eyeButton:hover {
-  color: #fff; // o el color que uses en tu theme
+/* ===== BREAKPOINTS ===== */
+
+@include up(sm) {
+  .authScreen {
+    padding: $space-xl;
+    margin: $space-2xl auto;
+  }
+
+  .title {
+    font-size: $font-size-heading-page;
+  }
+
+  .input {
+    font-size: $font-size-body;
+  }
+
+  .linkButton {
+    font-size: $font-size-body-sm;
+  }
+}
+
+@include up(md) {
+  .linkButton:hover {
+    background: rgba($color-accent-primary, 0.12);
+    border-color: rgba($color-accent-primary, 0.4);
+    color: $color-text-primary;
+  }
+
+  .eyeButton:hover {
+    color: $color-accent-primary;
+    transform: scale(1.05);
+  }
 }

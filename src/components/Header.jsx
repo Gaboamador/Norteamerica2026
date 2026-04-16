@@ -68,110 +68,64 @@ export default function Header() {
 
   return (
     <header ref={headerRef} className={styles.header}>
-      {/* <div className={styles.inner}>
 
-      {(isHome || !isAuthenticated) ? (
-        <>
-        <div className={styles.titleWrapper}>
-          <div>
-            <img
-              src={logo}
-              alt="Logo"
-              className={styles.logo}
-            />
-          </div>
-          <div className={styles.title}>
-            <span>PRODE</span>
-            <span>Norteamérica 2026</span>
-          </div>
-        </div>
-        </>
-      ) : (
-        <button
-          ref={buttonRef}
-          className={`${styles.logoButton} ${menuOpen ? styles.open : ""}`}
-          onClick={() => setMenuOpen(true)}
-        >
-          <HeaderMenuIcon open={menuOpen} />
-        </button>
-      )}
+      <div className={styles.inner}>
         
-      {subtitle && (
-        <span className={styles.subtitle}>{subtitle}</span>
-      )}
+        {/* LEFT */}
+        <div className={styles.left}>
+          {(!isHome && isAuthenticated) && (
+          <button
+            ref={buttonRef}
+            className={`${styles.logoButton} ${menuOpen ? styles.open : ""}`}
+            onClick={() => setMenuOpen(true)}
+          >
+            <HeaderMenuIcon open={menuOpen} />
+          </button>
+          )}
+          
 
-      {isAuthenticated ? (
-        <>
-        <div className={`${styles.authControls}`}>
-          <div className={`${styles.userName} ${!isHome ? styles.smallerAuth : ""}`}>{user?.user?.displayName?.toUpperCase()}</div>
-          <button className={`${styles.logoutButton} ${!isHome ? styles.smallerAuth : ""}`} onClick={handleLogout}>Cerrar sesión</button>
+          <div className={styles.titleWrapper}>
+            {(isHome || !isAuthenticated) && 
+            <div>
+              <img src={logo} alt="Logo" className={styles.logo} />
+            </div>
+            }
+            <div className={styles.title}>
+              <span>PRODE</span>
+              <span>Norteamérica 2026</span>
+            </div>
+          </div>
         </div>
-        </>
-      ) : (
-        <Link to="/auth">
-          <span>
-            <IoPersonCircleSharp size={30} className={styles.authIcon}/>
-          </span>
-        </Link>
-      )}
-      </div> */}
-<div className={styles.inner}>
-  
-  {/* LEFT */}
-  <div className={styles.left}>
-    {(!isHome && isAuthenticated) && (
-    <button
-      ref={buttonRef}
-      className={`${styles.logoButton} ${menuOpen ? styles.open : ""}`}
-      onClick={() => setMenuOpen(true)}
-    >
-      <HeaderMenuIcon open={menuOpen} />
-    </button>
-    )}
-    
 
-    <div className={styles.titleWrapper}>
-      {(isHome || !isAuthenticated) && 
-      <div>
-        <img src={logo} alt="Logo" className={styles.logo} />
-      </div>
-      }
-      <div className={styles.title}>
-        <span>PRODE</span>
-        <span>Norteamérica 2026</span>
-      </div>
-    </div>
-  </div>
+        {/* CENTER */}
+        {/* <div className={styles.center}>
+          {!isHome && subtitle && (
+            <span className={styles.subtitle}>{subtitle}</span>
+          )}
+        </div> */}
 
-  {/* CENTER */}
-  <div className={styles.center}>
-    {!isHome && subtitle && (
-      <span className={styles.subtitle}>{subtitle}</span>
-    )}
-  </div>
-
-  {/* RIGHT */}
-  <div className={styles.right}>
-    {isAuthenticated ? (
-      <div className={styles.authControls}>
-        <div className={`${styles.userName} ${!isHome ? styles.smallerAuth : ""}`}>
-          {user?.user?.displayName?.toUpperCase()}
+        {/* RIGHT */}
+        <div className={styles.right}>
+          {isAuthenticated ? (
+            <div className={styles.authControls}>
+              <div className={`${styles.userName} ${!isHome ? styles.smallerAuth : ""}`}>
+                {user?.user?.displayName?.toUpperCase()}
+              </div>
+              <button
+                className={`${styles.logoutButton} ${!isHome ? styles.smallerAuth : ""}`}
+                onClick={handleLogout}
+              >
+                Cerrar sesión
+              </button>
+            </div>
+          ) : (
+            <Link to="/auth">
+              <IoPersonCircleSharp size={30} className={styles.authIcon} />
+            </Link>
+          )}
         </div>
-        <button
-          className={`${styles.logoutButton} ${!isHome ? styles.smallerAuth : ""}`}
-          onClick={handleLogout}
-        >
-          Cerrar sesión
-        </button>
-      </div>
-    ) : (
-      <Link to="/auth">
-        <IoPersonCircleSharp size={30} className={styles.authIcon} />
-      </Link>
-    )}
-  </div>
 
-</div>
+      </div>
 
       <NavMenu
         open={menuOpen}

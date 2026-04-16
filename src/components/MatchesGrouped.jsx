@@ -1,4 +1,5 @@
 import { sortMatches, groupMatches, getGroupLabel } from "@/utils/matchesGrouping";
+import styles from "./MatchesGrouped.module.scss";
 
 export default function MatchesGrouped({
   matches,
@@ -9,13 +10,19 @@ export default function MatchesGrouped({
   const grouped = groupMatches(sorted, mode);
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       {Object.entries(grouped).map(([key, groupMatches]) => (
-        <div key={key} style={{ marginBottom: 20 }}>
-          <h3>{getGroupLabel(key, mode, groupMatches)}</h3>
+        <section key={key} className={styles.group}>
+          
+          <h3 className={styles.groupTitle}>
+            {getGroupLabel(key, mode, groupMatches)}
+          </h3>
 
-          {groupMatches.map((m) => renderMatch(m))}
-        </div>
+          <div className={styles.matches}>
+            {groupMatches.map((m) => renderMatch(m))}
+          </div>
+
+        </section>
       ))}
     </div>
   );

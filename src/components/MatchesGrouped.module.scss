@@ -1,0 +1,70 @@
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-xl;
+}
+
+/* ===== GROUP ===== */
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+// .group + .group {
+//   padding-top: $space-lg;
+//   border-top: 1px solid rgba($color-border, 0.4);
+// }
+
+/* ===== TITLE ===== */
+
+.groupTitle {
+  margin: 0;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+
+  padding-bottom: $space-xs;
+  border-bottom: 1px solid rgba($color-border, 0.6);
+}
+
+/* ===== MATCHES ===== */
+
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+/* ===== BREAKPOINTS ===== */
+
+@include up(sm) {
+  .wrapper {
+    gap: $space-2xl;
+  }
+
+  .groupTitle {
+    font-size: $font-size-heading-card;
+  }
+
+  .matches {
+    gap: $space-md;
+  }
+}
+
+@include up(md) {
+  .groupTitle {
+    font-size: $font-size-heading-card;
+    position: sticky;
+    top: $header-height-lg;
+    background: $color-bg-page;
+    z-index: 5;
+    padding: $space-sm;
+  }
+}

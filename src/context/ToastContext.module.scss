@@ -1,46 +1,110 @@
 .container {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: $space-md;
+  right: $space-md;
+  left: $space-md;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $space-sm;
+
   z-index: 9999;
+  pointer-events: none;
 }
 
 .toast {
-  min-width: 240px;
-  max-width: 360px;
-  padding: 10px 14px;
-  font-size: 13px;
-  border-radius: 6px;
-  background: #111;
-  border: 1px solid #333;
-  color: #fff;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
-  animation: fadeIn 0.18s ease;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.96);
+  backdrop-filter: blur(10px);
+
+  color: $color-text-primary;
+
+  font-family: $font-family-body;
+  font-size: $font-size-body-sm;
+  line-height: 1.35;
+
+  box-shadow: $shadow-soft;
+
   user-select: none;
+  pointer-events: auto;
+
+  animation: toast-enter 0.18s ease;
 }
 
+/* ===== Variants ===== */
+
 .success {
-  border-color: #3aa76d;
+  border-color: rgba($color-accent-secondary, 0.6);
+}
+
+.success::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 0;
+  border-left: 3px solid $color-accent-secondary;
 }
 
 .error {
-  border-color: #c94c4c;
+  border-color: rgba($color-accent-tertiary, 0.6);
+}
+
+.error::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 0;
+  border-left: 3px solid $color-accent-tertiary;
 }
 
 .info {
-  border-color: #3c7fff;
+  border-color: rgba($color-accent-primary, 0.6);
 }
 
-@keyframes fadeIn {
+.info::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 0;
+  border-left: 3px solid $color-accent-primary;
+}
+
+/* ===== Animations ===== */
+
+@keyframes toast-enter {
   from {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-$space-xs);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ===== Breakpoints ===== */
+
+@include up(sm) {
+  .container {
+    left: auto;
+    right: $space-lg;
+    top: $space-lg;
+  }
+
+  .toast {
+    min-width: 260px;
+    max-width: 360px;
+  }
+}
+
+@include up(md) {
+  .toast {
+    font-size: $font-size-body;
   }
 }

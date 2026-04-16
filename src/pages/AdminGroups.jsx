@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
 import { createGroup } from "@/services/firebase/firebaseGroups";
 import { useAllGroups } from "@/hooks/useAllGroups";
+import styles from "./AdminGroups.module.scss";
 
 export default function AdminGroups() {
   const { user } = useAuth();
@@ -49,12 +50,17 @@ export default function AdminGroups() {
     };
 
   return (
-    <div>
-      <h2>Admin - Grupos</h2>
+    <section className={styles.wrapper}>
+      
+      {/* HEADER */}
+      <div className={styles.header}>
+        <h2 className={styles.title}>Admin · Grupos</h2>
+      </div>
 
       {/* CREATE */}
-      <form onSubmit={handleCreate}>
+      <form onSubmit={handleCreate} className={styles.form}>
         <input
+          className={styles.input}
           placeholder="Nombre del grupo"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -62,44 +68,62 @@ export default function AdminGroups() {
         />
 
         <input
+          className={styles.input}
           placeholder="Contraseña (opcional)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button>Crear grupo</button>
+        <button className={styles.primaryButton}>
+          Crear grupo
+        </button>
       </form>
 
-        {link && (
-        <div style={{ marginTop: 20 }}>
-            <p>Link de invitación:</p>
+      {/* INVITE LINK */}
+      {link && (
+        <div className={styles.linkBox}>
+          <p className={styles.label}>Link de invitación</p>
 
-            <input value={link} readOnly style={{ width: "100%" }} />
-
-            <button onClick={handleCopy} style={{ marginTop: 5 }}>
-            Copiar link
-            </button>
-        </div>
-        )}
-        {copied && <p>Copiado ✔</p>}
-
-      <hr />
-
-      {/* LISTA DE GRUPOS */}
-      <h3>Grupos existentes</h3>
-
-      {groups.map((g) => (
-        <div key={g.id} style={{ marginBottom: 10 }}>
-          <strong>{g.name}</strong>
+          <input
+            className={styles.input}
+            value={link}
+            readOnly
+          />
 
           <button
-            style={{ marginLeft: 10 }}
-            onClick={() => navigate(`/admin/groups/${g.id}`)}
+            className={styles.secondaryButton}
+            onClick={handleCopy}
           >
-            Ver
+            Copiar link
           </button>
+
+          {copied && (
+            <span className={styles.copied}>Copiado ✔</span>
+          )}
         </div>
-      ))}
-    </div>
+      )}
+
+      {/* LIST */}
+      <div className={styles.list}>
+        <h3 className={styles.sectionTitle}>Grupos existentes</h3>
+
+        {groups.map((g) => (
+          <div key={g.id} className={styles.groupItem}>
+            <span className={styles.groupName}>
+              {g.name}
+            </span>
+
+            <button
+              className={styles.secondaryButton}
+              onClick={() =>
+                navigate(`/admin/groups/${g.id}`)
+              }
+            >
+              Ver
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

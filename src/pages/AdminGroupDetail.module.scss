@@ -1,0 +1,187 @@
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+/* ===== HEADER ===== */
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+}
+
+/* ===== INVITE ===== */
+
+.inviteBox {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  padding: $space-md;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-border, 0.6);
+
+  background: rgba($color-bg-elevated, 0.8);
+}
+
+/* ===== INPUT ===== */
+
+.input {
+  width: 100%;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.9);
+  color: $color-text-primary;
+}
+
+/* ===== BUTTONS ===== */
+
+.primaryButton {
+  padding: $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-accent-primary, 0.5);
+
+  background: rgba($color-accent-primary, 0.18);
+  color: $color-text-primary;
+
+  cursor: pointer;
+}
+
+.secondaryButton {
+  padding: $space-2xs $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.6);
+  color: $color-text-secondary;
+
+  cursor: pointer;
+}
+
+.dangerButton {
+  padding: $space-2xs $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-accent-tertiary, 0.5);
+
+  background: rgba($color-accent-tertiary, 0.18);
+  color: $color-text-primary;
+
+  cursor: pointer;
+}
+
+/* ===== MEMBERS ===== */
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.sectionTitle {
+  margin: 0;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-border, 0.6);
+
+  background: rgba($color-bg-elevated, 0.8);
+}
+
+/* INFO */
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+}
+
+.name {
+  font-size: $font-size-body;
+  color: $color-text-primary;
+}
+
+.email {
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.uid {
+  font-size: $font-size-body-xs;
+  color: rgba($color-text-muted, 0.6);
+}
+
+/* ===== STATES ===== */
+
+.copied {
+  font-size: $font-size-body-xs;
+  color: $color-accent-secondary;
+}
+
+.loading {
+  text-align: center;
+  padding: $space-xl;
+  color: $color-text-muted;
+}
+
+/* ===== BREAKPOINTS ===== */
+
+@include up(sm) {
+  .title {
+    font-size: $font-size-2xl;
+  }
+}
+
+@include up(md) {
+  .member {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .primaryButton:hover {
+    background: rgba($color-accent-primary, 0.28);
+  }
+
+  .secondaryButton:hover {
+    background: rgba($color-accent-primary, 0.12);
+    color: $color-text-primary;
+  }
+
+  .dangerButton:hover {
+    background: rgba($color-accent-tertiary, 0.28);
+  }
+}

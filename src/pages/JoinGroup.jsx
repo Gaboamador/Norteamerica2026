@@ -5,6 +5,7 @@ import { db } from "@/services/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { joinGroup } from "@/services/firebase/firebaseGroups";
 import { useToast } from "@/context/ToastContext";
+import styles from "./JoinGroup.module.scss"
 
 export default function JoinGroup() {
   const [params] = useSearchParams();
@@ -109,67 +110,89 @@ export default function JoinGroup() {
     }
   };
 
+  /* ===== STATES ===== */
   if (loading || checking) {
     return (
-      <div>
-        <h2>Unirse al grupo</h2>
-        <p>Cargando...</p>
-      </div>
+      <section className={styles.wrapper}>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Unirse al grupo</h2>
+          <p className={styles.message}>Cargando...</p>
+        </div>
+      </section>
     );
   }
 
   if (!groupId || !token) {
     return (
-      <div>
-        <h2>Unirse al grupo</h2>
-        <p>Link inválido.</p>
-      </div>
+      <section className={styles.wrapper}>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Unirse al grupo</h2>
+          <p className={styles.message}>Link inválido.</p>
+        </div>
+      </section>
     );
   }
 
   if (!group) {
     return (
-      <div>
-        <h2>Unirse al grupo</h2>
-        <p>Grupo no encontrado.</p>
-      </div>
+      <section className={styles.wrapper}>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Unirse al grupo</h2>
+          <p className={styles.message}>Grupo no encontrado.</p>
+        </div>
+      </section>
     );
   }
 
   if (alreadyMember) {
     return (
-      <div>
-        <h2>Unirse al grupo</h2>
-        <p>
-          Ya sos miembro de <strong>{group.name}</strong> ✔
-        </p>
-        <button onClick={() => navigate("/standings")}>
-          Ir a tabla
-        </button>
-      </div>
+      <section className={styles.wrapper}>
+        <div className={styles.card}>
+          <h2 className={styles.title}>Unirse al grupo</h2>
+
+          <p className={styles.message}>
+            Ya sos miembro de <strong>{group.name}</strong> ✔
+          </p>
+
+          <button
+            className={styles.primaryButton}
+            onClick={() => navigate("/standings")}
+          >
+            Ir a tabla
+          </button>
+        </div>
+      </section>
     );
   }
 
+  /* ===== NORMAL ===== */
   return (
-    <div>
-      <h2>Unirse al grupo</h2>
+    <section className={styles.wrapper}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>Unirse al grupo</h2>
 
-      <p>
-        Te estás uniendo a: <strong>{group.name}</strong>
-      </p>
+        <p className={styles.message}>
+          Te estás uniendo a: <strong>{group.name}</strong>
+        </p>
 
-      {group.password && (
-        <input
-          type="password"
-          placeholder="Contraseña del grupo"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      )}
+        {group.password && (
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Contraseña del grupo"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        )}
 
-      <button onClick={handleJoin} disabled={loadingJoin}>
-        {loadingJoin ? "Uniéndose..." : "Unirse"}
-      </button>
-    </div>
+        <button
+          className={styles.primaryButton}
+          onClick={handleJoin}
+          disabled={loadingJoin}
+        >
+          {loadingJoin ? "Uniéndose..." : "Unirse"}
+        </button>
+      </div>
+    </section>
   );
 }

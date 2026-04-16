@@ -1,0 +1,162 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+/* ===== TITLE ===== */
+
+.title {
+  margin: 0;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  line-height: 1.1;
+
+  color: $color-text-primary;
+  text-align: center;
+}
+
+.activeGroupTitle {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
+  opacity: 0.8;
+  margin-bottom: $space-sm;
+}
+
+/* ===== SELECTOR ===== */
+
+.selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+  justify-content: center;
+}
+
+.selectorButton {
+  padding: $space-2xs $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-border, 0.7);
+
+  background: rgba($color-bg-elevated, 0.6);
+  color: $color-text-secondary;
+
+  font-family: $font-family-label;
+  font-size: $font-size-body-xs;
+
+  cursor: pointer;
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.active {
+  background: rgba($color-accent-primary, 0.14);
+  border-color: rgba($color-accent-primary, 0.4);
+  color: $color-text-primary;
+}
+
+/* ===== TABLE ===== */
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+/* ===== ROW ===== */
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-border, 0.6);
+
+  background: rgba($color-bg-elevated, 0.8);
+
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.row:nth-child(1) {
+  border-color: rgba($color-accent-secondary, 0.5);
+}
+
+.row:nth-child(2),
+.row:nth-child(3) {
+  opacity: 0.9;
+}
+
+/* ===== CELLS ===== */
+
+.position {
+  font-family: $font-family-label;
+  font-size: $font-size-body-sm;
+  font-weight: $font-weight-medium;
+
+  color: $color-text-muted;
+}
+
+.name {
+  min-width: 0;
+  margin-left: $space-sm;
+  font-family: $font-family-body;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+
+  color: $color-text-primary;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.points {
+  font-family: $font-family-data-display;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  color: $color-accent-primary;
+}
+
+/* ===== BREAKPOINTS ===== */
+
+@include up(sm) {
+  .title {
+    font-size: $font-size-2xl;
+  }
+
+  .selectorButton {
+    font-size: $font-size-body-sm;
+  }
+}
+
+@include up(md) {
+  .title {
+    font-size: $font-size-heading-page;
+  }
+
+  .row:hover {
+    background: rgba($color-bg-elevated-2, 1);
+    border-color: rgba($color-accent-primary, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .selectorButton:hover {
+    background: rgba($color-accent-primary, 0.12);
+    border-color: rgba($color-accent-primary, 0.5);
+    color: $color-text-primary;
+  }
+}

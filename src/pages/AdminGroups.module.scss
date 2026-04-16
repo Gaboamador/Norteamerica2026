@@ -1,0 +1,174 @@
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+/* ===== HEADER ===== */
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+}
+
+/* ===== FORM ===== */
+
+.form {
+  display: grid;
+  gap: $space-sm;
+}
+
+/* INPUT */
+
+.input {
+  width: 100%;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.9);
+  color: $color-text-primary;
+
+  font-size: $font-size-body-sm;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent-primary;
+    box-shadow: 0 0 0 3px rgba($color-accent-primary, 0.2);
+  }
+}
+
+/* BUTTONS */
+
+.primaryButton {
+  padding: $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-accent-primary, 0.5);
+
+  background: rgba($color-accent-primary, 0.18);
+  color: $color-text-primary;
+
+  font-family: $font-family-label;
+  font-size: $font-size-body-sm;
+
+  cursor: pointer;
+}
+
+.secondaryButton {
+  padding: $space-2xs $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-bg-elevated, 0.6);
+  color: $color-text-secondary;
+
+  cursor: pointer;
+}
+
+/* ===== LINK BOX ===== */
+
+.linkBox {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  padding: $space-md;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-border, 0.6);
+
+  background: rgba($color-bg-elevated, 0.8);
+}
+
+.label {
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.copied {
+  font-size: $font-size-body-xs;
+  color: $color-accent-secondary;
+}
+
+/* ===== LIST ===== */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.sectionTitle {
+  margin: 0;
+
+  font-family: $font-family-heading;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+}
+
+.groupItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: $space-sm $space-md;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-border, 0.6);
+
+  background: rgba($color-bg-elevated, 0.8);
+}
+
+.groupName {
+  font-size: $font-size-body;
+  color: $color-text-primary;
+}
+
+/* ===== BREAKPOINTS ===== */
+
+@include up(sm) {
+  .title {
+    font-size: $font-size-2xl;
+  }
+
+  .form {
+    grid-template-columns: 1fr 1fr auto;
+  }
+}
+
+@include up(md) {
+  .title {
+    font-size: $font-size-heading-page;
+  }
+
+  .primaryButton:hover {
+    background: rgba($color-accent-primary, 0.28);
+  }
+
+  .secondaryButton:hover {
+    background: rgba($color-accent-primary, 0.12);
+    color: $color-text-primary;
+  }
+}

@@ -18,11 +18,6 @@ import AdminGroupDetail from "@/pages/AdminGroupDetail";
 function App() {
   const { loading } = useAuth();
 
-   // Esperamos a Firebase
-  if (loading) {
-    return <Spinner label="Chequeando sesión" />;
-  }
-
   return (
     <ToastProvider>
     <>
@@ -30,26 +25,32 @@ function App() {
 
       <Routes >
         <Route element={<AppLayout />}>
-          {/* Ruta pública */}
-          <Route path="/auth" element={<AuthScreen />} />
+        {loading ? (
+          <Route path="*" element={<Spinner label="Chequeando sesión" />} />
+        ):(
+            <>
+              {/* Ruta pública */}
+              <Route path="/auth" element={<AuthScreen />} />
 
-          {/* Rutas protegidas */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/matches" element={<MatchesScreen />} />
-            <Route path="/standings" element={<TablaPosiciones />} />
-            <Route path="/join" element={<JoinGroup />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+              {/* Rutas protegidas */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/matches" element={<MatchesScreen />} />
+                <Route path="/standings" element={<TablaPosiciones />} />
+                <Route path="/join" element={<JoinGroup />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
 
-            <Route element={<AdminRoute />}>
-              <Route path="/admin/matches" element={<AdminMatches />} />
-              <Route path="/admin/groups" element={<AdminGroups />} />
-              <Route path="/admin/groups/:groupId" element={<AdminGroupDetail />} />
-            </Route>
-          </Route>
+                <Route element={<AdminRoute />}>
+                  <Route path="/admin/matches" element={<AdminMatches />} />
+                  <Route path="/admin/groups" element={<AdminGroups />} />
+                  <Route path="/admin/groups/:groupId" element={<AdminGroupDetail />} />
+                </Route>
+              </Route>
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </>
+          )}
         </Route>
       </Routes>
     </>

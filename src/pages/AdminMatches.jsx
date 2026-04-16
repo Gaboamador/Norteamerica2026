@@ -12,6 +12,7 @@ import { buildStandings } from "@/utils/buildStandings";
 import MatchRow from "@/components/MatchRow";
 import MatchesGrouped from "@/components/MatchesGrouped";
 import { useMatches } from "@/hooks/useMatches";
+import styles from "./AdminMatches.module.scss";
 
 export default function AdminMatches() {
 
@@ -139,62 +140,94 @@ export default function AdminMatches() {
   };
 
   return (
-    <div>
-      <h2>Admin - Partidos</h2>
+    <section className={styles.wrapper}>
+      
+      {/* HEADER */}
+      <div className={styles.header}>
+        <h2 className={styles.title}>Crear Partidos</h2>
 
-      {/* CREATE */}
-      <form
-        onSubmit={handleCreate}
-        style={{ display: "flex", gap: 10, flexWrap: "wrap" }}
-      >
-        <input
-          placeholder="Local"
-          value={homeTeam}
-          onChange={(e) => setHomeTeam(e.target.value)}
-          required
-        />
+        <div className={styles.selector}>
+          <span>Ordenar</span>
+          <button
+            onClick={() => setMode("date")}
+            className={`${styles.selectorButton} ${
+              mode === "date" ? styles.active : ""
+            }`}
+          >
+            Por fecha
+          </button>
 
-        <input
-          placeholder="Visitante"
-          value={awayTeam}
-          onChange={(e) => setAwayTeam(e.target.value)}
-          required
-        />
-
-        <input
-          placeholder="Grupo"
-          value={group}
-          onChange={(e) => setGroup(e.target.value)}
-          style={{ width: 60 }}
-        />
-
-        <input
-          type="number"
-          placeholder="Fecha"
-          value={round}
-          onChange={(e) => setRound(e.target.value)}
-          style={{ width: 60 }}
-        />
-
-        <input
-          type="datetime-local"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          required
-        />
-
-        <button>Crear</button>
-      </form>
-
-      <hr />
-
-      {/* LIST */}
-    <div>
-      <div style={{ marginBottom: 10 }}>
-        <button onClick={() => setMode("date")}>Por fecha</button>
-        <button onClick={() => setMode("group")}>Por grupo</button>
+          <button
+            onClick={() => setMode("group")}
+            className={`${styles.selectorButton} ${
+              mode === "group" ? styles.active : ""
+            }`}
+          >
+            Por grupo
+          </button>
+        </div>
       </div>
 
+      {/* CREATE FORM */}
+      <form onSubmit={handleCreate} className={styles.form}>
+
+      <div className={styles.matchMetadata}>
+        <select
+            className={styles.selectSmall}
+            value={group}
+            onChange={(e) => setGroup(e.target.value)}
+          >
+            {"ABCDEFGHIJKL".split("").map((g) => (
+              <option key={g} value={g}>
+                Grupo {g}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className={styles.selectSmall}
+            value={round}
+            onChange={(e) => setRound(Number(e.target.value))}
+          >
+            {[1, 2, 3].map((r) => (
+              <option key={r} value={r}>
+                Fecha {r}
+              </option>
+            ))}
+          </select>
+
+          <input
+            className={styles.input}
+            type="datetime-local"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            required
+          />
+        </div>
+        
+        <div className={styles.match}>
+          <input
+            className={styles.input}
+            placeholder="Local"
+            value={homeTeam}
+            onChange={(e) => setHomeTeam(e.target.value)}
+            required
+          />
+
+          <input
+            className={styles.input}
+            placeholder="Visitante"
+            value={awayTeam}
+            onChange={(e) => setAwayTeam(e.target.value)}
+            required
+          />
+        </div>
+        <button className={styles.primaryButton}>
+          Crear partido
+        </button>
+      </form>
+
+      {/* LIST */}
       <MatchesGrouped
         matches={matches}
         mode={mode}
@@ -206,7 +239,6 @@ export default function AdminMatches() {
           />
         )}
       />
-    </div>
-    </div>
+    </section>
   );
 }

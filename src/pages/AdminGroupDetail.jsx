@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase";
 import { removeUserFromGroup, regenerateJoinToken, buildInviteLink } from "@/services/firebase/firebaseGroups";
+import styles from "./AdminGroupDetail.module.scss";
 
 export default function AdminGroupDetail() {
     const { groupId } = useParams();
@@ -56,45 +57,78 @@ export default function AdminGroupDetail() {
     if (!group) return <div>Cargando...</div>;
 
     return (
-        <div>
-            <h2>{group.name}</h2>
+    <section className={styles.wrapper}>
+      
+      {/* HEADER */}
+      <div className={styles.header}>
+        <h2 className={styles.title}>{group.name}</h2>
+      </div>
 
-            <div style={{ marginBottom: 20 }}>
-                <button onClick={handleGenerateLink}>
-                    Generar link de invitación
-                </button>
+      {/* INVITE */}
+      <div className={styles.inviteBox}>
+        <button
+          className={styles.primaryButton}
+          onClick={handleGenerateLink}
+        >
+          Generar link de invitación
+        </button>
 
-                {inviteLink && (
-                    <>
-                    <input value={inviteLink} readOnly style={{ width: "100%", marginTop: 10 }} />
-                    <button onClick={handleCopy} style={{ marginTop: 5 }}>
-                        Copiar link
-                    </button>
-                    </>
-                )}
+        {inviteLink && (
+          <>
+            <input
+              className={styles.input}
+              value={inviteLink}
+              readOnly
+            />
 
-                {copied && <p>Copiado ✔</p>}
+            <button
+              className={styles.secondaryButton}
+              onClick={handleCopy}
+            >
+              Copiar link
+            </button>
+          </>
+        )}
+
+        {copied && (
+          <span className={styles.copied}>Copiado ✔</span>
+        )}
+      </div>
+
+      {/* MEMBERS */}
+      <div className={styles.members}>
+        <h3 className={styles.sectionTitle}>Miembros</h3>
+
+        {group.members?.map((uid) => {
+          const u = users[uid];
+
+          return (
+            <div key={uid} className={styles.member}>
+              
+              <div className={styles.memberInfo}>
+                <span className={styles.name}>
+                  {u?.displayName}
+                </span>
+                <span className={styles.email}>
+                  {u?.email}
+                </span>
+                <span className={styles.uid}>
+                  {uid}
+                </span>
+              </div>
+
+              <button
+                className={styles.dangerButton}
+                onClick={() =>
+                  removeUserFromGroup(group.id, uid)
+                }
+              >
+                Eliminar
+              </button>
             </div>
-
-            <h3>Miembros</h3>
-
-            {group.members?.map((uid) => {
-                const u = users[uid];
-
-                return (
-                    <div key={uid} style={{ marginBottom: 10 }}>
-                        <strong>{u?.displayName}</strong> — {u?.email}
-                        <div style={{ fontSize: 12, color: "#666" }}>{uid}</div>
-
-                        <button
-                            style={{ marginTop: 5 }}
-                            onClick={() => removeUserFromGroup(group.id, uid)}
-                        >
-                            Eliminar
-                        </button>
-                    </div>
-                );
-            })}
-        </div>
-    );
+          );
+        })}
+      </div>
+    </section>
+  );
 }

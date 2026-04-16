@@ -144,16 +144,34 @@ export const getStandings = async () => {
  */
 
 /**
+ * Crear tiempo de lockeo de un partido
+ */
+const buildLockTime = (date) => {
+  const base =
+    date?.toMillis?.()
+      ? date.toMillis()
+      : new Date(date).getTime();
+
+  return new Date(base - 15 * 60 * 1000);
+};
+
+/**
  * Saber si un match está bloqueado (frontend)
  * ⚠️ esto es solo UX, la seguridad está en rules
  */
 export const isMatchLocked = (match) => {
   if (!match?.lockTime) return true;
 
-  const now = new Date();
-  const lock = new Date(match.lockTime);
+  const now = Date.now();
+  // const lock = new Date(match.lockTime);
 
-  return now >= lock;
+  // return now >= lock;
+  const lockTime =
+    match.lockTime?.toMillis?.() ??
+    new Date(match.lockTime).getTime();
+
+  return now >= lockTime;
+
 };
 
 
@@ -162,7 +180,11 @@ export const isMatchLocked = (match) => {
  */
 export const createMatch = async (match) => {
   const ref = doc(collection(db, "matches"));
-  await setDoc(ref, match);
+  // await setDoc(ref, match);
+  await setDoc(ref, {
+    ...match,
+    lockTime: buildLockTime(match.date),
+  });
 };
 
 /**
@@ -170,7 +192,13 @@ export const createMatch = async (match) => {
  */
 export const updateMatch = async (matchId, data) => {
   const ref = doc(db, "matches", matchId);
-  await setDoc(ref, data, { merge: true });
+  const updateData = { ...data };
+  if (data.date) {
+    updateData.lockTime = buildLockTime(data.date);
+  }
+
+  await setDoc(ref, updateData, { merge: true });
+  // await setDoc(ref, data, { merge: true });
 };
 
 /**
@@ -198,4 +226,43 @@ export const scoreMatch = async (match) => {
 export const getAllPredictions = async () => {
   const snap = await getDocs(collection(db, "predictions"));
   return snap.docs.map((doc) => doc.data());
+};
+
+
+/**
+ * PARTE 1 de 2. Resetear resultado de un partido
+ */
+export const resetMatchResult = async (matchId) => {
+  const ref = doc(db, "matches", matchId);
+
+  await setDoc(
+    ref,
+    {
+      result: null,
+      status: "scheduled",
+    },
+    { merge: true }
+  );
+};
+/**
+ * PARTE 2 de 2. Actualiza los puntajes calculados de partidos reseteados
+ */
+export const clearMatchScores = async (matchId) => {
+  const predictions = await getPredictionsByMatch(matchId);
+
+  const updates = predictions.map((p) => {
+    const ref = doc(db, "predictions", p.id);
+    return setDoc(ref, { points: null }, { merge: true });
+  });
+
+  await Promise.all(updates);
+};
+/**
+ * PARTE FINAL: FUNCIÓN UNIFICADA, resetea un partido y recalcula los puntos
+ */
+export const resetMatch = async (matchId) => {
+  await resetMatchResult(matchId);
+  // comento esta línea porque por permisos no me deja editar predicciones de otros.
+  // Cuando esté listo el refactor, se tiene que ir.
+  // await clearMatchScores(matchId);
 };
