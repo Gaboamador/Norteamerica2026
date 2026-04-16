@@ -62,7 +62,7 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
+  gap: $space-sm;
   width: 100%;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .teamName {
-  font-family: $font-family-body;
+  font-family: $font-family-compact;
   font-size: $font-size-body-sm;
   font-weight: $font-weight-medium;
 
@@ -91,12 +91,10 @@
 }
 
 .score {
-  font-family: $font-family-data-display;
+  font-family: $font-family-data;
 
   font-size: 14px;
   font-weight: $font-weight-bold;
-
-  letter-spacing: 0.04em;
 
   color: $color-text-primary;
 
@@ -105,7 +103,6 @@
 
 .vs {
   font-size: $font-size-body-xs;
-  letter-spacing: 0.04em;
   color: $color-text-muted;
 }
 
@@ -133,7 +130,7 @@
 }
 
 .result {
-  font-family: $font-family-data-display;
+  font-family: $font-family-data;
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
   color: $color-accent-primary;
@@ -205,7 +202,7 @@
 
 .input {
   padding: $space-sm;
-
+  font-family: $font-family-input;
   border-radius: $radius-sm;
   border: 1px solid $color-border;
 

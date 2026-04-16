@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
-import { createGroup } from "@/services/firebase/firebaseGroups";
+import { createGroup, deleteGroup } from "@/services/firebase/firebaseGroups";
 import { useAllGroups } from "@/hooks/useAllGroups";
 import styles from "./AdminGroups.module.scss";
 
@@ -41,6 +41,16 @@ export default function AdminGroups() {
     setPassword("");
   };
 
+  const handleDelete = async (groupId) => {
+    if (!confirm("¿Eliminar grupo vacío?")) return;
+
+    try {
+      await deleteGroup(groupId);
+    } catch (e) {
+      alert(e.message);
+    }
+  };
+
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
@@ -54,7 +64,7 @@ export default function AdminGroups() {
       
       {/* HEADER */}
       <div className={styles.header}>
-        <h2 className={styles.title}>Admin · Grupos</h2>
+        <h2 className={styles.title}>Administrar Grupos y Miembros</h2>
       </div>
 
       {/* CREATE */}
@@ -106,23 +116,37 @@ export default function AdminGroups() {
       {/* LIST */}
       <div className={styles.list}>
         <h3 className={styles.sectionTitle}>Grupos existentes</h3>
+        {groups.map((g) => {
+          const isEmpty = !g.members || g.members.length === 0;
 
-        {groups.map((g) => (
-          <div key={g.id} className={styles.groupItem}>
-            <span className={styles.groupName}>
-              {g.name}
-            </span>
+          return (
+            <div key={g.id} className={styles.groupItem}>
+              <span className={styles.groupName}>
+                {g.name}
+              </span>
 
-            <button
-              className={styles.secondaryButton}
-              onClick={() =>
-                navigate(`/admin/groups/${g.id}`)
-              }
-            >
-              Ver
-            </button>
-          </div>
-        ))}
+              <div className={styles.actions}>
+                {isEmpty && (
+                  <button
+                    className={styles.dangerButton}
+                    onClick={() => handleDelete(g.id)}
+                  >
+                    Eliminar
+                  </button>
+                )}
+
+                <button
+                  className={styles.secondaryButton}
+                  onClick={() =>
+                    navigate(`/admin/groups/${g.id}`)
+                  }
+                >
+                  Ver
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

@@ -77,6 +77,8 @@ export default function MatchRow({ match, onSetResult }) {
 
     try {
       await resetMatch(match.id);
+      setHomeGoals("");
+      setAwayGoals("");
     } catch (err) {
       console.error("Error reseteando partido", err);
     }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { usePredictions } from "@/hooks/usePredictions";
 import { useToast } from "@/context/ToastContext";
@@ -6,6 +6,7 @@ import { isMatchLocked } from "@/services/firebase/firebaseUtils";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import styles from "./MatchCard.module.scss";
 import { getTimeToLock, formatCountdown } from "@/utils/timeUtils";
+import { getPredictionPoints } from "@/utils/predictionPoints";
 
 export default function MatchCard({ match }) {
   const { user } = useAuth();
@@ -27,8 +28,14 @@ export default function MatchCard({ match }) {
   const existing = predictions.find(
     (p) => p.matchId === match.id
   );
+  const draftKey = user ? `pred_draft_${user.uid}_${match.id}` : null;
+  const hasHydratedRef = useRef(false);
+  const didUserEditRef = useRef(false);
+  const isDirty =
+  String(home) !== String(existing?.predHome ?? "") ||
+  String(away) !== String(existing?.predAway ?? "");
 
-  const points = existing?.points ?? null;
+  const points = getPredictionPoints(existing, match);
   const showPoints = match.status === "finished" && points !== null;
   
   const locked = isMatchLocked(match);
@@ -43,18 +50,67 @@ export default function MatchCard({ match }) {
     return () => clearInterval(interval);
   }, [match]);
 
+  // useEffect(() => {
+  //   if (existing) {
+  //     setHome(existing.predHome);
+  //     setAway(existing.predAway);
+  //   }
+  // }, [existing]);
   useEffect(() => {
-    if (existing) {
-      setHome(existing.predHome);
-      setAway(existing.predAway);
+    if (!user || !draftKey) return;
+
+    const draftRaw = sessionStorage.getItem(draftKey);
+
+    if (draftRaw) {
+      try {
+        const draft = JSON.parse(draftRaw);
+        setHome(String(draft.home ?? ""));
+        setAway(String(draft.away ?? ""));
+        hasHydratedRef.current = true;
+        return;
+      } catch {
+        sessionStorage.removeItem(draftKey);
+      }
     }
-  }, [existing]);
+
+    if (existing) {
+      setHome(String(existing.predHome ?? ""));
+      setAway(String(existing.predAway ?? ""));
+    } else {
+      setHome("");
+      setAway("");
+    }
+
+    hasHydratedRef.current = true;
+  }, [user, draftKey, existing]);
+
+  useEffect(() => {
+    if (!user || !draftKey) return;
+    if (!hasHydratedRef.current) return;
+    if (!didUserEditRef.current) return;
+
+    const hasValues = home !== "" || away !== "";
+
+    if (hasValues) {
+      sessionStorage.setItem(
+        draftKey,
+        JSON.stringify({ home, away })
+      );
+    } else {
+      sessionStorage.removeItem(draftKey);
+    }
+  }, [home, away, user, draftKey]);
 
   const handleSave = async () => {
     try {
       const isUpdate = !!existing;
 
       await savePrediction(match.id, Number(home), Number(away));
+
+      if (draftKey) {
+        sessionStorage.removeItem(draftKey);
+      }
+      didUserEditRef.current = false;
 
       showToast({
         type: "success",
@@ -133,6 +189,8 @@ export default function MatchCard({ match }) {
                 PREDICCIÓN
             </div>
             <div className={styles.inputs}>
+
+              {/* PREDICCIÓN GOLES HOME */}
               <input
                 type="number"
                 min={0}
@@ -144,12 +202,19 @@ export default function MatchCard({ match }) {
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value === "" || Number(value) >= 0) {
+                    didUserEditRef.current = true;
                     setHome(value);
                   }
                 }}
-                className={styles.input}
+                className={`${styles.input} ${isDirty ? styles.inputDirty : ""}`}
               />
 
+              {/* CENTRO / DIVISOR */}
+              <div className={styles.centerPronostico}>
+                  <span className={styles.vs}>-</span>
+              </div>
+
+              {/* PREDICCIÓN GOLES AWAY */}
               <input
                 type="number"
                 min={0}
@@ -161,10 +226,11 @@ export default function MatchCard({ match }) {
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value === "" || Number(value) >= 0) {
+                    didUserEditRef.current = true;
                     setAway(value);
                   }
                 }}
-                className={styles.input}
+                className={`${styles.input} ${isDirty ? styles.inputDirty : ""}`}
               />
             </div>
 
@@ -177,13 +243,18 @@ export default function MatchCard({ match }) {
             </div>
           </div>
 
+          {isDirty && (
+            <div className={styles.unsaved}>
+              Cambios sin guardar
+            </div>
+          )}
 
           <button
             onClick={handleSave}
-            disabled={locked}
-            className={styles.button}
+            disabled={locked || !isDirty}
+            className={`${styles.button} ${isDirty ? styles.buttonDirty : ""}`}
           >
-            Guardar
+            {isDirty ? "Guardar cambios" : "Guardado"}
           </button>
           
           {locked && (

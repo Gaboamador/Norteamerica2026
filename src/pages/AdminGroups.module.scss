@@ -16,7 +16,7 @@
 .title {
   margin: 0;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
 
@@ -34,7 +34,7 @@
 
 .input {
   width: 100%;
-
+  font-family: $font-family-input;
   padding: $space-sm $space-md;
 
   border-radius: $radius-sm;
@@ -67,7 +67,6 @@
   background: rgba($color-accent-primary, 0.18);
   color: $color-text-primary;
 
-  font-family: $font-family-label;
   font-size: $font-size-body-sm;
 
   cursor: pointer;
@@ -80,6 +79,18 @@
   border: 1px solid $color-border;
 
   background: rgba($color-bg-elevated, 0.6);
+  color: $color-text-secondary;
+
+  cursor: pointer;
+}
+
+.dangerButton {
+  padding: $space-2xs $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid $color-border;
+
+  background: rgba($color-accent-tertiary, 0.6);
   color: $color-text-secondary;
 
   cursor: pointer;
@@ -121,7 +132,7 @@
 .sectionTitle {
   margin: 0;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
 
@@ -144,6 +155,12 @@
 .groupName {
   font-size: $font-size-body;
   color: $color-text-primary;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
 }
 
 /* ===== BREAKPOINTS ===== */

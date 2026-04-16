@@ -3,6 +3,7 @@ import { useGroupStandings } from "../hooks/useGroupStandings";
 import { useUserGroups } from "../hooks/useUserGroups";
 import { useMultiGroupStandings } from "../hooks/useMultiGroupStandings";
 import { mergeStandings } from "../utils/mergeStandings";
+import { motion, AnimatePresence } from "framer-motion";
 import styles from "./TablaPosiciones.module.scss";
 
 const TablaPosiciones = () => {
@@ -49,27 +50,32 @@ const TablaPosiciones = () => {
       <div className={styles.title}>Tabla de posiciones</div>
 
       {/* SELECTOR */}
-      <div className={styles.selector}>
-        <button
-          onClick={() => setSelected("all")}
-          className={`${styles.selectorButton} ${
-            selected === "all" ? styles.active : ""
-          }`}
-        >
-          Tabla unificada de mis grupos
-        </button>
-
-        {groups.map((g) => (
+      <div className={styles.selectorWrapper}>
+        <div className={styles.selectorLabel}>
+          Ver tabla de:
+        </div>
+        <div className={styles.selector}>
           <button
-            key={g.id}
-            onClick={() => setSelected(g.id)}
+            onClick={() => setSelected("all")}
             className={`${styles.selectorButton} ${
-              selected === g.id ? styles.active : ""
+              selected === "all" ? styles.active : ""
             }`}
           >
-            {g.name}
+            General
           </button>
-        ))}
+
+          {groups.map((g) => (
+            <button
+              key={g.id}
+              onClick={() => setSelected(g.id)}
+              className={`${styles.selectorButton} ${
+                selected === g.id ? styles.active : ""
+              }`}
+            >
+              {g.name}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* TITULO TABLA ACTIVA */}
@@ -78,15 +84,43 @@ const TablaPosiciones = () => {
       </div>
 
       {/* TABLA */}
-      <div className={styles.table}>
-        {table.map((u) => (
-          <div key={u.uid} className={styles.row}>
-            <span className={styles.position}>#{u.position}</span>
-            <span className={styles.name}>{u.displayName}</span>
-            <span className={styles.points}>{u.points} pts</span>
-          </div>
-        ))}
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={selected}
+          className={styles.table}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        >
+          {(table || []).map((u) => (
+            <motion.div
+              key={u.uid}
+              layout
+              className={styles.row}
+              whileLayout={{ scale: 1.01 }}
+              transition={{
+                layout: {
+                  duration: 0.35,
+                  ease: "easeOut"
+                }
+              }}
+            >
+              <span className={styles.position}>#{u.position}</span>
+              <span className={styles.name}>{u.displayName}</span>
+              <motion.span
+                className={styles.points}
+                key={u.points}
+                initial={{ scale: 1.2, opacity: 0.6 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.25 }}
+              >
+                {u.points} pts
+              </motion.span>
+            </motion.div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 };

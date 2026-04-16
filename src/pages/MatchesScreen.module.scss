@@ -9,7 +9,7 @@
 .titleMain {
   margin: 0;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   line-height: 1.1;
@@ -32,7 +32,7 @@
 .title {
   margin: 0;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
 
@@ -64,7 +64,6 @@
   background: rgba($color-bg-elevated, 0.6);
   color: $color-text-secondary;
 
-  font-family: $font-family-label;
   font-size: $font-size-body-xs;
 
   cursor: pointer;
@@ -88,7 +87,7 @@
   text-align: center;
   padding: $space-xl;
 
-  font-family: $font-family-body;
+  font-family: $font-family-text;
   font-size: $font-size-body;
   color: $color-text-muted;
 }

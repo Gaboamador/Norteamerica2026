@@ -35,7 +35,7 @@
 
   text-align: center;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-heading-card;
   font-weight: $font-weight-bold;
 
@@ -47,7 +47,7 @@
 
   text-align: center;
 
-  font-family: $font-family-body;
+  font-family: $font-family-text;
   font-size: $font-size-body-sm;
   line-height: 1.4;
 
@@ -71,7 +71,7 @@
   background: rgba($color-bg-elevated, 0.9);
   color: $color-text-primary;
 
-  font-family: $font-family-body;
+  font-family: $font-family-input;
   font-size: $font-size-body-sm;
 
   transition:
@@ -101,7 +101,6 @@
   background: rgba($color-accent-primary, 0.18);
   color: $color-text-primary;
 
-  font-family: $font-family-label;
   font-size: $font-size-body-sm;
   font-weight: $font-weight-medium;
 

@@ -6,6 +6,7 @@ import { useAdmin } from "../hooks/useAdmin";
 import styles from "./Home.module.scss";
 import { LuFolderOpen, LuChevronDown } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
+import { IoIosFootball } from "react-icons/io";
 
 export default function Home() {
   const { loading } = useAuth();
@@ -65,7 +66,7 @@ export default function Home() {
               aria-expanded={adminOpen}
               aria-controls="admin-links"
             >
-              <div className={styles.cardTitle}>
+              <div className={`${styles.cardTitle} ${styles.admin}`}>
                 <span className={`${styles.homeIcon} ${styles.adminIcon}`}>
                   <LuFolderOpen size={22} />
                 </span>
@@ -102,9 +103,9 @@ export default function Home() {
                       to="/admin/matches"
                       className={`${styles.card} ${styles.cardAccentRed} ${styles.adminCard}`}
                     >
-                      <div className={styles.cardTitle}>
-                        <span className={styles.homeIcon}>
-                          <LuFolderOpen size={22} />
+                      <div className={`${styles.cardTitle} ${styles.admin}`}>
+                        <span className={`${styles.homeIcon} ${styles.admin}`}>
+                          <IoIosFootball size={20} />
                         </span>
                         <div className={styles.adminCard}>
                           <span>Administrar Partidos</span>
@@ -121,14 +122,14 @@ export default function Home() {
                       to="/admin/groups"
                       className={`${styles.card} ${styles.cardAccentRed} ${styles.adminCard}`}
                     >
-                      <div className={styles.cardTitle}>
-                        <span className={styles.homeIcon}>
-                          <LuFolderOpen size={22} />
+                      <div className={`${styles.cardTitle} ${styles.admin}`}>
+                        <span className={`${styles.homeIcon} ${styles.admin}`}>
+                          <CiViewTable size={20} />
                         </span>
                         <div className={styles.adminCard}>
                           <span>Administrar Grupos</span>
                           <p className={`${styles.cardDesc} ${styles.adminDesc}`}>
-                            Administrar grupos y sus participantes.
+                            Administrar grupos y sus miembros.
                           </p>
                         </div>
                       </div>

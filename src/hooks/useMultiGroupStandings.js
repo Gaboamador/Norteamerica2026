@@ -12,7 +12,7 @@ export const useMultiGroupStandings = (groupIds) => {
       return;
     }
 
-    resultsRef.current = {}; // reset limpio
+    resultsRef.current = {};
 
     const unsubscribes = [];
 
@@ -27,7 +27,7 @@ export const useMultiGroupStandings = (groupIds) => {
 
       const unsub = onSnapshot(ref, (snap) => {
         resultsRef.current[groupId] = snap.exists()
-          ? snap.data().rows || []
+          ? snap.data().table || []
           : [];
 
         setTables(Object.values(resultsRef.current));

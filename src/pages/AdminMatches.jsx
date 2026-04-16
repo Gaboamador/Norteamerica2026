@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAdmin } from "../hooks/useAdmin";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase";
-import { createMatch, updateMatch, scoreMatch, getAllPredictions } from "@/services/firebase/firebaseUtils";
+import { createMatch, updateMatch, getAllPredictions } from "@/services/firebase/firebaseUtils";
 import { saveGlobalStandings, saveGroupStandings } from "@/services/firebase/firebaseStandings";
 import { filterStandingsByGroup } from "@/utils/filterStandingsByGroup";
 import { useToast } from "@/context/ToastContext";
@@ -16,7 +16,7 @@ import styles from "./AdminMatches.module.scss";
 
 export default function AdminMatches() {
 
-  const { matches, loading, reload } = useMatches();
+  const { matches, loading } = useMatches();
   const { isAdmin, loading: adminLoading } = useAdmin();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -72,8 +72,6 @@ export default function AdminMatches() {
       setAwayTeam("");
       setStartTime("");
 
-      reload();
-
     } catch (err) {
       showToast({
         type: "error",
@@ -96,40 +94,10 @@ export default function AdminMatches() {
         status: "finished",
       });
 
-      // 2. Calcular puntos en predictions
-      await scoreMatch({
-        id: matchId,
-        result,
-      });
-
-      // 🔥 3. Recalcular standings globales
-      const allPredictions = await getAllPredictions();
-      const standings = buildStandings(allPredictions);
-
-      // 🔥 4. Guardar standings en Firestore
-      await saveGlobalStandings(standings);
-
-      // 🔥 calcular standings por grupo
-      const groupsSnap = await getDocs(collection(db, "groups"));
-
-      for (const docSnap of groupsSnap.docs) {
-        const group = docSnap.data();
-        const groupId = docSnap.id;
-
-        const groupStandings = filterStandingsByGroup(
-          standings,
-          group.members || []
-        );
-
-        await saveGroupStandings(groupId, groupStandings);
-      }
-
       showToast({
         type: "success",
-        message: "Resultado cargado y standings actualizados",
+        message: "Resultado cargado",
       });
-
-      reload();
 
     } catch (err) {
       showToast({

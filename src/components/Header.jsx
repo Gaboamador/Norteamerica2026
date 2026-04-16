@@ -31,7 +31,7 @@ export default function Header() {
     { match: "/standings", label: 'Tabla de Posiciones' },
     { match: "/auth", label: 'Autenticación' },
     { match: "/admin/matches", label: 'Administrar Partidos Oficiales' },
-    { match: "/admin/groups", label: 'Administrar Usuarios y Grupos' },
+    { match: "/admin/groups", label: 'Administrar Grupos y Miembros' },
   ];
 
   const subtitle = SUBTITLE_ROUTES.find(r => pathname.startsWith(r.match))?.label ?? "";
@@ -60,7 +60,7 @@ export default function Header() {
       },
             {
         to: "/admin/groups",
-        label: "Administrar Usuarios y Grupos",
+        label: "Administrar Grupos y Miembros",
         icon: <LuFolderOpen />,
       },
     ] : []),

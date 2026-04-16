@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import {
-  getUserPredictions,
-  savePrediction,
-} from "@/services/firebase/firebaseUtils";
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "@/services/firebase/firebase";
+import { savePrediction } from "@/services/firebase/firebaseUtils";
 
 export const usePredictions = () => {
   const { user } = useAuth();
@@ -18,14 +22,22 @@ export const usePredictions = () => {
       return;
     }
 
-    const load = async () => {
-      setLoading(true);
-      const data = await getUserPredictions(user.uid);
+    const q = query(
+      collection(db, "predictions"),
+      where("uid", "==", user.uid)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
       setPredictions(data);
       setLoading(false);
-    };
+    });
 
-    load();
+    return () => unsubscribe();
   }, [user]);
 
   const save = async (matchId, predHome, predAway) => {
@@ -38,10 +50,6 @@ export const usePredictions = () => {
       predHome,
       predAway,
     });
-
-    // refrescar local
-    const updated = await getUserPredictions(user.uid);
-    setPredictions(updated);
   };
 
   return {

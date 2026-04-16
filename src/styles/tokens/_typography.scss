@@ -1,9 +1,9 @@
 // ==========================
 // FONT FAMILIES
 // ==========================
-$font-family-brand: "Rift", system-ui, sans-serif;
-$font-family-ui: system-ui, sans-serif;
-$font-family-data: system-ui, sans-serif;
+$font-family-brand: "Barlow", system-ui, sans-serif;
+$font-family-ui: "Inter", system-ui, sans-serif;
+$font-family-mono: "JetBrains Mono", monospace;
 
 // ==========================
 // FONT SIZES — PRIMITIVOS
@@ -27,10 +27,21 @@ $font-weight-bold: 700;
 // ==========================
 // FONT FAMILIES — SEMÁNTICOS
 // ==========================
-$font-family-heading: $font-family-brand;
-$font-family-body: $font-family-ui;
-$font-family-label: $font-family-ui;
-$font-family-data-display: $font-family-data;
+// Branding / impacto
+$font-family-display: $font-family-brand;
+
+// Texto general UI
+$font-family-text: $font-family-ui;
+
+// Inputs
+$font-family-input: $font-family-ui;
+
+// Labels compactos
+$font-family-compact: $font-family-brand;
+
+// Datos numéricos
+$font-family-data: $font-family-mono;
+
 
 // ==========================
 // FONT SIZES — SEMÁNTICOS GLOBALES

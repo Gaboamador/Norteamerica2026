@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { ToastProvider } from "./context/ToastContext";
+import { ToastProvider } from "@/context/ToastContext";
+import { useStandingsWorker } from "@/hooks/useStandingsWorker";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import AdminRoute from "@/auth/AdminRoute";
 import AppLayout from "./layouts/AppLayout";
@@ -16,6 +17,9 @@ import AdminGroups from "@/pages/AdminGroups";
 import AdminGroupDetail from "@/pages/AdminGroupDetail";
 
 function App() {
+
+  useStandingsWorker();
+  
   const { loading } = useAuth();
 
   return (

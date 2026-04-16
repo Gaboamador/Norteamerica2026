@@ -22,7 +22,7 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
+  gap: $space-sm;
   width: 100%;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .teamName {
-  font-family: $font-family-heading;
+  font-family: $font-family-compact;
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
 
@@ -92,7 +92,7 @@
 
   color: $color-text-primary;
 
-  white-space: nowrap;
+  // white-space: nowrap;
 }
 
 .flag {
@@ -109,19 +109,17 @@
 }
 
 .vs {
-  font-family: $font-family-label;
+  font-family: $font-family-text;
   font-size: $font-size-body-xs;
 
   color: $color-text-muted;
 }
 
 .score {
-  font-family: $font-family-data-display;
+  font-family: $font-family-data;
 
   font-size: 18px;
   font-weight: $font-weight-bold;
-
-  letter-spacing: 0.04em;
 
   color: $color-text-primary;
 
@@ -132,7 +130,7 @@
 }
 
 .points {
-  font-family: $font-family-data-display;
+  font-family: $font-family-data;
 
   font-size: 14px;
   font-weight: $font-weight-bold;
@@ -196,7 +194,7 @@
 .title {
   justify-self: end;
   margin-right: $space-sm;
-  font-family: $font-family-label;
+  font-family: $font-family-text;
   font-size: $font-size-body-xs;
   color: $color-text-muted;
 }
@@ -219,7 +217,7 @@
   background: rgba($color-bg-elevated, 0.8);
   color: $color-text-primary;
 
-  font-family: $font-family-data-display;
+  font-family: $font-family-input;
   font-size: $font-size-body;
 
   transition:
@@ -243,6 +241,14 @@
   }
 }
 
+.centerPronostico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 60px;
+}
+
 .pointsWrapper {
   justify-self: start;
 
@@ -263,7 +269,7 @@
   background: rgba($color-accent-primary, 0.18);
   color: $color-text-primary;
 
-  font-family: $font-family-label;
+  font-family: $font-family-text;
   font-size: $font-size-body-sm;
 
   cursor: pointer;
@@ -277,6 +283,21 @@
     opacity: 0.5;
     pointer-events: none;
   }
+}
+
+.inputDirty {
+  border: 1px solid rgba($color-warning, 0.5);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.buttonDirty {
+  color: $color-accent-secondary;
+}
+
+.unsaved {
+  font-size: 12px;
+  color: rgba($color-warning, 0.75);
+  margin-top: 4px;
 }
 
 /* ===== STATES ===== */
@@ -299,7 +320,7 @@
 }
 
 .countdown {
-  color: #f59e0b;
+  color: $color-warning;
   font-weight: 500;
 }
 

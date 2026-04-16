@@ -210,6 +210,7 @@ export default function AuthScreen() {
           <div className={styles.loginButtonWrapper}>
             <button
               disabled={loading}
+              className={styles.loginButton}
             >
               Iniciar sesión
             </button>

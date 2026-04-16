@@ -59,7 +59,7 @@
   gap: $space-2xs;
   min-width: 0;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-header-title-mobile;
   font-weight: $font-weight-bold;
   line-height: 1.05;
@@ -73,7 +73,7 @@
   }
 
   span:first-child {
-    font-family: $font-family-label;
+    font-family: $font-family-text;
     font-size: $font-size-header-eyebrow-mobile;
     font-weight: $font-weight-medium;
     text-transform: uppercase;
@@ -81,7 +81,7 @@
   }
 
   span:last-child {
-    font-family: $font-family-heading;
+    font-family: $font-family-display;
     font-size: $font-size-header-title-mobile;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
@@ -93,7 +93,7 @@
   white-space: normal;
   text-align: center;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-text;
   font-size: $font-size-header-subtitle-mobile;
   font-weight: $font-weight-bold;
   line-height: 1.1;
@@ -173,7 +173,7 @@ a:hover .authIcon {
   overflow: hidden;
   text-overflow: ellipsis;
 
-  font-family: $font-family-data-display;
+  font-family: $font-family-compact;
   font-size: $font-size-header-user-mobile;
   font-weight: $font-weight-medium;
   line-height: 1.1;
@@ -189,7 +189,6 @@ a:hover .authIcon {
   padding: $space-2xs $space-sm;
   border-radius: $radius-sm;
 
-  font-family: $font-family-label;
   font-size: $font-size-header-button-mobile;
   font-weight: $font-weight-medium;
   color: $color-text-primary;

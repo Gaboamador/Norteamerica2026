@@ -10,7 +10,6 @@ import {
   where,
   serverTimestamp,
 } from "firebase/firestore";
-import { calculatePoints } from "@/utils/scoring";
 
 /**
  * ===============================
@@ -76,7 +75,6 @@ export const savePrediction = async ({
       // estos quedan fijos (solo se pisan si no existen)
       createdAt: serverTimestamp(),
       locked: false,
-      points: null,
     },
     { merge: true }
   );
@@ -202,25 +200,6 @@ export const updateMatch = async (matchId, data) => {
 };
 
 /**
- * Calcula el puntaje del partido
- */
-export const scoreMatch = async (match) => {
-  if (!match.result) return;
-
-  const predictions = await getPredictionsByMatch(match.id);
-
-  const updates = predictions.map((p) => {
-    const points = calculatePoints(p, match.result);
-
-    const ref = doc(db, "predictions", p.id);
-
-    return setDoc(ref, { points }, { merge: true });
-  });
-
-  await Promise.all(updates);
-};
-
-/**
  * Trae las predicciones de todos los usuarios
  */
 export const getAllPredictions = async () => {
@@ -228,10 +207,6 @@ export const getAllPredictions = async () => {
   return snap.docs.map((doc) => doc.data());
 };
 
-
-/**
- * PARTE 1 de 2. Resetear resultado de un partido
- */
 export const resetMatchResult = async (matchId) => {
   const ref = doc(db, "matches", matchId);
 
@@ -244,25 +219,6 @@ export const resetMatchResult = async (matchId) => {
     { merge: true }
   );
 };
-/**
- * PARTE 2 de 2. Actualiza los puntajes calculados de partidos reseteados
- */
-export const clearMatchScores = async (matchId) => {
-  const predictions = await getPredictionsByMatch(matchId);
-
-  const updates = predictions.map((p) => {
-    const ref = doc(db, "predictions", p.id);
-    return setDoc(ref, { points: null }, { merge: true });
-  });
-
-  await Promise.all(updates);
-};
-/**
- * PARTE FINAL: FUNCIÓN UNIFICADA, resetea un partido y recalcula los puntos
- */
 export const resetMatch = async (matchId) => {
   await resetMatchResult(matchId);
-  // comento esta línea porque por permisos no me deja editar predicciones de otros.
-  // Cuando esté listo el refactor, se tiene que ir.
-  // await clearMatchScores(matchId);
 };

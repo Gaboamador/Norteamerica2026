@@ -18,7 +18,7 @@
 .title {
   margin: 0;
 
-  font-family: $font-family-heading;
+  font-family: $font-family-display;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
 
@@ -49,7 +49,6 @@
   background: rgba($color-bg-elevated, 0.6);
   color: $color-text-secondary;
 
-  font-family: $font-family-label;
   font-size: $font-size-body-xs;
 
   cursor: pointer;
@@ -76,21 +75,24 @@
 
 .matchMetadata, .match {
   display: flex;
-  // justify-content: space-between;
   gap: $space-md;
+  min-width: 0;
 }
 
 .match {
-
+  width: 100%;
+  flex-direction: column;
 }
 
 /* INPUTS */
 
 .input {
   // width: 100%;
+  flex: 1;
+  min-width: 0;
 
   padding: $space-sm $space-md;
-
+  font-family: $font-family-input;
   border-radius: $radius-sm;
   border: 1px solid $color-border;
 
@@ -125,7 +127,6 @@
   background: rgba($color-accent-primary, 0.18);
   color: $color-text-primary;
 
-  font-family: $font-family-label;
   font-size: $font-size-body-sm;
 
   cursor: pointer;
@@ -164,5 +165,9 @@
 
   .primaryButton:hover {
     background: rgba($color-accent-primary, 0.28);
+  }
+
+  .match {
+    flex-direction: row;
   }
 }
