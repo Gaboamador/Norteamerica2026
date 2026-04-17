@@ -160,9 +160,8 @@ a:hover .authIcon {
   justify-self: end;
 
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: $space-2xs;
+  align-items: center;
+  gap: $space-sm;
 
   padding-left: $space-sm;
   min-width: 0;
@@ -179,14 +178,10 @@ a:hover .authIcon {
   line-height: 1.1;
   color: $color-text-secondary;
   text-transform: uppercase;
-
-  &.smallerAuth {
-    font-size: $font-size-header-user-mobile;
-  }
 }
 
 .logoutButton {
-  padding: $space-2xs $space-sm;
+  padding: $space-xs;
   border-radius: $radius-sm;
 
   font-size: $font-size-header-button-mobile;
@@ -210,10 +205,6 @@ a:hover .authIcon {
     box-shadow: 0 0 0 3px $color-focus-ring;
   }
 
-  &.smallerAuth {
-    font-size: $font-size-header-button-mobile;
-    padding: $space-2xs $space-sm;
-  }
 }
 
 @include up(sm) {
@@ -255,26 +246,17 @@ a:hover .authIcon {
   }
 
   .authControls {
-    gap: $space-xs;
+    gap: $space-md;
   }
 
   .userName {
     max-width: $user-name-max-width-md;
     font-size: $font-size-header-user-tablet;
-
-    &.smallerAuth {
-      font-size: $font-size-header-user-mobile;
-    }
   }
 
   .logoutButton {
-    padding: $space-xs $space-md;
+    padding: $space-sm;
     font-size: $font-size-header-button-tablet;
-
-    &.smallerAuth {
-      font-size: $font-size-header-button-mobile;
-      padding: $space-2xs $space-sm;
-    }
   }
 }
 

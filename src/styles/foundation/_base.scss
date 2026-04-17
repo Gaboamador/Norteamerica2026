@@ -18,7 +18,13 @@ body {
 input,
 select,
 textarea,
-label,
-button {
+label {
   font-family: $font-family-text;
+}
+
+button {
+  font-family: $font-family-compact;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
 }

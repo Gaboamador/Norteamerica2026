@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase";
 import { removeUserFromGroup, regenerateJoinToken, buildInviteLink } from "@/services/firebase/firebaseGroups";
+import { formatDisplayName } from "@/utils/formatDisplayName";
 import styles from "./AdminGroupDetail.module.scss";
 
 export default function AdminGroupDetail() {
@@ -107,7 +108,7 @@ export default function AdminGroupDetail() {
               
               <div className={styles.memberInfo}>
                 <span className={styles.name}>
-                  {u?.displayName}
+                  {formatDisplayName(u?.displayName)}
                 </span>
                 <span className={styles.email}>
                   {u?.email}

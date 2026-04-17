@@ -178,11 +178,11 @@ export const isMatchLocked = (match) => {
  */
 export const createMatch = async (match) => {
   const ref = doc(collection(db, "matches"));
-  // await setDoc(ref, match);
-  await setDoc(ref, {
-    ...match,
-    lockTime: buildLockTime(match.date),
-  });
+  await setDoc(ref, match);
+  // await setDoc(ref, {
+  //   ...match,
+  //   lockTime: buildLockTime(match.date),
+  // });
 };
 
 /**
@@ -190,13 +190,13 @@ export const createMatch = async (match) => {
  */
 export const updateMatch = async (matchId, data) => {
   const ref = doc(db, "matches", matchId);
-  const updateData = { ...data };
-  if (data.date) {
-    updateData.lockTime = buildLockTime(data.date);
-  }
+  // const updateData = { ...data };
+  // if (data.date) {
+  //   updateData.lockTime = buildLockTime(data.date);
+  // }
 
-  await setDoc(ref, updateData, { merge: true });
-  // await setDoc(ref, data, { merge: true });
+  // await setDoc(ref, updateData, { merge: true });
+  await setDoc(ref, data, { merge: true });
 };
 
 /**

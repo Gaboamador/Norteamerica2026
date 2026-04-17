@@ -91,9 +91,16 @@
   line-height: 1;
 
   color: $color-text-primary;
-
   // white-space: nowrap;
 }
+
+ .teamName.left {
+  text-align: right;
+ }
+
+ .teamName.right {
+  text-align: left;
+ }
 
 .flag {
   display: block;

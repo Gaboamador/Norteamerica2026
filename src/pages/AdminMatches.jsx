@@ -6,6 +6,7 @@ import { db } from "@/services/firebase/firebase";
 import { createMatch, updateMatch, getAllPredictions } from "@/services/firebase/firebaseUtils";
 import { saveGlobalStandings, saveGroupStandings } from "@/services/firebase/firebaseStandings";
 import { filterStandingsByGroup } from "@/utils/filterStandingsByGroup";
+import { recomputeStandings } from "@/services/firebase/standingsService";
 import { useToast } from "@/context/ToastContext";
 import { Timestamp } from "firebase/firestore";
 import { buildStandings } from "@/utils/buildStandings";
@@ -94,6 +95,8 @@ export default function AdminMatches() {
         status: "finished",
       });
 
+      await recomputeStandings();
+      
       showToast({
         type: "success",
         message: "Resultado cargado",
@@ -163,15 +166,15 @@ export default function AdminMatches() {
               </option>
             ))}
           </select>
-
-          <input
-            className={styles.input}
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            required
-          />
         </div>
+        
+        <input
+          className={styles.input}
+          type="datetime-local"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          required
+        />
         
         <div className={styles.match}>
           <input

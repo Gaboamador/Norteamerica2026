@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from "react";
-import { useGroupStandings } from "../hooks/useGroupStandings";
 import { useUserGroups } from "../hooks/useUserGroups";
+import { useGroupStandings } from "../hooks/useGroupStandings";
 import { useMultiGroupStandings } from "../hooks/useMultiGroupStandings";
 import { mergeStandings } from "../utils/mergeStandings";
+import { formatDisplayName } from "@/utils/formatDisplayName";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./TablaPosiciones.module.scss";
 
@@ -107,7 +108,7 @@ const TablaPosiciones = () => {
               }}
             >
               <span className={styles.position}>#{u.position}</span>
-              <span className={styles.name}>{u.displayName}</span>
+              <span className={styles.name}>{formatDisplayName(u.displayName)}</span>
               <motion.span
                 className={styles.points}
                 key={u.points}

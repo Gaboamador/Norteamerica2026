@@ -6,7 +6,7 @@ import { db } from "./firebase";
  * GLOBAL
  * ===============================
  */
-export const saveGlobalStandings = async (rows) => {
+export const saveGlobalStandings = async (table) => {
   const ref = doc(db, "standings", "global");
 
   await setDoc(
@@ -15,7 +15,7 @@ export const saveGlobalStandings = async (rows) => {
       key: "global",
       label: "Tabla general",
       updatedAt: serverTimestamp(),
-      rows,
+      table,
     },
     { merge: true }
   );
@@ -26,13 +26,13 @@ export const saveGlobalStandings = async (rows) => {
  * GROUP
  * ===============================
  */
-export const saveGroupStandings = async (groupId, rows) => {
+export const saveGroupStandings = async (groupId, table) => {
   const ref = doc(db, "groups", groupId, "standings", "main");
 
   await setDoc(
     ref,
     {
-      rows,
+      table,
       updatedAt: serverTimestamp(),
     },
     { merge: true }

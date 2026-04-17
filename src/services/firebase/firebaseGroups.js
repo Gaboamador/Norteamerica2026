@@ -12,11 +12,6 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 
-// import { getAllPredictions } from "./firebaseUtils";
-// import { buildStandings } from "@/utils/buildStandings";
-// import { filterStandingsByGroup } from "@/utils/filterStandingsByGroup";
-// import { saveGroupStandings } from "./firebaseStandings";
-
 /**
  * ===============================
  * HELPERS
@@ -59,17 +54,6 @@ export const createGroup = async ({
     table: [],
     updatedAt: null,
   });
-
-    // recalcular standings iniciales del grupo
-  // const allPredictions = await getAllPredictions();
-  // const globalStandings = buildStandings(allPredictions);
-
-  // const groupStandings = filterStandingsByGroup(
-  //   globalStandings,
-  //   [ownerUid]
-  // );
-
-  // await saveGroupStandings(groupId, groupStandings);
 
   return { groupId, joinToken };
 };
@@ -138,21 +122,6 @@ export const joinGroup = async ({
   await updateDoc(ref, {
     members: arrayUnion(uid),
   });
-
-  // volver a leer el grupo ya actualizado
-  // const updatedSnap = await getDoc(ref);
-  // const updatedGroup = updatedSnap.data();
-
-  // // recalcular standings del grupo con sus miembros actuales
-  // const allPredictions = await getAllPredictions();
-  // const globalStandings = buildStandings(allPredictions);
-
-  // const groupStandings = filterStandingsByGroup(
-  //   globalStandings,
-  //   updatedGroup.members || []
-  // );
-
-  // await saveGroupStandings(groupId, groupStandings);
 };
 
 /**

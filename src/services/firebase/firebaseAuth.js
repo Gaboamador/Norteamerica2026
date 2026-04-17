@@ -85,8 +85,9 @@ export const registerWithEmail = async ({
   email,
   password,
   firstName,
+  lastName,
 }) => {
-  if (!email || !password || !firstName) {
+  if (!email || !password || !firstName|| !lastName) {
     throw {
       code: "auth/missing-fields",
       message: "Faltan campos obligatorios",
@@ -102,7 +103,7 @@ export const registerWithEmail = async ({
   const user = userCredential.user;
 
   // displayName = "Nombre Apellido"
-  const displayName = `${firstName.trim()}`;
+  const displayName = `${firstName.trim()} ${lastName.trim()}`;
   await updateProfile(user, { displayName });
 
   // agregar usuario a colección 'users'

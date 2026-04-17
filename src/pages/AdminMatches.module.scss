@@ -103,7 +103,8 @@
 }
 
 .selectSmall {
-  padding: 0 $space-xs;
+  // padding: 0 $space-xs;
+  padding: $space-sm $space-md;
 
   border-radius: $radius-sm;
   border: 1px solid rgba($color-border, 0.6);

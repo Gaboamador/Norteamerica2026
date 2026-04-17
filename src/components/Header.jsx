@@ -5,16 +5,18 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "../hooks/useAdmin";
 import { logout } from "@/services/firebase/firebaseAuth";
+import { formatDisplayName } from "@/utils/formatDisplayName";
 import NavMenu from "./NavMenu";
 import HeaderMenuIcon from "./HeaderMenuIcon";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuFolderOpen, LuHouse } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
+import { IoMdLogOut } from "react-icons/io";
+
 
 export default function Header() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { isAdmin, loading: adminLoading } = useAdmin();
-  const user = useAuth();
   const location = useLocation();
   const pathname = location.pathname;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -97,25 +99,19 @@ export default function Header() {
           </div>
         </div>
 
-        {/* CENTER */}
-        {/* <div className={styles.center}>
-          {!isHome && subtitle && (
-            <span className={styles.subtitle}>{subtitle}</span>
-          )}
-        </div> */}
-
         {/* RIGHT */}
         <div className={styles.right}>
           {isAuthenticated ? (
             <div className={styles.authControls}>
-              <div className={`${styles.userName} ${!isHome ? styles.smallerAuth : ""}`}>
-                {user?.user?.displayName?.toUpperCase()}
+              <div className={styles.userName}>
+                {formatDisplayName(user?.displayName)?.toUpperCase()}
               </div>
               <button
-                className={`${styles.logoutButton} ${!isHome ? styles.smallerAuth : ""}`}
+                className={styles.logoutButton}
                 onClick={handleLogout}
               >
-                Cerrar sesión
+                {/* Cerrar sesión */}
+                <IoMdLogOut/>
               </button>
             </div>
           ) : (

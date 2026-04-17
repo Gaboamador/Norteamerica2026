@@ -1,7 +1,7 @@
 const TEAM_FLAG_MAP = {
   // A
   alemania: "de",
-  "arabia saudita": "sa",
+  "arabia saudi": "sa",
   argelia: "dz",
   argentina: "ar",
   australia: "au",
@@ -9,24 +9,25 @@ const TEAM_FLAG_MAP = {
 
   // B
   belgica: "be",
-  "bosnia herzegovina": "ba",
+  "bosnia y herzegovina": "ba",
   brasil: "br",
 
   // C
-  "cabo verde": "cv",
+  "islas de cabo verde": "cv",
   canada: "ca",
+  chequia: "cz",
   colombia: "co",
-  "corea del sur": "kr",
   "costa de marfil": "ci",
   croacia: "hr",
   curazao: "cw",
+  catar: "qa",
 
   // E
   ecuador: "ec",
   egipto: "eg",
   escocia: "gb-sct",
   espana: "es",
-  "estados unidos": "us",
+  "ee. uu.": "us",
 
   // F
   francia: "fr",
@@ -40,7 +41,7 @@ const TEAM_FLAG_MAP = {
   // I
   inglaterra: "gb-eng",
   irak: "iq",
-  iran: "ir",
+  "ri de iran": "ir",
 
   // J
   japon: "jp",
@@ -60,12 +61,9 @@ const TEAM_FLAG_MAP = {
   paraguay: "py",
   portugal: "pt",
 
-  // Q
-  qatar: "qa",
-
   // R
+  "republica de corea": "kr",
   "rd congo": "cd",
-  "republica checa": "cz",
 
   // S
   senegal: "sn",

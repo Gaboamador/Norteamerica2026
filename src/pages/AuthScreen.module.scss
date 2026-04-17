@@ -2,7 +2,6 @@
   width: 100%;
   max-width: $layout-content-xs;
 
-  margin: $space-xl auto;
   padding: $space-lg;
 
   display: flex;
@@ -171,6 +170,18 @@
     transform 0.18s ease;
 }
 
+.primaryButton {
+  padding: $space-sm;
+  width: fit-content;
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-accent-primary, 0.5);
+  justify-content: center;
+  background: rgba($color-accent-primary, 0.18);
+  color: $color-text-primary;
+
+  cursor: pointer;
+}
+
 /* ===== BREAKPOINTS ===== */
 
 @include up(sm) {
@@ -202,5 +213,9 @@
   .eyeButton:hover {
     color: $color-accent-primary;
     transform: scale(1.05);
+  }
+
+  .primaryButton:hover {
+    background: rgba($color-accent-primary, 0.28);
   }
 }

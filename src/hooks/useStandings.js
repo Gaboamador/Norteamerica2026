@@ -11,7 +11,7 @@ export const useStandings = () => {
     const unsubscribe = onSnapshot(ref, (snap) => {
       if (snap.exists()) {
         const data = snap.data();
-        setTable(data.rows || []);
+        setTable(data.table || []);
       } else {
         setTable([]);
       }

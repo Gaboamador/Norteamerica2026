@@ -88,7 +88,15 @@
   line-height: 1;
 
   color: $color-text-primary;
+  
 }
+ .teamName.left {
+  text-align: right;
+ }
+
+ .teamName.right {
+  text-align: left;
+ }
 
 .score {
   font-family: $font-family-data;
@@ -216,6 +224,26 @@
   display: flex;
   flex-direction: column;
   gap: $space-sm;
+}
+
+.resultSection button {
+  display: block;
+  width: fit-content;
+  
+}
+.resultSection input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  // Firefox
+  -moz-appearance: textfield;
 }
 
 .resultsLayout {

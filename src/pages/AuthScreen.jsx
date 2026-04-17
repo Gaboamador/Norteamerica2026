@@ -19,6 +19,7 @@ export default function AuthScreen() {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   
@@ -75,33 +76,6 @@ export default function AuthScreen() {
     }
   };
 
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-  //   resetErrors();
-
-  //   if (password !== repeatPassword) {
-  //     setError("Las contraseñas no coinciden");
-  //     return;
-  //   }
-
-  //   try {
-  //     setLoading(true);
-  //     await registerWithEmail({
-  //       email,
-  //       password,
-  //       firstName,
-  //     });
-  //     redirectAfterAuth();
-  //   } catch (err) {
-  //     setError(
-  //       firebaseErrorMessages[err.code] ??
-  //       err?.message??
-  //         "Error creando la cuenta"
-  //     );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleRegister = async (e) => {
     e.preventDefault();
     resetErrors();
@@ -119,6 +93,7 @@ export default function AuthScreen() {
         email,
         password,
         firstName,
+        lastName,
       });
 
       if (result?.requiresEmailVerification) {
@@ -249,9 +224,18 @@ export default function AuthScreen() {
         >
           <input
             type="text"
-            placeholder="Nombre de usuario"
+            placeholder="Nombre"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            className={styles.input}
+            required
+          />
+
+          <input
+            type="text"
+            placeholder="Apellido"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             className={styles.input}
             required
           />

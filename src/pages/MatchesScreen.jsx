@@ -18,12 +18,9 @@ export default function MatchesScreen() {
 
   return (
     <section className={styles.wrapper}>
-      <div className={styles.titleMain}>Cargar Pronósticos</div>
+      <div className={styles.title}>Cargar Pronósticos</div>
 
-      {/* HEADER */}
-      <div className={styles.header}>
-        <h2 className={styles.title}>Partidos</h2>
-
+      {/* SELECTOR */}
         <div className={styles.selector}>
           <span>Ordenar</span>
           <button
@@ -44,7 +41,6 @@ export default function MatchesScreen() {
             Por grupo
           </button>
         </div>
-      </div>
 
       {/* LIST */}
       <MatchesGrouped

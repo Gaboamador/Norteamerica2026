@@ -50,12 +50,6 @@ export default function MatchCard({ match }) {
     return () => clearInterval(interval);
   }, [match]);
 
-  // useEffect(() => {
-  //   if (existing) {
-  //     setHome(existing.predHome);
-  //     setAway(existing.predAway);
-  //   }
-  // }, [existing]);
   useEffect(() => {
     if (!user || !draftKey) return;
 
@@ -136,13 +130,14 @@ export default function MatchCard({ match }) {
         {/* HOME */}
         <div className={styles.teamLeft}>
           <div className={styles.teamChip}>
+            <span className={`${styles.teamName} ${styles.left}`}>{match.homeTeam}</span>
             <img
               src={getTeamFlagSrc(match.homeTeam)}
               alt={match.homeTeam}
               className={styles.flag}
               onError={handleFlagImageError}
             />
-            <span className={styles.teamName}>{match.homeTeam}</span>
+            
           </div>
         </div>
 
@@ -160,13 +155,14 @@ export default function MatchCard({ match }) {
         {/* AWAY */}
         <div className={styles.teamRight}>
           <div className={styles.teamChip}>
-            <span className={styles.teamName}>{match.awayTeam}</span>
+            
             <img
               src={getTeamFlagSrc(match.awayTeam)}
               alt={match.awayTeam}
               className={styles.flag}
               onError={handleFlagImageError}
             />
+            <span className={`${styles.teamName} ${styles.right}`}>{match.awayTeam}</span>
           </div>
         </div>
 

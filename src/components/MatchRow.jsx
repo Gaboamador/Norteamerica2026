@@ -101,13 +101,13 @@ export default function MatchRow({ match, onSetResult }) {
           {/* HOME */}
           <div className={styles.teamLeft}>
             <div className={styles.team}>
+              <span className={`${styles.teamName} ${styles.left}`}>{match.homeTeam}</span>
               <img
                 src={getTeamFlagSrc(match.homeTeam)}
                 alt={match.homeTeam}
                 className={styles.flag}
                 onError={handleFlagImageError}
               />
-              <span className={styles.teamName}>{match.homeTeam}</span>
             </div>
           </div>
 
@@ -125,13 +125,13 @@ export default function MatchRow({ match, onSetResult }) {
           {/* AWAY */}
           <div className={styles.teamRight}>
             <div className={styles.team}>
-              <span className={styles.teamName}>{match.awayTeam}</span>
               <img
                 src={getTeamFlagSrc(match.awayTeam)}
                 alt={match.awayTeam}
                 className={styles.flag}
                 onError={handleFlagImageError}
               />
+              <span className={`${styles.teamName} ${styles.right}`}>{match.awayTeam}</span>
             </div>
           </div>
 
