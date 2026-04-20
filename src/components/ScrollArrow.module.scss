@@ -1,0 +1,64 @@
+.arrow {
+  position: fixed;
+  bottom: $space-lg;
+  right: $space-lg;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: $radius-lg;
+
+  background: $color-bg-elevated;
+  border: 1px solid $color-border;
+
+  color: $color-text-muted;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
+
+  transition: transform 0.15s ease, background 0.15s ease;
+  //   clip-path: none;
+  // position: fixed;
+  // bottom: 24px;
+  // right: 24px;
+
+  // width: 44px;
+  // height: 44px;
+  // padding: 8px;
+  // border-radius: 50%;
+  // background: rgba(0,0,0,0.8);
+  // color: $color-focus-ring;
+  // border: 1px solid $color-button-primary-bg;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+
+  // z-index: 1000;
+}
+
+
+
+/* Hover sólo desktop */
+@media (hover: hover) {
+  .arrow:hover {
+    transform: translateY(-2px);
+    background: $color-bg-elevated-2;
+  }
+}
+
+/* Active (mobile incluido) */
+.arrow:active {
+  transform: scale(0.96);
+}
+
+.sentinel {
+  width: 100%;
+  height: 1px;
+}

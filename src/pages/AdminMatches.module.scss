@@ -22,7 +22,7 @@
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
 
-  color: $color-text-primary;
+  // color: $color-text-primary;
 }
 
 /* ===== SELECTOR ===== */
@@ -58,6 +58,20 @@
   background: rgba($color-accent-primary, 0.14);
   border-color: rgba($color-accent-primary, 0.4);
   color: $color-text-primary;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: $color-accent-primary;
+}
+
+.chevron {
+  display: inline-block;
+  font-size: 0.8rem;
+  opacity: 0.7;
 }
 
 /* ===== FORM ===== */

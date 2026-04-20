@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import { updateMatch, resetMatch } from "@/services/firebase/firebaseUtils";
 import { useToast } from "@/context/ToastContext";
+import { useConfirm } from "@/context/ConfirmProvider";
 import { Timestamp } from "firebase/firestore";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import styles from "./MatchRow.module.scss";
 import { LuPencil } from "react-icons/lu";
 import useIsMobile from "@/hooks/useIsMobile";
 import { BREAKPOINTS } from "@/constants/breakpoints";
+import { getRoundLabel } from "@/utils/matchRounds";
+import { formatMatchDate } from "@/utils/dateFormat";
 
 export default function MatchRow({ match, onSetResult }) {
   const [editing, setEditing] = useState(false);
   const { showToast } = useToast();
+  const { confirm } = useConfirm();
   const [homeTeam, setHomeTeam] = useState(match.homeTeam);
   const [awayTeam, setAwayTeam] = useState(match.awayTeam);
   const [group, setGroup] = useState(match.group || "");
@@ -69,11 +73,13 @@ export default function MatchRow({ match, onSetResult }) {
   };
 
   const handleResetMatch = async () => {
-    const confirmReset = window.confirm(
-      "¿Seguro que querés resetear este partido? Se borran los puntos."
-    );
+    const confirmed = await confirm({
+      title: "Resetear partido",
+      message:
+        "¿Seguro que querés resetear este partido? Se borran los puntos.",
+    });
 
-    if (!confirmReset) return;
+    if (!confirmed) return;
 
     try {
       await resetMatch(match.id);
@@ -144,13 +150,17 @@ export default function MatchRow({ match, onSetResult }) {
         <div className={styles.metaRowTop}>
           
           <div className={styles.metaGroup}>
-            <span>Grupo {match.group || "-"}</span>
-            <span>Fecha {match.round || "-"}</span>
+            {match.group && (
+              <span>Grupo {match.group}</span>
+            )}
+            <span>{getRoundLabel(match.round)}</span>
           </div>
 
           <div className={styles.metaDate}>
             {match.startTime
-              ? match.startTime.toDate().toLocaleString()
+              ?
+              // match.startTime.toDate().toLocaleString()
+              formatMatchDate(match.startTime.toDate())
               : "-"}
           </div>
 

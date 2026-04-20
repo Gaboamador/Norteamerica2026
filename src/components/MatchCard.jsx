@@ -7,6 +7,8 @@ import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import styles from "./MatchCard.module.scss";
 import { getTimeToLock, formatCountdown } from "@/utils/timeUtils";
 import { getPredictionPoints } from "@/utils/predictionPoints";
+import { getRoundLabel } from "@/utils/matchRounds";
+import { formatMatchDate } from "@/utils/dateFormat";
 
 export default function MatchCard({ match }) {
   const { user } = useAuth();
@@ -121,9 +123,32 @@ export default function MatchCard({ match }) {
     }
   };
 
+  const date = match.startTime.toDate();
+
+  const formattedDate = formatMatchDate(date);
+
+  const isGroupStage = match.round <= 3;
+
   return (
     <div className={`${styles.card}`}>
       
+      {/* MATCH METADATA */}
+      <div className={styles.meta}>
+        {isGroupStage && match.group && (
+          <span className={`${styles.label} ${styles.group}`}>
+            Grupo {match.group}
+          </span>
+        )}
+
+        <span className={`${styles.label} ${styles.round}`}>
+          {getRoundLabel(match.round)}
+        </span>
+
+        <span className={`${styles.label} ${styles.date}`}>
+          {formattedDate}
+        </span>
+      </div>
+
       {/* MATCH INFO */}
       <div className={styles.matchGrid}>
   

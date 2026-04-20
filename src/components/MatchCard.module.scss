@@ -16,6 +16,37 @@
     transform 0.18s ease;
 }
 
+/* ===== MATCH METADATA ===== */
+.meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: $color-text-secondary;
+  border: 1px solid rgba($color-border, 0.4);
+  white-space: nowrap;
+}
+
+/* Opcionales para diferenciar */
+
+.group {
+  background: rgba(59, 130, 246, 0.12); // azul suave
+}
+
+.round {
+  background: rgba(16, 185, 129, 0.12); // verde suave
+}
+
+.date {
+  opacity: 0.8;
+}
+
 /* ===== MATCH INFO ===== */
 
 .matchGrid {

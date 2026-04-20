@@ -10,9 +10,12 @@ import { recomputeStandings } from "@/services/firebase/standingsService";
 import { useToast } from "@/context/ToastContext";
 import { Timestamp } from "firebase/firestore";
 import { buildStandings } from "@/utils/buildStandings";
+import { motion, AnimatePresence } from "framer-motion";
 import MatchRow from "@/components/MatchRow";
 import MatchesGrouped from "@/components/MatchesGrouped";
 import { useMatches } from "@/hooks/useMatches";
+import { ROUND_OPTIONS } from "@/utils/matchRounds";
+import { isGroupStageRound, getRoundLabel } from "@/utils/matchRounds";
 import styles from "./AdminMatches.module.scss";
 
 export default function AdminMatches() {
@@ -28,6 +31,8 @@ export default function AdminMatches() {
   const [group, setGroup] = useState("A");
   const [round, setRound] = useState(1);
   const [startTime, setStartTime] = useState("");
+  const [createOpen, setCreateOpen] = useState(false);
+  const isKnockout = !isGroupStageRound(round);
 
 
   // redirect if not admin
@@ -36,6 +41,18 @@ export default function AdminMatches() {
       navigate("/", { replace: true });
     }
   }, [adminLoading, isAdmin, navigate]);
+
+  useEffect(() => {
+    if (isKnockout) {
+      setGroup("");
+    }
+  }, [round]);
+
+  useEffect(() => {
+    if (isKnockout) {
+      setGroup("");
+    }
+  }, [isKnockout]);
 
   if (adminLoading) {
     return <div style={{ padding: 20 }}>Cargando...</div>;
@@ -71,7 +88,7 @@ export default function AdminMatches() {
 
       setHomeTeam("");
       setAwayTeam("");
-      setStartTime("");
+      // setStartTime("");
 
     } catch (err) {
       showToast({
@@ -81,7 +98,7 @@ export default function AdminMatches() {
     }
   };
 
-  // UPDATE RESULT
+  // UPDATE RESULTf
   const handleSetResult = async (matchId, homeGoals, awayGoals) => {
     try {
       const result = {
@@ -113,12 +130,10 @@ export default function AdminMatches() {
   return (
     <section className={styles.wrapper}>
       
-      {/* HEADER */}
+    {/* HEADER */}
       <div className={styles.header}>
-        <h2 className={styles.title}>Crear Partidos</h2>
-
         <div className={styles.selector}>
-          <span>Ordenar</span>
+          <span>Ver por</span>
           <button
             onClick={() => setMode("date")}
             className={`${styles.selectorButton} ${
@@ -136,67 +151,147 @@ export default function AdminMatches() {
           >
             Por grupo
           </button>
+          <button
+            onClick={() => setMode("round")}
+            className={`${styles.selectorButton} ${
+              mode === "round" ? styles.active : ""
+            }`}
+          >
+            Por fase
+          </button>
         </div>
       </div>
 
+        <div
+          className={styles.titleRow}
+          onClick={() => setCreateOpen((v) => !v)}
+        >
+          <h2 className={styles.title}>Crear Partidos</h2>
+          <motion.span
+            animate={{ rotate: createOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className={styles.chevron}
+          >
+            ▼
+          </motion.span>
+        </div>
+
       {/* CREATE FORM */}
-      <form onSubmit={handleCreate} className={styles.form}>
+      <AnimatePresence initial={false}>
+      {createOpen && (
+        <motion.div
+          key="create-form"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          style={{ overflow: "hidden" }}
+        >
+        <form onSubmit={handleCreate} className={styles.form}>
 
-      <div className={styles.matchMetadata}>
-        <select
-            className={styles.selectSmall}
-            value={group}
-            onChange={(e) => setGroup(e.target.value)}
-          >
-            {"ABCDEFGHIJKL".split("").map((g) => (
-              <option key={g} value={g}>
-                Grupo {g}
-              </option>
-            ))}
-          </select>
+        <div className={styles.matchMetadata}>
+          {/* <select
+              className={styles.selectSmall}
+              value={group}
+              onChange={(e) => setGroup(e.target.value)}
+            >
+              {"ABCDEFGHIJKL".split("").map((g) => (
+                <option key={g} value={g}>
+                  Grupo {g}
+                </option>
+              ))}
+            </select> */}
+            {!isKnockout && 
+            <select
+              className={styles.selectSmall}
+              value={group}
+              onChange={(e) => setGroup(e.target.value)}
+              disabled={isKnockout}
+            >
+              {"ABCDEFGHIJKL".split("").map((g) => (
+                  <option key={g} value={g}>
+                    Grupo {g}
+                  </option>
+                ))
+              }
+            </select>
+            }
 
-          <select
-            className={styles.selectSmall}
-            value={round}
-            onChange={(e) => setRound(Number(e.target.value))}
-          >
-            {[1, 2, 3].map((r) => (
-              <option key={r} value={r}>
-                Fecha {r}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <input
-          className={styles.input}
-          type="datetime-local"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          required
-        />
-        
-        <div className={styles.match}>
+                        {/* <select
+              className={styles.selectSmall}
+              value={group}
+              onChange={(e) => setGroup(e.target.value)}
+              disabled={isKnockout}
+            >
+              {!isKnockout ? (
+                "ABCDEFGHIJKL".split("").map((g) => (
+                  <option key={g} value={g}>
+                    Grupo {g}
+                  </option>
+                ))
+              ) : (
+                <option value="">
+                  {getRoundLabel(round)}
+                </option>
+              )}
+            </select> */}
+
+            {/* <select
+              className={styles.selectSmall}
+              value={round}
+              onChange={(e) => setRound(Number(e.target.value))}
+            >
+              {[1, 2, 3].map((r) => (
+                <option key={r} value={r}>
+                  Fecha {r}
+                </option>
+              ))}
+            </select> */}
+            <select
+              className={styles.selectSmall}
+              value={round}
+              onChange={(e) => setRound(Number(e.target.value))}
+            >
+              {ROUND_OPTIONS.map((r) => (
+                <option key={r.value} value={r.value}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          
           <input
             className={styles.input}
-            placeholder="Local"
-            value={homeTeam}
-            onChange={(e) => setHomeTeam(e.target.value)}
+            type="datetime-local"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
             required
           />
+          
+          <div className={styles.match}>
+            <input
+              className={styles.input}
+              placeholder="Local"
+              value={homeTeam}
+              onChange={(e) => setHomeTeam(e.target.value)}
+              required
+            />
 
-          <input
-            className={styles.input}
-            placeholder="Visitante"
-            value={awayTeam}
-            onChange={(e) => setAwayTeam(e.target.value)}
-            required
-          />
-        </div>
-        <button className={styles.primaryButton}>
-          Crear partido
-        </button>
-      </form>
+            <input
+              className={styles.input}
+              placeholder="Visitante"
+              value={awayTeam}
+              onChange={(e) => setAwayTeam(e.target.value)}
+              required
+            />
+          </div>
+          <button className={styles.primaryButton}>
+            Crear partido
+          </button>
+        </form>
+      </motion.div>
+      )}
+      </AnimatePresence>
 
       {/* LIST */}
       <MatchesGrouped

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
+import { useToast } from "../context/ToastContext";
+import { useConfirm } from "../context/ConfirmProvider";
 import { createGroup, deleteGroup } from "@/services/firebase/firebaseGroups";
 import { useAllGroups } from "@/hooks/useAllGroups";
 import styles from "./AdminGroups.module.scss";
@@ -9,6 +11,8 @@ import styles from "./AdminGroups.module.scss";
 export default function AdminGroups() {
   const { user } = useAuth();
   const { isAdmin, loading } = useAdmin();
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
   const navigate = useNavigate();
 
   const groups = useAllGroups();
@@ -42,12 +46,29 @@ export default function AdminGroups() {
   };
 
   const handleDelete = async (groupId) => {
-    if (!confirm("¿Eliminar grupo vacío?")) return;
+    
+    const confirmed = await confirm({
+      title: "Eliminar grupo",
+      message: "¿Eliminar grupo vacío?",
+    });
+
+    if (!confirmed) return;
 
     try {
       await deleteGroup(groupId);
+
+      showToast({
+        type: "success",
+        message: "Grupo eliminado",
+      });
+
     } catch (e) {
-      alert(e.message);
+      console.error(e);
+
+      showToast({
+        type: "error",
+        message: "No se pudo eliminar el grupo",
+      });
     }
   };
 

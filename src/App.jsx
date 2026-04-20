@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastProvider } from "@/context/ToastContext";
+import { ConfirmProvider } from "@/context/ConfirmProvider";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import AdminRoute from "@/auth/AdminRoute";
 import AppLayout from "./layouts/AppLayout";
@@ -8,6 +9,7 @@ import AuthScreen from "@/pages/AuthScreen.jsx";
 import Spinner from "@/components/Spinner.jsx";
 import Home from "@/pages/Home.jsx";
 import Header from "@/components/Header.jsx";
+import ScrollArrow from "@/components/ScrollArrow";
 import MatchesScreen from "@/pages/MatchesScreen";
 import TablaPosiciones from "./pages/TablaPosiciones";
 import JoinGroup from "@/pages/JoinGroup";
@@ -20,10 +22,10 @@ function App() {
   const { loading } = useAuth();
 
   return (
+    <ConfirmProvider>
     <ToastProvider>
     <>
       <Header />
-
       <Routes >
         <Route element={<AppLayout />}>
         {loading ? (
@@ -54,8 +56,10 @@ function App() {
           )}
         </Route>
       </Routes>
+      <ScrollArrow/>
     </>
     </ToastProvider>
+    </ConfirmProvider>
   );
 }
 

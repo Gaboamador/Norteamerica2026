@@ -22,7 +22,7 @@ export default function MatchesScreen() {
 
       {/* SELECTOR */}
         <div className={styles.selector}>
-          <span>Ordenar</span>
+          <span>Ver por</span>
           <button
             onClick={() => setMode("date")}
             className={`${styles.selectorButton} ${
@@ -40,12 +40,21 @@ export default function MatchesScreen() {
           >
             Por grupo
           </button>
+          <button
+            onClick={() => setMode("round")}
+            className={`${styles.selectorButton} ${
+              mode === "round" ? styles.active : ""
+            }`}
+          >
+            Por fase
+          </button>
         </div>
 
       {/* LIST */}
       <MatchesGrouped
         matches={matches}
         mode={mode}
+        autoFocusPending={false}
         renderMatch={(m) => (
           <MatchCard key={m.id} match={m} />
         )}

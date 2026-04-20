@@ -1,0 +1,80 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  background: $color-bg-overlay;
+  backdrop-filter: blur(4px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: $space-md;
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+
+  background: $color-card-bg;
+  border: 1px solid $color-card-border;
+  border-radius: $radius-lg;
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+
+  padding: $space-lg;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.message {
+  font-size: 0.95rem;
+  color: $color-text-secondary;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $space-sm;
+  margin-top: $space-sm;
+}
+
+.cancel {
+  background: transparent;
+  border: 1px solid $color-border;
+  color: $color-text-secondary;
+
+  padding: 8px 14px;
+  border-radius: $radius-md;
+
+  cursor: pointer;
+
+  &:hover {
+    background: $color-button-secondary-bg;
+  }
+}
+
+.confirm {
+  background: $color-button-primary-bg;
+  color: $color-text-primary;
+
+  border: none;
+  border-radius: $radius-md;
+
+  padding: 8px 14px;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-button-primary-bg-hover;
+  }
+}
