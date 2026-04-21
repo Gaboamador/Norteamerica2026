@@ -4,31 +4,24 @@ import styles from "./ScrollArrow.module.scss";
 
 export default function ScrollArrow() {
   const [visible, setVisible] = useState(false);
-  const sentinelRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Si el sentinel NO es visible, estamos lejos del final
-        setVisible(entry.isIntersecting);
-      },
-      {
-        root: null,
-        threshold: 0,
-      }
-    );
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
 
-    if (sentinelRef.current) {
-      observer.observe(sentinelRef.current);
-    }
+      // Mostrar flecha si bajó más de X px (ej: 200)
+      setVisible(scrolled > 200);
+    };
 
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
       {/* Elemento invisible al final */}
-      <div ref={sentinelRef} className={styles.sentinel} />
+      <div className={styles.sentinel} />
 
       {visible && (
         <button
