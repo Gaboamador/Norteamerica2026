@@ -14,7 +14,7 @@ export const buildStandings = (predictions, matches) => {
     if (!table[p.uid]) {
       table[p.uid] = {
         uid: p.uid,
-        displayName: p.displayName || p.uid,
+        displayName: p.displayName || "Usuario",
         points: 0,
       };
     }

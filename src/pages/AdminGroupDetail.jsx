@@ -108,7 +108,7 @@ export default function AdminGroupDetail() {
               
               <div className={styles.memberInfo}>
                 <span className={styles.name}>
-                  {formatDisplayName(u?.displayName)}
+                  {formatDisplayName(u?.displayName, u?.email)}
                 </span>
                 <span className={styles.email}>
                   {u?.email}

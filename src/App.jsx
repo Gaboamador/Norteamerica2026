@@ -13,6 +13,7 @@ import ScrollArrow from "@/components/ScrollArrow";
 import MatchesScreen from "@/pages/MatchesScreen";
 import TablaPosiciones from "./pages/TablaPosiciones";
 import JoinGroup from "@/pages/JoinGroup";
+import UserProfile from "@/pages/UserProfile";
 import AdminMatches from "@/pages/AdminMatches";
 import AdminGroups from "@/pages/AdminGroups";
 import AdminGroupDetail from "@/pages/AdminGroupDetail";
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/matches" element={<MatchesScreen />} />
                 <Route path="/standings" element={<TablaPosiciones />} />
                 <Route path="/join" element={<JoinGroup />} />
+                <Route path="/user" element={<UserProfile />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
 
                 <Route element={<AdminRoute />}>

@@ -52,6 +52,12 @@
   min-width: 0;
 }
 
+.userDivider {
+  margin-top: $space-sm;
+  padding-top: $space-sm;
+  border-top: 1px solid rgba($color-border, 0.6);
+}
+
 .link {
   display: flex;
   align-items: center;
@@ -69,6 +75,12 @@
     background 0.18s ease,
     color 0.18s ease,
     transform 0.18s ease;
+
+  background: none;
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 
   &.mobile {
     border-radius: 0;

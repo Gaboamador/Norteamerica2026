@@ -125,7 +125,7 @@ export default function NavMenu({ open, onClose, items = [], anchorRef, headerRe
                 return (
                   <motion.li
                     key={i}
-                    className={styles.item}
+                    className={`${styles.item} ${item.isUserSectionStart ? styles.userDivider : ""}`}
                     variants={{
                       hidden: { opacity: 0, y: -4 },
                       visible: {
@@ -135,19 +135,38 @@ export default function NavMenu({ open, onClose, items = [], anchorRef, headerRe
                       }
                     }}
                   >
-                    <Link
-                      to={item.disabled ? "#" : item.to}
-                      className={`${styles.link} ${isActive ? styles.active : ""} ${isMobile ? styles.mobile : ""} ${item.disabled ? styles.disabled : ""}`}
-                      onClick={onClose}
-                    >
-                      <span className={styles.icon}>
-                        {item.icon}
-                      </span>
+                    {item.action ? (
+                      <button
+                        type="button"
+                        className={`${styles.link} ${isMobile ? styles.mobile : ""}`}
+                        onClick={() => {
+                          item.action();
+                          onClose();
+                        }}
+                      >
+                        <span className={styles.icon}>
+                          {item.icon}
+                        </span>
 
-                      <span className={styles.label}>
-                        {item.label}
-                      </span>
-                    </Link>
+                        <span className={styles.label}>
+                          {item.label}
+                        </span>
+                      </button>
+                    ) : (
+                      <Link
+                        to={item.disabled ? "#" : item.to}
+                        className={`${styles.link} ${isActive ? styles.active : ""} ${isMobile ? styles.mobile : ""} ${item.disabled ? styles.disabled : ""}`}
+                        onClick={onClose}
+                      >
+                        <span className={styles.icon}>
+                          {item.icon}
+                        </span>
+
+                        <span className={styles.label}>
+                          {item.label}
+                        </span>
+                      </Link>
+                    )}
                   </motion.li>
                 )
               })}

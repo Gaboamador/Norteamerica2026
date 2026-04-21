@@ -33,6 +33,38 @@
   color: $color-text-primary;
 }
 
+.googleButton {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+
+  padding: $space-sm;
+
+  border-radius: $radius-md;
+  border: 1px solid $color-border;
+
+  background: $color-bg-elevated-2;
+  color: $color-text-primary;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: $color-bg-elevated;
+  }
+}
+
+.googleIcon {
+  width: 18px;
+  height: 18px;
+}
+
 .form {
   display: grid;
   gap: $space-md;

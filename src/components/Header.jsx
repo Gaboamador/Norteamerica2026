@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "./Header.module.scss";
 import logo from "@/assets/logo.png";
 import { Link, useLocation } from "react-router-dom";
@@ -23,7 +23,16 @@ export default function Header() {
   const isHome = pathname === "/";
   const buttonRef = useRef(null);
   const headerRef = useRef(null);
+  
+  const [imgError, setImgError] = useState(false);
+  const photo = user?.photoURL || user?.providerData?.[0]?.photoURL;
 
+  useEffect(() => {
+    setImgError(false);
+  }, [photo]);
+  
+
+  //FUNCIONES 
   function handleLogout() {
     logout();
   }
@@ -68,6 +77,22 @@ export default function Header() {
     ] : []),
   ];
 
+  const userItems = isAuthenticated
+  ? [
+      {
+        label: "Mi perfil",
+        to: "/user",
+        icon: <IoPersonCircleSharp />,
+        isUserSectionStart: true
+      },
+      {
+        label: "Cerrar sesión",
+        action: handleLogout,
+        icon: <IoMdLogOut />,
+      },
+    ]
+  : [];
+
   return (
     <header ref={headerRef} className={styles.header}>
 
@@ -103,16 +128,58 @@ export default function Header() {
         <div className={styles.right}>
           {isAuthenticated ? (
             <div className={styles.authControls}>
-              <div className={styles.userName}>
-                {formatDisplayName(user?.displayName)?.toUpperCase()}
-              </div>
-              <button
-                className={styles.logoutButton}
-                onClick={handleLogout}
-              >
-                {/* Cerrar sesión */}
-                <IoMdLogOut/>
-              </button>
+              {/* <div className={styles.userName}>
+                {formatDisplayName(user?.displayName, user?.email)?.toUpperCase()}
+              </div> */}
+{/* <div
+  className={styles.userInfo}
+  onClick={() => setMenuOpen(true)}
+>
+  {user?.photoURL ? (
+    <img
+      src={user.photoURL}
+      alt="avatar"
+      className={styles.avatar}
+    />
+  ) : (
+    <div className={styles.avatarFallback}>
+      {formatDisplayName(user?.displayName, user?.email)
+        ?.charAt(0)
+        ?.toUpperCase()}
+    </div>
+  )}
+
+  <div className={styles.userName}>
+    {formatDisplayName(user?.displayName, user?.email)?.toUpperCase()}
+  </div>
+</div> */}
+<div className={styles.userInfo}>
+  <div className={styles.userName}>
+    {formatDisplayName(user?.displayName, user?.email)?.toUpperCase()}
+  </div>
+
+<button
+  type="button"
+  className={styles.avatarButton}
+  onClick={() => setMenuOpen(true)}
+>
+  {photo && !imgError ? (
+    <img
+      src={photo}
+      alt="avatar"
+      className={styles.avatar}
+      onError={() => setImgError(true)}
+    />
+  ) : (
+    <div className={styles.avatarFallback}>
+      {formatDisplayName(user?.displayName, user?.email)
+        ?.charAt(0)
+        ?.toUpperCase()}
+    </div>
+  )}
+</button>
+</div>
+
             </div>
           ) : (
             <Link to="/auth">
@@ -126,7 +193,7 @@ export default function Header() {
       <NavMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        items={navItems}
+        items={[...navItems, ...userItems]}
         anchorRef={buttonRef}
         headerRef={headerRef}
       />

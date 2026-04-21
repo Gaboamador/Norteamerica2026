@@ -108,7 +108,7 @@ const TablaPosiciones = () => {
               }}
             >
               <span className={styles.position}>#{u.position}</span>
-              <span className={styles.name}>{formatDisplayName(u.displayName)}</span>
+              <span className={styles.name}>{formatDisplayName(u.displayName, u.email)}</span>
               <motion.span
                 className={styles.points}
                 key={u.points}

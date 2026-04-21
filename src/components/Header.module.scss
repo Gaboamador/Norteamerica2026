@@ -166,6 +166,73 @@ a:hover .authIcon {
   padding-left: $space-sm;
   min-width: 0;
 }
+// USER INFO //
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  cursor: pointer;
+
+  color: inherit;
+  font: inherit;
+
+  text-align: left;
+}
+
+.avatarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  cursor: pointer;
+
+  border-radius: 50%;
+
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarButton:focus-visible {
+  outline: 2px solid $color-accent-primary;
+  outline-offset: 2px;
+}
+
+.avatarFallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $color-bg-elevated-2;
+  border: 1px solid $color-border;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+// USER INFO //
 
 .userName {
   max-width: $user-name-max-width-xs;
@@ -178,6 +245,7 @@ a:hover .authIcon {
   line-height: 1.1;
   color: $color-text-secondary;
   text-transform: uppercase;
+  cursor: default;
 }
 
 .logoutButton {

@@ -7,6 +7,8 @@ import {
   signOut,
   onAuthStateChanged,
   reload,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "./firebase";
@@ -26,6 +28,10 @@ export const firebaseErrorMessages = {
   "auth/weak-password": "La contraseña debe tener al menos 6 caracteres.",
   "auth/missing-password": "Por favor, ingresá una contraseña.",
   "auth/network-request-failed": "Error de conexión. Verificá tu red.",
+  "auth/popup-closed-by-user": "Se cerró la ventana de Google antes de completar el ingreso.",
+  "auth/cancelled-popup-request": "Ya hay una ventana de inicio de sesión abierta.",
+  "auth/popup-blocked": "El navegador bloqueó la ventana emergente de Google.",
+  "auth/account-exists-with-different-credential": "Ya existe una cuenta con ese correo usando otro método de acceso.",
 };
 
 /**
@@ -34,16 +40,7 @@ export const firebaseErrorMessages = {
  * ===============================
  */
 
-// export const loginWithEmail = async (email, password) => {
-//   if (!email || !password) {
-//     throw {
-//       code: "auth/missing-fields",
-//       message: "Email y contraseña requeridos",
-//     };
-//   }
-
-//   return await signInWithEmailAndPassword(auth, email, password);
-// };
+  // LOGIN WITH EMAIL
   export const loginWithEmail = async (email, password) => {
     if (!email || !password) {
       throw {
@@ -72,6 +69,17 @@ export const firebaseErrorMessages = {
       };
     }
 
+    return userCredential;
+  };
+
+  // LOGIN WITH GOOGLE
+  export const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: "select_account",
+    });
+
+    const userCredential = await signInWithPopup(auth, provider);
     return userCredential;
   };
 
@@ -107,12 +115,12 @@ export const registerWithEmail = async ({
   await updateProfile(user, { displayName });
 
   // agregar usuario a colección 'users'
-  await setDoc(doc(db, "users", user.uid), {
-    uid: user.uid,
-    displayName,
-    email: user.email,
-    createdAt: serverTimestamp(),
-  });
+  // await setDoc(doc(db, "users", user.uid), {
+  //   uid: user.uid,
+  //   displayName,
+  //   email: user.email,
+  //   createdAt: serverTimestamp(),
+  // });
 
   // mail de verificación
   await sendEmailVerification(user);

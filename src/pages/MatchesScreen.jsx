@@ -22,7 +22,7 @@ export default function MatchesScreen() {
 
       {/* SELECTOR */}
         <div className={styles.selector}>
-          <span>Ver por</span>
+          <span>Ver</span>
           <button
             onClick={() => setMode("date")}
             className={`${styles.selectorButton} ${

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   loginWithEmail,
+  loginWithGoogle,
   registerWithEmail,
   recoverPassword,
   firebaseErrorMessages,
@@ -71,6 +72,26 @@ export default function AuthScreen() {
         err?.message ??
         "Error logging in"
       );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      resetErrors();
+      setMessage("");
+
+      await loginWithGoogle();
+
+      redirectAfterAuth();
+
+    } catch (error) {
+      const message =
+        firebaseErrorMessages[error.code] ||
+        "Error al iniciar sesión con Google";
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -150,71 +171,92 @@ export default function AuthScreen() {
       </h2>
 
       {mode === "login" && (
-        <form
-          onSubmit={handleLogin}
-          className={styles.form}
-        >
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={styles.input}
-            required
-          />
-
-          <div className={styles.passwordWrapper}>
+        <>
+          {/* <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className={styles.googleButton}
+          >
+            Continuar con Google
+          </button> */}
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className={styles.googleButton}
+          >
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google"
+              className={styles.googleIcon}
+            />
+            <span>Continuar con Google</span>
+          </button>
+          <form
+            onSubmit={handleLogin}
+            className={styles.form}
+          >
             <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
               required
             />
-            <button
-              type="button"
-              className={styles.eyeButton}
-              onClick={() => setShowPassword(v => !v)}
-              tabIndex={-1}
-            >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
-            </button>
-          </div>
 
-          <div className={styles.loginButtonWrapper}>
-            <button
-              disabled={loading}
-              className={styles.loginButton}
-            >
-              Iniciar sesión
-            </button>
-          </div>
+            <div className={styles.passwordWrapper}>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={styles.input}
+                required
+              />
+              <button
+                type="button"
+                className={styles.eyeButton}
+                onClick={() => setShowPassword(v => !v)}
+                tabIndex={-1}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
 
-          <div className={styles.authLinks}>
-            <button
-              type="button"
-              className={styles.linkButton}
-              onClick={() => {
-                resetErrors();
-                setMode("register");
-              }}
-            >
-              Crear cuenta
-            </button>
+            <div className={styles.loginButtonWrapper}>
+              <button
+                disabled={loading}
+                className={styles.loginButton}
+              >
+                Iniciar sesión
+              </button>
+            </div>
 
-            <button
-              type="button"
-              className={styles.linkButton}
-              onClick={() => {
-                resetErrors();
-                setMode("recovery");
-              }}
-            >
-              Olvidé mi contraseña
-            </button>
-          </div>
-        </form>
+            <div className={styles.authLinks}>
+              <button
+                type="button"
+                className={styles.linkButton}
+                onClick={() => {
+                  resetErrors();
+                  setMode("register");
+                }}
+              >
+                Crear cuenta
+              </button>
+
+              <button
+                type="button"
+                className={styles.linkButton}
+                onClick={() => {
+                  resetErrors();
+                  setMode("recovery");
+                }}
+              >
+                Olvidé mi contraseña
+              </button>
+            </div>
+          </form>
+        </>
       )}
 
       {mode === "register" && (

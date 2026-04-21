@@ -17,6 +17,8 @@ import { useMatches } from "@/hooks/useMatches";
 import { ROUND_OPTIONS } from "@/utils/matchRounds";
 import { isGroupStageRound, getRoundLabel } from "@/utils/matchRounds";
 import styles from "./AdminMatches.module.scss";
+import { IoIosAddCircleOutline } from "react-icons/io";
+
 
 export default function AdminMatches() {
 
@@ -133,7 +135,7 @@ export default function AdminMatches() {
     {/* HEADER */}
       <div className={styles.header}>
         <div className={styles.selector}>
-          <span>Ver por</span>
+          <span>Ver</span>
           <button
             onClick={() => setMode("date")}
             className={`${styles.selectorButton} ${
@@ -162,18 +164,14 @@ export default function AdminMatches() {
         </div>
       </div>
 
+<div>
         <div
           className={styles.titleRow}
           onClick={() => setCreateOpen((v) => !v)}
         >
-          <h2 className={styles.title}>Crear Partidos</h2>
-          <motion.span
-            animate={{ rotate: createOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className={styles.chevron}
-          >
-            ▼
-          </motion.span>
+          <div className={styles.title}>
+            <IoIosAddCircleOutline/>
+          </div>
         </div>
 
       {/* CREATE FORM */}
@@ -188,65 +186,23 @@ export default function AdminMatches() {
           style={{ overflow: "hidden" }}
         >
         <form onSubmit={handleCreate} className={styles.form}>
-
+        <div className={styles.title}>Crear Partido</div>
         <div className={styles.matchMetadata}>
-          {/* <select
-              className={styles.selectSmall}
-              value={group}
-              onChange={(e) => setGroup(e.target.value)}
-            >
-              {"ABCDEFGHIJKL".split("").map((g) => (
+          {!isKnockout && 
+          <select
+            className={styles.selectSmall}
+            value={group}
+            onChange={(e) => setGroup(e.target.value)}
+            disabled={isKnockout}
+          >
+            {"ABCDEFGHIJKL".split("").map((g) => (
                 <option key={g} value={g}>
                   Grupo {g}
                 </option>
-              ))}
-            </select> */}
-            {!isKnockout && 
-            <select
-              className={styles.selectSmall}
-              value={group}
-              onChange={(e) => setGroup(e.target.value)}
-              disabled={isKnockout}
-            >
-              {"ABCDEFGHIJKL".split("").map((g) => (
-                  <option key={g} value={g}>
-                    Grupo {g}
-                  </option>
-                ))
-              }
-            </select>
+              ))
             }
-
-                        {/* <select
-              className={styles.selectSmall}
-              value={group}
-              onChange={(e) => setGroup(e.target.value)}
-              disabled={isKnockout}
-            >
-              {!isKnockout ? (
-                "ABCDEFGHIJKL".split("").map((g) => (
-                  <option key={g} value={g}>
-                    Grupo {g}
-                  </option>
-                ))
-              ) : (
-                <option value="">
-                  {getRoundLabel(round)}
-                </option>
-              )}
-            </select> */}
-
-            {/* <select
-              className={styles.selectSmall}
-              value={round}
-              onChange={(e) => setRound(Number(e.target.value))}
-            >
-              {[1, 2, 3].map((r) => (
-                <option key={r} value={r}>
-                  Fecha {r}
-                </option>
-              ))}
-            </select> */}
+          </select>
+          }
             <select
               className={styles.selectSmall}
               value={round}
@@ -292,6 +248,7 @@ export default function AdminMatches() {
       </motion.div>
       )}
       </AnimatePresence>
+    </div>
 
       {/* LIST */}
       <MatchesGrouped
