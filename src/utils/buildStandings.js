@@ -1,6 +1,6 @@
 import { calculatePoints } from "@/utils/scoring";
 
-export const buildStandings = (predictions, matches) => {
+export const buildStandings = (predictions, matches, usersMap = {}) => {
   const table = {};
   const matchesMap = new Map(matches.map((m) => [m.id, m]));
 
@@ -12,9 +12,16 @@ export const buildStandings = (predictions, matches) => {
       : 0;
 
     if (!table[p.uid]) {
+      const currentUser = usersMap[p.uid];
+
       table[p.uid] = {
         uid: p.uid,
-        displayName: p.displayName || "Usuario",
+        displayName:
+          currentUser?.displayName ||
+          p.displayName ||
+          currentUser?.email ||
+          "Usuario",
+        email: currentUser?.email || p.email || "",
         points: 0,
       };
     }

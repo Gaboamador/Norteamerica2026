@@ -8,10 +8,11 @@ import {
 import { buildStandings } from "@/utils/buildStandings";
 
 export const recomputeStandings = async () => {
-  const [matchesSnap, predictionsSnap, groupsSnap] = await Promise.all([
+  const [matchesSnap, predictionsSnap, groupsSnap, usersSnap] = await Promise.all([
     getDocs(collection(db, "matches")),
     getDocs(collection(db, "predictions")),
     getDocs(collection(db, "groups")),
+    getDocs(collection(db, "users")),
   ]);
 
   const matches = matchesSnap.docs.map((d) => ({
@@ -24,8 +25,15 @@ export const recomputeStandings = async () => {
     ...d.data(),
   }));
 
+  const usersMap = Object.fromEntries(
+    usersSnap.docs.map((d) => [
+      d.id,
+      { id: d.id, ...d.data() },
+    ])
+  );
+
   // ===== GLOBAL =====
-  const global = buildStandings(predictions, matches);
+  const global = buildStandings(predictions, matches, usersMap);
 
   await setDoc(doc(db, "standings", "global"), {
     updatedAt: new Date(),
@@ -41,7 +49,7 @@ export const recomputeStandings = async () => {
       members.includes(p.uid)
     );
 
-    const table = buildStandings(groupPredictions, matches);
+    const table = buildStandings(groupPredictions, matches, usersMap);
 
     await setDoc(
       doc(db, "groups", groupDoc.id, "standings", "main"),

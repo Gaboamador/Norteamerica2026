@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
-import { useUserGroups } from "../hooks/useUserGroups";
-import { useGroupStandings } from "../hooks/useGroupStandings";
-import { useMultiGroupStandings } from "../hooks/useMultiGroupStandings";
-import { mergeStandings } from "../utils/mergeStandings";
+import { useUserGroups } from "@/hooks/useUserGroups";
+import { useGroupStandings } from "@/hooks/useGroupStandings";
+import { useMultiGroupStandings } from "@/hooks/useMultiGroupStandings";
+import { mergeStandings } from "@/utils/mergeStandings";
 import { formatDisplayName } from "@/utils/formatDisplayName";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./TablaPosiciones.module.scss";
