@@ -1,0 +1,118 @@
+.dirtyBanner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $space-sm;
+
+  padding: $space-sm;
+  margin-bottom: $space-md;
+
+  border-radius: $radius-md;
+
+  background: rgba($color-warning, 0.10);
+  border: 1px solid rgba($color-warning, 0.4);
+
+  color: $color-warning;
+  font-size: 0.9rem;
+
+  @include up(md) {
+    align-items: center;
+    gap: $space-md;
+    padding: $space-md;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  flex: 1;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+//   align-items: center;
+  gap: $space-xs;
+}
+
+.message {
+  font-weight: 600;
+}
+
+.expandButton {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba($color-warning, 0.5);
+  border-radius: $radius-sm;
+  background: transparent;
+
+  color: $color-warning;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba($color-warning, 0.15);
+  }
+}
+
+.details {
+  overflow: hidden;
+}
+
+.changeLog {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  margin: 0;
+  padding-left: $space-lg;
+
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.added {
+  color: $color-success;
+  font-weight: 600;
+}
+
+.removed {
+  color: $color-danger;
+  font-weight: 600;
+//   text-decoration: line-through;
+}
+
+.actionButton {
+  flex-shrink: 0;
+  padding: $space-xs $space-sm;
+
+  border: none;
+  border-radius: $radius-sm;
+
+  background: $color-warning;
+  color: #000;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: transform 0.1s ease, opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}

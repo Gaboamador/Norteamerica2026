@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { ToastProvider } from "@/context/ToastContext";
 import { ConfirmProvider } from "@/context/ConfirmProvider";
+import { StandingsDirtyProvider } from "@/context/StandingsDirtyContext";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import AdminRoute from "@/auth/AdminRoute";
 import AppLayout from "./layouts/AppLayout";
@@ -23,6 +24,7 @@ function App() {
   const { loading } = useAuth();
 
   return (
+    <StandingsDirtyProvider>
     <ConfirmProvider>
     <ToastProvider>
     <>
@@ -62,6 +64,7 @@ function App() {
     </>
     </ToastProvider>
     </ConfirmProvider>
+    </StandingsDirtyProvider>
   );
 }
 

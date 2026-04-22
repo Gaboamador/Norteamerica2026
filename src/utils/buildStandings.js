@@ -1,8 +1,23 @@
 import { calculatePoints } from "@/utils/scoring";
 
-export const buildStandings = (predictions, matches, usersMap = {}) => {
+export const buildStandings = (predictions, matches, usersMap = {}, memberIds = []) => {
   const table = {};
   const matchesMap = new Map(matches.map((m) => [m.id, m]));
+
+  // inicializar todos los miembros con 0 puntos
+  memberIds.forEach((uid) => {
+    const currentUser = usersMap[uid];
+
+    table[uid] = {
+      uid,
+      displayName:
+        currentUser?.displayName ||
+        currentUser?.email ||
+        "Usuario",
+      email: currentUser?.email || "",
+      points: 0,
+    };
+  });
 
   predictions.forEach((p) => {
     const match = matchesMap.get(p.matchId);

@@ -118,14 +118,16 @@ export default function AdminGroupDetail() {
                 </span>
               </div>
 
-              <button
-                className={styles.dangerButton}
-                onClick={() =>
-                  removeUserFromGroup(group.id, uid)
-                }
-              >
-                Eliminar
-              </button>
+              <div className={styles.dangerButtonWrapper}>
+                <button
+                  className={styles.dangerButton}
+                  onClick={() =>
+                    removeUserFromGroup(group.id, uid)
+                  }
+                >
+                  Eliminar
+                </button>
+              </div>
             </div>
           );
         })}

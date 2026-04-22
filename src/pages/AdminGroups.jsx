@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdmin } from "@/hooks/useAdmin";
-import { useToast } from "../context/ToastContext";
-import { useConfirm } from "../context/ConfirmProvider";
+import { useToast } from "@/context/ToastContext";
+import { useConfirm } from "@/context/ConfirmProvider";
 import { createGroup, deleteGroup } from "@/services/firebase/firebaseGroups";
 import { useAllGroups } from "@/hooks/useAllGroups";
+import { useStandingsDirtyFlag } from "@/hooks/useStandingsDirtyFlag";
+import { recomputeStandings } from "@/services/firebase/standingsService";
+import { DirtyBanner } from "@/components/DirtyBanner";
 import styles from "./AdminGroups.module.scss";
 
 export default function AdminGroups() {
@@ -13,13 +16,15 @@ export default function AdminGroups() {
   const { isAdmin, loading } = useAdmin();
   const { showToast } = useToast();
   const { confirm } = useConfirm();
+  
   const navigate = useNavigate();
 
   const groups = useAllGroups();
-
+  
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [link, setLink] = useState("");
+  const { dirty, clearDirty } = useStandingsDirtyFlag();
 
   if (!loading && !isAdmin) {
     navigate("/", { replace: true });
@@ -80,6 +85,36 @@ export default function AdminGroups() {
     setTimeout(() => setCopied(false), 1500);
     };
 
+    const handleRecompute = async () => {
+      try {
+        await recomputeStandings();
+
+        clearDirty();
+
+        showToast({
+          type: "success",
+          message: "Tabla actualizada",
+        });
+      } catch (err) {
+        console.error(err);
+
+        showToast({
+          type: "error",
+          message: "Error al actualizar la tabla",
+        });
+      }
+    };
+
+    const formatTime = (ts) => {
+      if (!ts) return "";
+      const d = new Date(ts);
+      return d.toLocaleTimeString("es-AR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    };
+
   return (
     <section className={styles.wrapper}>
       
@@ -87,6 +122,42 @@ export default function AdminGroups() {
       <div className={styles.header}>
         <h2 className={styles.title}>Administrar Grupos y Miembros</h2>
       </div>
+
+      <DirtyBanner/>
+      {/* {dirty && (
+  <div style={{
+    padding: "12px",
+    borderRadius: 8,
+    marginBottom: 16,
+    background: "rgba(255, 193, 7, 0.10)",
+    border: "1px solid rgba(255, 193, 7, 0.4)",
+    color: "#ffc107",
+    fontSize: "0.9rem",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 12
+  }}>
+    <span style={{ fontWeight: 600 }}>
+      ⚠️ Hay cambios en grupos o usuarios. Actualizar tabla.
+    </span>
+
+    <button
+      onClick={handleRecompute}
+      style={{
+        padding: "6px 10px",
+        borderRadius: 6,
+        border: "none",
+        background: "#ffc107",
+        color: "#000",
+        fontWeight: 600,
+        cursor: "pointer"
+      }}
+    >
+      Actualizar
+    </button>
+  </div>
+)} */}
 
       {/* CREATE */}
       <form onSubmit={handleCreate} className={styles.form}>

@@ -3,11 +3,12 @@ import styles from "./Header.module.scss";
 import logo from "@/assets/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useAdmin } from "../hooks/useAdmin";
+import { useAdmin } from "@/hooks/useAdmin";
 import { logout } from "@/services/firebase/firebaseAuth";
 import { formatDisplayName } from "@/utils/formatDisplayName";
 import NavMenu from "./NavMenu";
 import HeaderMenuIcon from "./HeaderMenuIcon";
+import { DirtyDot } from "./DirtyDot";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuFolderOpen, LuHouse } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
@@ -121,6 +122,7 @@ export default function Header() {
               <span>PRODE</span>
               <span>Norteamérica 2026</span>
             </div>
+            <DirtyDot />
           </div>
         </div>
 
