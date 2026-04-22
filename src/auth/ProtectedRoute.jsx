@@ -9,7 +9,7 @@ export default function ProtectedRoute() {
   if (!user) {
     sessionStorage.setItem(
       "na2026_post_auth_redirect",
-      location.pathname
+      location.pathname + location.search
     );
 
     return <Navigate to="/auth" replace />;

@@ -7,6 +7,7 @@ import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import styles from "./MatchRow.module.scss";
 import { LuPencil } from "react-icons/lu";
 import useIsMobile from "@/hooks/useIsMobile";
+import { recomputeStandings } from "@/services/firebase/standingsService";
 import { BREAKPOINTS } from "@/constants/breakpoints";
 import { getRoundLabel } from "@/utils/matchRounds";
 import { formatMatchDate } from "@/utils/dateFormat";
@@ -76,15 +77,23 @@ export default function MatchRow({ match, onSetResult }) {
     const confirmed = await confirm({
       title: "Resetear partido",
       message:
-        "¿Seguro que querés resetear este partido? Se borran los puntos.",
+        "¿Seguro que querés resetear este partido? Se borra el resultado oficial y se recalculan los puntos.",
     });
 
     if (!confirmed) return;
 
     try {
       await resetMatch(match.id);
+      await recomputeStandings();
+
       setHomeGoals("");
       setAwayGoals("");
+
+      showToast({
+        type: "success",
+        message: "Partido reseteado",
+      });
+
     } catch (err) {
       console.error("Error reseteando partido", err);
     }
