@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import { useUserGroups } from "@/hooks/useUserGroups";
 import { useGroupStandings } from "@/hooks/useGroupStandings";
 import { useMultiGroupStandings } from "@/hooks/useMultiGroupStandings";
@@ -8,6 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import styles from "./TablaPosiciones.module.scss";
 
 const TablaPosiciones = () => {
+
+  const { user } = useAuth();
   const groups = useUserGroups();
 
   // selector: "all" = unificada
@@ -98,7 +101,7 @@ const TablaPosiciones = () => {
             <motion.div
               key={u.uid}
               layout
-              className={styles.row}
+              className={`${styles.row} ${ user?.uid === u.uid ? styles.myRow : "" }`}
               whileLayout={{ scale: 1.01 }}
               transition={{
                 layout: {
@@ -108,7 +111,12 @@ const TablaPosiciones = () => {
               }}
             >
               <span className={styles.position}>#{u.position}</span>
-              <span className={styles.name}>{formatDisplayName(u.displayName, u.email)}</span>
+              <span className={styles.name}>
+                {formatDisplayName(u.displayName, u.email)}
+                  {user?.uid === u.uid && (
+                    <span className={styles.badge}>Vos</span>
+                  )}
+                </span>
               <motion.span
                 className={styles.points}
                 key={u.points}

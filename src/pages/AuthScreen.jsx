@@ -165,32 +165,33 @@ export default function AuthScreen() {
   return (
     <div className={styles.authScreen}>
       <h2 className={styles.title}>
-        {mode === "login" && "Iniciar sesión"}
+        {mode === "login" && "Accedé o creá tu cuenta"}
         {mode === "register" && "Crear cuenta"}
         {mode === "recovery" && "Recuperar contraseña"}
       </h2>
 
       {mode === "login" && (
         <>
-          {/* <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className={styles.googleButton}
-          >
-            Continuar con Google
-          </button> */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className={styles.googleButton}
-          >
-            <img
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-              alt="Google"
-              className={styles.googleIcon}
-            />
-            <span>Continuar con Google</span>
-          </button>
+          <div className={styles.googleLoginWrapper}>
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              className={styles.googleButton}
+            >
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google"
+                className={styles.googleIcon}
+              />
+              <span>Continuar con Google</span>
+            </button>
+            <span className={styles.hint}>Si no tenés cuenta, se crea automáticamente</span>
+          </div>
+          <div className={styles.divider}>o</div>
+
+          <div className={styles.emailSectionLabel}>
+            Ingresar con email
+          </div>
           <form
             onSubmit={handleLogin}
             className={styles.form}
@@ -223,12 +224,12 @@ export default function AuthScreen() {
               </button>
             </div>
 
-            <div className={styles.loginButtonWrapper}>
+            {/* <div className={styles.loginButtonWrapper}>
               <button
                 disabled={loading}
                 className={styles.loginButton}
               >
-                Iniciar sesión
+                Continuar con email
               </button>
             </div>
 
@@ -241,7 +242,7 @@ export default function AuthScreen() {
                   setMode("register");
                 }}
               >
-                Crear cuenta
+                Registrarse con email
               </button>
 
               <button
@@ -254,7 +255,45 @@ export default function AuthScreen() {
               >
                 Olvidé mi contraseña
               </button>
+            </div> */}
+            {/* CTA principal */}
+            <div className={styles.loginButtonWrapper}>
+              <button
+                disabled={loading}
+                className={styles.primaryButton}
+              >
+                Continuar con email
+              </button>
             </div>
+
+            {/* Registro como alternativa clara */}
+            <div className={styles.registerBlock}>
+              <span className={styles.mutedText}>
+                ¿No tenés cuenta?
+              </span>
+              <button
+                type="button"
+                className={styles.linkButton}
+                onClick={() => {
+                  resetErrors();
+                  setMode("register");
+                }}
+              >
+                Registrarse
+              </button>
+            </div>
+
+            {/* Recovery aislado */}
+            <button
+              type="button"
+              className={styles.recoveryLink}
+              onClick={() => {
+                resetErrors();
+                setMode("recovery");
+              }}
+            >
+              Olvidé mi contraseña
+            </button>
           </form>
         </>
       )}

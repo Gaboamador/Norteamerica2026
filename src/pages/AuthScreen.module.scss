@@ -22,7 +22,6 @@
 }
 
 .title {
-  margin: 0;
   text-align: center;
 
   font-family: $font-family-display;
@@ -31,10 +30,18 @@
   line-height: 1.1;
 
   color: $color-text-primary;
+  margin-bottom: $space-xs;
+}
+
+.googleLoginWrapper {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: $space-sm;
 }
 
 .googleButton {
-  width: 100%;
+  width: fit-content;
 
   display: flex;
   align-items: center;
@@ -44,11 +51,12 @@
   padding: $space-sm;
 
   border-radius: $radius-md;
-  border: 1px solid $color-border;
 
-  background: $color-bg-elevated-2;
+  // background: $color-bg-elevated-2;
+  background: rgba($color-accent-primary, 0.15);
   color: $color-text-primary;
-
+  border: 1px solid rgba($color-accent-primary, 0.5);
+  
   font-weight: 500;
 
   cursor: pointer;
@@ -56,13 +64,41 @@
   transition: background 0.15s ease;
 
   &:hover {
-    background: $color-bg-elevated;
+    background: $color-bg;
   }
 }
 
 .googleIcon {
   width: 18px;
   height: 18px;
+}
+
+.hint {
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: $color-border;
+  }
+}
+
+.emailSectionLabel {
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+  text-align: center;
 }
 
 .form {
@@ -208,10 +244,42 @@
   border-radius: $radius-sm;
   border: 1px solid rgba($color-accent-primary, 0.5);
   justify-content: center;
-  background: rgba($color-accent-primary, 0.18);
+  background: rgba($color-accent-primary, 0.15);
   color: $color-text-primary;
 
   cursor: pointer;
+}
+
+// BOTONES DE ACCIÓN INFERIORES
+.registerBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $space-xs;
+
+  font-size: $font-size-body-sm;
+  color: $color-text-muted;
+}
+
+.mutedText {
+  color: $color-text-muted;
+}
+
+.recoveryLink {
+  width: fit-content;
+  margin-top: $space-sm;
+  text-align: center;
+
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text-secondary;
+  }
 }
 
 /* ===== BREAKPOINTS ===== */
@@ -224,6 +292,7 @@
 
   .title {
     font-size: $font-size-heading-page;
+    margin-bottom: $space-md;
   }
 
   .input {
@@ -247,7 +316,7 @@
     transform: scale(1.05);
   }
 
-  .primaryButton:hover {
+  .googleButton:hover, .primaryButton:hover {
     background: rgba($color-accent-primary, 0.28);
   }
 }
