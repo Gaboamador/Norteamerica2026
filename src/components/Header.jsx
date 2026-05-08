@@ -112,7 +112,7 @@ export default function Header() {
           {(!isHome && isAuthenticated) && (
           <button
             ref={buttonRef}
-            className={`${styles.logoButton} ${menuOpen ? styles.open : ""}`}
+            className={`button button--secondary ${styles.logoButton} ${menuOpen ? styles.open : ""}`}
             onClick={() => setMenuOpen(true)}
           >
             <HeaderMenuIcon open={menuOpen} />
@@ -130,7 +130,7 @@ export default function Header() {
               <span>PRODE</span>
               <span>Norteamérica 2026</span>
             </div>
-            <DirtyDot />
+            {/* <DirtyDot /> */}
           </div>
         </div>
 
@@ -138,57 +138,33 @@ export default function Header() {
         <div className={styles.right}>
           {isAuthenticated ? (
             <div className={styles.authControls}>
-              {/* <div className={styles.userName}>
+
+            <div className={styles.userInfo}>
+              <div className={styles.userName}>
                 {formatDisplayName(user?.displayName, user?.email)?.toUpperCase()}
-              </div> */}
-{/* <div
-  className={styles.userInfo}
-  onClick={() => setMenuOpen(true)}
->
-  {user?.photoURL ? (
-    <img
-      src={user.photoURL}
-      alt="avatar"
-      className={styles.avatar}
-    />
-  ) : (
-    <div className={styles.avatarFallback}>
-      {formatDisplayName(user?.displayName, user?.email)
-        ?.charAt(0)
-        ?.toUpperCase()}
-    </div>
-  )}
+              </div>
 
-  <div className={styles.userName}>
-    {formatDisplayName(user?.displayName, user?.email)?.toUpperCase()}
-  </div>
-</div> */}
-<div className={styles.userInfo}>
-  <div className={styles.userName}>
-    {formatDisplayName(user?.displayName, user?.email)?.toUpperCase()}
-  </div>
-
-<button
-  type="button"
-  className={styles.avatarButton}
-  onClick={() => setMenuOpen(true)}
->
-  {photo && !imgError ? (
-    <img
-      src={photo}
-      alt="avatar"
-      className={styles.avatar}
-      onError={() => setImgError(true)}
-    />
-  ) : (
-    <div className={styles.avatarFallback}>
-      {formatDisplayName(user?.displayName, user?.email)
-        ?.charAt(0)
-        ?.toUpperCase()}
-    </div>
-  )}
-</button>
-</div>
+            <button
+              type="button"
+              className={styles.avatarButton}
+              onClick={() => setMenuOpen(true)}
+            >
+              {photo && !imgError ? (
+                <img
+                  src={photo}
+                  alt="avatar"
+                  className={styles.avatar}
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                <div className={styles.avatarFallback}>
+                  {formatDisplayName(user?.displayName, user?.email)
+                    ?.charAt(0)
+                    ?.toUpperCase()}
+                </div>
+              )}
+            </button>
+            </div>
 
             </div>
           ) : (
@@ -197,6 +173,8 @@ export default function Header() {
             </Link>
           )}
         </div>
+
+        <DirtyDot />
 
       </div>
 

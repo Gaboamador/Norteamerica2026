@@ -1,11 +1,46 @@
 .dirtyDot {
-    display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+
+  // El contenedor no tiene tamaño visual propio
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  // Anillo expansivo (::before)
+  &::before {
+    content: '';
+    position: absolute;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: $color-warning;
-    margin-left: 6px;
-    vertical-align: middle;
+    opacity: 0.6;
+    animation: ping 1.5s ease-out infinite;
+  }
+
+  // Dot sólido (::after)
+  &::after {
+    content: '';
+    position: relative;
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $color-warning;
     box-shadow: 0 0 4px $color-warning;
-    cursor: pointer;
+  }
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
 }

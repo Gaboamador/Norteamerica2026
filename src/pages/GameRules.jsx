@@ -184,7 +184,7 @@ export default function GameRules() {
               }`}
             >
               <div className={styles.exampleMain}>
-                <div>
+                <div className={styles.exampleWrapper}>
                   <span className={styles.exampleLabel}>Tu pronóstico</span>
                   <strong className={styles.prediction}>
                     {example.prediction}

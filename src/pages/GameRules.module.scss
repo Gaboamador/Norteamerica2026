@@ -74,7 +74,7 @@
   font-size: $font-size-label-sm;
   font-weight: $font-weight-bold;
 
-  color: $color-text-primary;
+  color: $color-accent-primary;
   background: $color-card-bg;
   box-shadow: inset 0 0 0 1px $color-card-border;
 }
@@ -154,13 +154,13 @@
   background:
     linear-gradient(
       135deg,
-      rgba($color-accent-secondary, 0.14),
+      rgba($color-accent-warm, 0.14),
       $color-card-bg
     );
 
   box-shadow:
-    inset 0 0 0 1px rgba($color-accent-secondary, 0.35),
-    0 12px 28px rgba(0, 0, 0, 0.18);
+    inset 0 0 0 1px rgba($color-accent-warm, 0.35),
+    0 12px 28px $color-shadow-soft;
 }
 
 .pointsValue {
@@ -194,6 +194,8 @@
 }
 
 .scoreExample {
+  position: sticky;
+  top: $header-height-sm;
   padding: $space-lg;
   border-radius: $radius-lg;
 
@@ -265,13 +267,13 @@
   background:
     linear-gradient(
       135deg,
-      rgba($color-accent-secondary, 0.12),
+      rgba($color-accent-warm, 0.12),
       $color-card-bg
     );
 
   box-shadow:
-    inset 0 0 0 1px rgba($color-accent-secondary, 0.42),
-    0 14px 32px rgba(0, 0, 0, 0.2);
+    inset 0 0 0 1px rgba($color-accent-warm, 0.42),
+    0 14px 32px $color-shadow-medium;
 }
 
 .exampleMain {
@@ -279,6 +281,12 @@
   align-items: center;
   justify-content: space-between;
   gap: $space-md;
+}
+
+.exampleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .exampleLabel {
@@ -366,5 +374,9 @@
 
   .exampleMain {
     height: 100%;
+  }
+
+  .scoreExample {
+    top: 88.67px;
   }
 }

@@ -21,7 +21,7 @@
   border: 1px solid $color-card-border;
   border-radius: $radius-lg;
 
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 20px 40px $color-shadow-medium;
 
   padding: $space-lg;
 
@@ -47,34 +47,4 @@
   justify-content: flex-end;
   gap: $space-sm;
   margin-top: $space-sm;
-}
-
-.cancel {
-  background: transparent;
-  border: 1px solid $color-border;
-  color: $color-text-secondary;
-
-  padding: 8px 14px;
-  border-radius: $radius-md;
-
-  cursor: pointer;
-
-  &:hover {
-    background: $color-button-secondary-bg;
-  }
-}
-
-.confirm {
-  background: $color-button-primary-bg;
-  color: $color-text-primary;
-
-  border: none;
-  border-radius: $radius-md;
-
-  padding: 8px 14px;
-  cursor: pointer;
-
-  &:hover {
-    background: $color-button-primary-bg-hover;
-  }
 }

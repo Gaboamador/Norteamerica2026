@@ -76,9 +76,7 @@
 }
 
 .active {
-  background: rgba($color-accent-primary, 0.18);
-  border-color: rgba($color-accent-primary, 0.5);
-  color: $color-text-primary;
+  border-color: $color-accent-warm;
 }
 
 /* ===== TABLE ===== */
@@ -112,7 +110,7 @@
 }
 
 .row:nth-child(1) {
-  border-color: rgba($color-accent-secondary, 0.5);
+  border-color: rgba($color-success, 0.5);
 }
 
 .row:nth-child(2),
@@ -121,11 +119,11 @@
 }
 
 .myRow {
-  background: rgba($brand-green, 0.12);
-  border: 1px solid rgba($brand-green, 0.35);
+  background: rgba($color-success, 0.12);
+  border: 1px solid rgba($color-success, 0.35);
 
   // opcional: leve destaque
-  box-shadow: 0 0 0 1px rgba($brand-green, 0.15);
+  box-shadow: 0 0 0 1px rgba($color-success, 0.15);
 
   .name {
     color: $color-text-primary;
@@ -133,7 +131,7 @@
   }
 
   .points {
-    color: $brand-green;
+    color: $color-success;
     font-weight: 600;
   }
 }
@@ -173,10 +171,10 @@
   font-size: 0.7rem;
   font-weight: 600;
 
-  background: rgba($brand-green, 0.15);
-  color: $brand-green;
+  background: rgba($color-success, 0.15);
+  color: $color-success;
 
-  border: 1px solid rgba($brand-green, 0.4);
+  border: 1px solid rgba($color-success, 0.4);
 
   line-height: 1;
 }

@@ -62,7 +62,7 @@
 
 .titleMain {
 display: flex;
-align-items: center;
+align-items: baseline;
 gap: $space-sm;
 text-transform: uppercase;
 line-height: 1.2;
@@ -70,6 +70,11 @@ line-height: 1.2;
 
 .titleNumber {
   font-family: $font-family-data;
+  color: $color-accent-primary;
+  line-height: 1.2;
+  vertical-align: baseline;
+  position: relative;
+  top: 0.05em;
 }
 
 
@@ -93,9 +98,8 @@ line-height: 1.2;
 
 .card {
   display: flex;
-  justify-content: space-between;
+  width: 100%;
   gap: $space-md;
-  width: fit-content;
   padding: $space-md $space-lg;
   color: inherit;
   text-decoration: none;
@@ -116,7 +120,7 @@ line-height: 1.2;
   outline: none;
   box-shadow:
     0 0 0 3px $color-focus-ring,
-    0 14px 30px rgba(0, 0, 0, 0.22);
+    0 14px 30px $color-shadow-soft;
 }
 
 .cardTitleDescWrapper {
@@ -186,13 +190,13 @@ align-items: flex-start;
 
 .cardAccentGreen {
   .homeIcon {
-    color: $color-accent-secondary;
+    color: $color-success;
   }
 }
 
 .cardAccentRed {
   .homeIcon {
-    color: $color-accent-tertiary;
+    color: $color-danger;
   }
 }
 
@@ -202,11 +206,11 @@ align-items: flex-start;
   display: grid;
   gap: $space-sm;
   border-radius: $radius-lg;
-  border: 1px solid $color-accent-tertiary;
+  border: 1px solid $color-danger;
 }
 
 .adminBlock.open {
-  background: rgba($color-accent-tertiary, 0.1);
+  background: rgba($color-danger, 0.1);
   border: none;
 }
 
@@ -231,7 +235,7 @@ gap: $space-sm;
   background: transparent;
   border: 1px solid $color-card-border;
   border-radius: $radius-lg;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 30px $color-shadow-soft;
   cursor: pointer;
 
   transition:
@@ -242,7 +246,7 @@ gap: $space-sm;
 }
 
 .adminIcon {
-  color: $color-accent-tertiary;
+  color: $color-danger;
 }
 
 .adminChevron {
@@ -295,7 +299,7 @@ gap: $space-sm;
 
   .card:hover,
   .adminToggle:hover {
-    border-color: rgba(255,255,255,0.16);
+    border-color: $color-card-border-hover;
     background: rgba($color-bg-elevated, 0.62);
 }
 
@@ -313,7 +317,7 @@ gap: $space-sm;
   }
 
   .adminToggle:hover .adminChevron {
-    color: $color-accent-tertiary;
+    color: $color-danger;
   }
 
   .adminBlock {

@@ -41,31 +41,7 @@ gap: $space-sm;
 }
 
 .googleButton {
-  width: fit-content;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: $space-xs;
-
-  padding: $space-sm;
-
-  border-radius: $radius-md;
-
-  // background: $color-bg-elevated-2;
-  background: rgba($color-accent-primary, 0.15);
-  color: $color-text-primary;
-  border: 1px solid rgba($color-accent-primary, 0.5);
-  
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition: background 0.15s ease;
-
-  &:hover {
-    background: $color-bg;
-  }
 }
 
 .googleIcon {
@@ -174,6 +150,11 @@ gap: $space-sm;
     background 0.18s ease,
     border-color 0.18s ease,
     color 0.18s ease;
+
+  &:hover {
+    color: $color-text-primary;
+    background: rgba($color-accent-primary, 0.28);
+  }
 }
 
 .loginButton {
@@ -195,15 +176,15 @@ gap: $space-sm;
 }
 
 .error {
-  background: rgba($color-accent-tertiary, 0.14);
-  border: 1px solid rgba($color-accent-tertiary, 0.35);
-  color: rgba($color-accent-tertiary, 0.95);
+  background: rgba($color-danger, 0.14);
+  border: 1px solid rgba($color-danger, 0.35);
+  color: rgba($color-danger, 0.95);
 }
 
 .success {
-  background: rgba($color-accent-secondary, 0.14);
-  border: 1px solid rgba($color-accent-secondary, 0.35);
-  color: rgba($color-accent-secondary, 0.95);
+  background: rgba($color-success, 0.14);
+  border: 1px solid rgba($color-success, 0.35);
+  color: rgba($color-success, 0.95);
 }
 
 /* ===== PASSWORD ===== */
@@ -238,24 +219,13 @@ gap: $space-sm;
     transform 0.18s ease;
 }
 
-.primaryButton {
-  padding: $space-sm;
-  width: fit-content;
-  border-radius: $radius-sm;
-  border: 1px solid rgba($color-accent-primary, 0.5);
-  justify-content: center;
-  background: rgba($color-accent-primary, 0.15);
-  color: $color-text-primary;
-
-  cursor: pointer;
-}
-
 // BOTONES DE ACCIÓN INFERIORES
 .registerBlock {
+  margin-top: $space-md;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: $space-xs;
+  gap: $space-md;
 
   font-size: $font-size-body-sm;
   color: $color-text-muted;
@@ -271,15 +241,21 @@ gap: $space-sm;
   text-align: center;
 
   font-size: $font-size-body-xs;
-  color: $color-text-muted;
+  color: $color-text-primary;
 
   background: none;
   border: none;
   cursor: pointer;
 
   &:hover {
-    color: $color-text-secondary;
+    color: $color-accent-warm;
   }
+}
+
+.verifyContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
 }
 
 /* ===== BREAKPOINTS ===== */

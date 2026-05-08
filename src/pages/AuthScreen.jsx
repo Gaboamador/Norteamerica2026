@@ -13,7 +13,8 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import styles from "./AuthScreen.module.scss";
 
 export default function AuthScreen() {
-  const [mode, setMode] = useState("login"); 
+  // const [mode, setMode] = useState("login"); 
+  const [mode, setMode] = useState("verify"); 
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -176,7 +177,7 @@ export default function AuthScreen() {
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className={styles.googleButton}
+              className={`button button--primary ${styles.googleButton}`}
             >
               <img
                 src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
@@ -224,43 +225,11 @@ export default function AuthScreen() {
               </button>
             </div>
 
-            {/* <div className={styles.loginButtonWrapper}>
-              <button
-                disabled={loading}
-                className={styles.loginButton}
-              >
-                Continuar con email
-              </button>
-            </div>
-
-            <div className={styles.authLinks}>
-              <button
-                type="button"
-                className={styles.linkButton}
-                onClick={() => {
-                  resetErrors();
-                  setMode("register");
-                }}
-              >
-                Registrarse con email
-              </button>
-
-              <button
-                type="button"
-                className={styles.linkButton}
-                onClick={() => {
-                  resetErrors();
-                  setMode("recovery");
-                }}
-              >
-                Olvidé mi contraseña
-              </button>
-            </div> */}
             {/* CTA principal */}
             <div className={styles.loginButtonWrapper}>
               <button
                 disabled={loading}
-                className={styles.primaryButton}
+                className={`button button--primary`}
               >
                 Continuar con email
               </button>
@@ -273,7 +242,7 @@ export default function AuthScreen() {
               </span>
               <button
                 type="button"
-                className={styles.linkButton}
+                className={`button button--secondary button--small`}
                 onClick={() => {
                   resetErrors();
                   setMode("register");
@@ -369,7 +338,7 @@ export default function AuthScreen() {
           </div>
 
           <button
-            className={styles.primaryButton}
+            className={`button button--success`}
             disabled={loading}
           >
             Crear cuenta
@@ -378,7 +347,7 @@ export default function AuthScreen() {
           <div className={styles.authLinks}>
             <button
               type="button"
-              className={styles.linkButton}
+              className={`button button--secondary`}
               onClick={() => {
                 resetErrors();
                 setMode("login");
@@ -405,7 +374,7 @@ export default function AuthScreen() {
           />
 
           <button
-            className={styles.primaryButton}
+            className={`button button--success`}
             disabled={loading}
           >
             Enviar correo de recuperación de contraseña
@@ -414,7 +383,7 @@ export default function AuthScreen() {
           <div className={styles.authLinks}>
             <button
               type="button"
-              className={styles.linkButton}
+              className={`button button--primary`}
               onClick={() => {
                 resetErrors();
                 setMode("login");
@@ -433,7 +402,7 @@ export default function AuthScreen() {
           </p>
 
           <button
-            className={styles.primaryButton}
+            className={`button button--success`}
             disabled={loading}
             onClick={async () => {
               try {
@@ -456,7 +425,7 @@ export default function AuthScreen() {
           </button>
 
           <button
-            className={styles.secondaryButton}
+            className={`button button--secondary`}
             disabled={loading}
             onClick={async () => {
               try {
@@ -487,7 +456,7 @@ export default function AuthScreen() {
           </button>
 
           <button
-            className={styles.linkButton}
+            className={`button button--primary`}
             onClick={() => {
               resetErrors();
               setMode("login");

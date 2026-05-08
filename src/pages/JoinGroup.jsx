@@ -155,7 +155,7 @@ export default function JoinGroup() {
           </p>
 
           <button
-            className={styles.primaryButton}
+            className={`button button--primary`}
             onClick={() => navigate("/standings")}
           >
             Ir a tabla
@@ -186,7 +186,7 @@ export default function JoinGroup() {
         )}
 
         <button
-          className={styles.primaryButton}
+          className={`button button--success`}
           onClick={handleJoin}
           disabled={loadingJoin}
         >

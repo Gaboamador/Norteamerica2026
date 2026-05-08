@@ -22,10 +22,10 @@ export default function MatchesScreen() {
 
       {/* SELECTOR */}
         <div className={styles.selector}>
-          <span>Ver</span>
+          <span>Ver:</span>
           <button
             onClick={() => setMode("date")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               mode === "date" ? styles.active : ""
             }`}
           >
@@ -34,7 +34,7 @@ export default function MatchesScreen() {
 
           <button
             onClick={() => setMode("group")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               mode === "group" ? styles.active : ""
             }`}
           >
@@ -42,7 +42,7 @@ export default function MatchesScreen() {
           </button>
           <button
             onClick={() => setMode("round")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               mode === "round" ? styles.active : ""
             }`}
           >

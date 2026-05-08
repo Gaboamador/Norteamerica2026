@@ -6,15 +6,17 @@
   padding: $space-md 0;
 
   backdrop-filter: blur(12px);
-  background: rgba($color-bg-page, 0.82);
+  // background: rgba($color-bg-page, 0.82);
+  background: $color-bg-elevated;
   border-bottom: 1px solid rgba($color-border, 0.9);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 10px 24px $color-shadow-soft;
 
   white-space: nowrap;
   text-align: center;
 }
 
 .inner {
+  position: relative;
   display: grid;
   grid-template-columns: auto auto;
   align-items: center;
@@ -98,7 +100,7 @@
   font-size: $font-size-header-subtitle-mobile;
   font-weight: $font-weight-bold;
   line-height: 1.1;
-  color: $color-accent-primary;
+  color: $color-accent-warm;
 }
 
 .logo {

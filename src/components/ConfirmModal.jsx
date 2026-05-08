@@ -18,14 +18,14 @@ const ConfirmModal = ({
 
         <div className={styles.actions}>
           <button
-            className={styles.cancel}
+            className={`button button--danger`}
             onClick={onCancel}
           >
             Cancelar
           </button>
 
           <button
-            className={styles.confirm}
+            className={`button button--success`}
             onClick={onConfirm}
           >
             Confirmar

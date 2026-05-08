@@ -5,6 +5,7 @@ import { recomputeStandings } from "@/services/firebase/standingsService";
 import { useToast } from "@/context/ToastContext";
 import { useAllGroups } from "@/hooks/useAllGroups";
 import styles from "./DirtyBanner.module.scss";
+import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
 
 export function DirtyBanner() {
   const ctx = useStandingsDirty();
@@ -39,11 +40,15 @@ export function DirtyBanner() {
           </span>
           {hasDetails && (
             <button
-              className={styles.expandButton}
+              className={`button button--warning ${styles.expandButton}`}
               onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
             >
-              {expanded ? "−" : "+"}
+              {expanded ?
+              <IoIosRemoveCircleOutline/>
+              :
+              <IoIosAddCircleOutline/>
+              }
             </button>
           )}
         </div>
@@ -91,7 +96,10 @@ export function DirtyBanner() {
 
       </div>
 
-      <button onClick={handleRecompute} className={styles.actionButton}>
+      <button
+        className={`button button--warning`}
+        onClick={handleRecompute}
+      >
         Actualizar
       </button>
     </div>

@@ -22,7 +22,7 @@
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
 
-  // color: $color-text-primary;
+  color: $color-accent-warm;
 }
 
 /* ===== SELECTOR ===== */
@@ -55,9 +55,7 @@
 }
 
 .active {
-  background: rgba($color-accent-primary, 0.14);
-  border-color: rgba($color-accent-primary, 0.4);
-  color: $color-text-primary;
+  border-color: $color-accent-warm;
 }
 
 .titleRow {
@@ -78,8 +76,6 @@
 /* ===== FORM ===== */
 
 .form {
-  display: grid;
-  grid-template-columns: 1fr;
   gap: $space-sm;
   display: flex;
   flex-direction: column;

@@ -76,9 +76,7 @@
 }
 
 .active {
-  background: rgba($color-accent-primary, 0.14);
-  border-color: rgba($color-accent-primary, 0.4);
-  color: $color-text-primary;
+  border-color: $color-accent-warm;
 }
 
 /* ===== LOADING ===== */
@@ -122,6 +120,7 @@
   .titleMain {
     font-size: $font-size-heading-page;
   }
+
   .title {
     font-size: $font-size-heading-page;
     text-align: left;

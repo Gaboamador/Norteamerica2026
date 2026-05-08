@@ -1,84 +1,167 @@
 // ==========================
-// BRAND / IDENTIDAD
+// PALETA BASE — OKLCH
 // ==========================
-// Tonos apagados, deportivos, elegantes
-// $brand-blue: #14537f;
-$brand-blue: #00a8ff;
-$brand-green: #11af03;
-$brand-red: #e43834;
-$red: #B31942;
-$blue: #0A3161;
+// Tokens fuente de la paleta original.
+// Usalos directo sólo para asignaciones simples.
+// Evitá pasarlos por rgba(), porque Sass no puede calcular alpha sobre OKLCH.
+
+$palette-background: oklch(14.5% 0 0);
+$palette-foreground: oklch(98.5% 0 0);
+
+$palette-card: oklch(20.5% 0 0);
+$palette-card-foreground: oklch(98.5% 0 0);
+
+$palette-popover: oklch(20.5% 0 0);
+$palette-popover-foreground: oklch(98.5% 0 0);
+
+$palette-primary: oklch(87% 0 0);
+$palette-primary-foreground: oklch(20.5% 0 0);
+
+$palette-secondary: oklch(26.9% 0 0);
+$palette-secondary-foreground: oklch(98.5% 0 0);
+
+$palette-muted: oklch(26.9% 0 0);
+$palette-muted-foreground: oklch(70.8% 0 0);
+
+$palette-accent: oklch(37.1% 0 0);
+$palette-accent-foreground: oklch(98.5% 0 0);
+
+$palette-destructive: oklch(70.4% 0.191 22.216);
+
+$palette-border: oklch(100% 0 0 / 0.1);
+$palette-input: oklch(100% 0 0 / 0.15);
+$palette-ring: oklch(55.6% 0 0);
+
+$palette-chart-1: oklch(80.9% 0.105 251.813);
+$palette-chart-2: oklch(62.3% 0.214 259.815);
+$palette-chart-3: oklch(54.6% 0.245 262.881);
+$palette-chart-4: oklch(48.8% 0.243 264.376);
+$palette-chart-5: oklch(42.4% 0.199 265.638);
+
+$palette-sidebar: oklch(20.5% 0 0);
+$palette-sidebar-foreground: oklch(98.5% 0 0);
+$palette-sidebar-primary: oklch(48.8% 0.243 264.376);
+$palette-sidebar-primary-foreground: oklch(98.5% 0 0);
+$palette-sidebar-accent: oklch(26.9% 0 0);
+$palette-sidebar-accent-foreground: oklch(98.5% 0 0);
+$palette-sidebar-border: oklch(100% 0 0 / 0.1);
+$palette-sidebar-ring: oklch(55.6% 0 0);
+
+
+// ==========================
+// PALETA APP — HEX / RGBA-SAFE
+// ==========================
+// Estos tokens sí son seguros para usar dentro de rgba().
+
+$ww-bg: #11141d;          // fondo global
+$ww-bg-elev: #171d2b;     // cards / headers / bloques principales
+$ww-surface: #20283a;     // superficies elevadas o hover fuerte
+$ww-surface-2: #29334a;   // estados abiertos / destacados neutros
+$ww-border: #3a4561;      // borde más visible sobre las superficies nuevas
+
+$ww-text: #eef3ff;
+$ww-text-muted: #9da9c6;
+
+$ww-accent: #ff9a6b;
+$ww-accent-soft: #ffc0a5;
+$ww-target: #8ab9ff;
+$ww-success: #63cfa1;
+$ww-danger: #ff7a8f;
+
+$ww-hover: #2a3350;
+$ww-hover-soft: #273047;
 
 
 // ==========================
 // FONDOS / NEUTRALES
 // ==========================
-$color-bg-page: #0b1016;
-$color-bg-elevated: #141b23;
-$color-bg-elevated-2: #1a2330;
+
+$color-bg-page: $ww-bg;
+$color-bg-elevated: $ww-bg-elev;
+$color-bg-elevated-2: $ww-surface;
 $color-bg-overlay: rgba(7, 10, 14, 0.72);
 
-$color-border: #263243;
-$color-border-strong: #35455b;
+$color-border: $ww-border;
+$color-border-strong: $ww-hover;
+
 
 // ==========================
 // TEXTO
 // ==========================
-$color-text-primary: #edf3fa;
-$color-text-secondary: #c8d2de;
-$color-text-muted: #8e9bab;
-$color-text-disabled: #6f7b89;
-$color-text-accent: $brand-green;
-$color-title-red: $red;
-$color-title-blue: $blue;
+
+$color-text-primary: $ww-text;
+$color-text-secondary: $ww-text-muted;
+$color-text-muted: rgba($ww-text-muted, 0.82);
+$color-text-disabled: rgba($ww-text-muted, 0.56);
+
+$color-text-accent: $ww-success;
+
+$color-title-red: $ww-danger;
+$color-title-blue: $ww-surface-2;
+
 
 // ==========================
 // ACENTOS DE UI
 // ==========================
-$color-accent-primary: $brand-blue;
-$color-accent-secondary: $brand-green;
-$color-accent-tertiary: $brand-red;
+
+$color-accent-primary: $ww-target; // interacción principal: botones, inputs, focus, selector activo
+$color-accent-secondary: $ww-success; // correcto, puntaje, usuario actual, éxito
+
+$color-accent-warm: $ww-accent; // marca, títulos destacados, hero, cards importantes
+$color-accent-warm-soft: $ww-accent-soft;
+
 
 // ==========================
 // ESTADOS SEMÁNTICOS
 // ==========================
-$color-success: $brand-green;
-$color-danger: $brand-red;
-$color-warning: #f59e0b;
-$color-info: $brand-blue;
+
+$color-success: $ww-success;
+$color-danger: $ww-danger;
+$color-warning: $ww-accent;
+$color-info: $ww-target;
+
 
 // ==========================
 // INTERACTIVOS
 // ==========================
+
 $color-link: $color-accent-primary;
-$color-focus-ring: rgba($brand-blue, 0.35);
+$color-focus-ring: rgba($color-accent-primary, 0.35);
 
-$color-button-primary-bg: $color-accent-primary;
-$color-button-primary-bg-hover: #527aa8;
+$color-button-primary-bg: rgba($color-accent-primary, 0.18);
+$color-button-primary-bg-hover: rgba($color-accent-primary, 0.28);
 
-$color-button-secondary-bg: rgba($brand-blue, 0.14);
-$color-button-secondary-bg-hover: rgba($brand-blue, 0.22);
+$color-button-secondary-bg: rgba($ww-hover-soft, 0.72);
+$color-button-secondary-bg-hover: rgba($ww-hover, 0.92);
 
-$color-button-danger-bg: rgba($brand-red, 0.16);
-$color-button-danger-bg-hover: rgba($brand-red, 0.24);
+$color-button-danger-bg: rgba($color-danger, 0.16);
+$color-button-danger-bg-hover: rgba($color-danger, 0.24);
+
+$color-button-success-bg: rgba($color-success, 0.16);
+$color-button-success-bg-hover: rgba($color-success, 0.24);
+
+$color-button-warning-bg: $color-warning;
+$color-button-warning-bg-hover: rgba($color-warning, 0.64);
+
 
 // ==========================
 // SUPERFICIES ESPECIALES
 // ==========================
-$color-card-bg: $color-bg-elevated;
-$color-card-bg-hover: $color-bg-elevated-2;
-$color-card-border: $color-border;
-$color-card-border-hover: $color-border-strong;
 
-$color-input-bg: #121821;
-$color-input-border: #2a3748;
-$color-input-border-focus: $brand-blue;
+$color-card-bg: $ww-bg-elev;
+$color-card-bg-hover: $ww-surface;
+$color-card-border: rgba($ww-border, 0.9);
+$color-card-border-hover: $ww-hover;
+
+$color-input-bg: rgba($ww-bg-elev, 0.9);
+$color-input-border: $ww-border;
+$color-input-border-focus: $color-accent-primary;
+
 
 // ==========================
-// LEGACY TEMPORAL
+// SOMBRAS
 // ==========================
-// Alias puente para no romper archivos viejos mientras migrás
-$color-bg: $color-bg-page;
-$color-surface: $color-bg-elevated;
-$color-surface-2: $color-bg-elevated-2;
-$accent: $color-accent-primary;
+
+$color-shadow-soft: rgba(0, 0, 0, 0.25);
+$color-shadow-medium: rgba(0, 0, 0, 0.35);
+$color-shadow-strong: rgba(0, 0, 0, 0.65);

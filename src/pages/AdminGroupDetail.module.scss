@@ -54,48 +54,11 @@
 
 /* ===== BUTTONS ===== */
 
-.primaryButton {
-  width: fit-content;
-  padding: $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid rgba($color-accent-primary, 0.5);
-
-  background: rgba($color-accent-primary, 0.18);
-  color: $color-text-primary;
-
-  cursor: pointer;
-}
-
-.secondaryButton {
-  padding: $space-2xs $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid $color-border;
-
-  background: rgba($color-bg-elevated, 0.6);
-  color: $color-text-secondary;
-
-  cursor: pointer;
-}
-
 .dangerButtonWrapper {
   display: flex;
   justify-content: flex-end;
 }
 
-.dangerButton {
-  width: fit-content;
-  padding: $space-2xs $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid rgba($color-accent-tertiary, 0.5);
-
-  background: rgba($color-accent-tertiary, 0.18);
-  color: $color-text-primary;
-
-  cursor: pointer;
-}
 
 /* ===== MEMBERS ===== */
 
@@ -155,7 +118,7 @@
 
 .copied {
   font-size: $font-size-body-xs;
-  color: $color-accent-secondary;
+  color: $color-success;
 }
 
 .loading {
@@ -189,6 +152,6 @@
   }
 
   .dangerButton:hover {
-    background: rgba($color-accent-tertiary, 0.28);
+    background: rgba($color-danger, 0.28);
   }
 }

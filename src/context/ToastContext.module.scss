@@ -43,36 +43,36 @@
 /* ===== Variants ===== */
 
 .success {
-  border-color: rgba($color-accent-secondary, 0.6);
+  border-color: rgba($color-success, 0.6);
 }
 
 .success::before {
   content: "";
   position: absolute;
   inset: 0 0 0 0;
-  border-left: 3px solid $color-accent-secondary;
+  border-left: 3px solid $color-success;
 }
 
 .error {
-  border-color: rgba($color-accent-tertiary, 0.6);
+  border-color: rgba($color-danger, 0.6);
 }
 
 .error::before {
   content: "";
   position: absolute;
   inset: 0 0 0 0;
-  border-left: 3px solid $color-accent-tertiary;
+  border-left: 3px solid $color-danger;
 }
 
 .info {
-  border-color: rgba($color-accent-primary, 0.6);
+  border-color: rgba($color-info, 0.6);
 }
 
 .info::before {
   content: "";
   position: absolute;
   inset: 0 0 0 0;
-  border-left: 3px solid $color-accent-primary;
+  border-left: 3px solid $color-info;
 }
 
 /* ===== Animations ===== */

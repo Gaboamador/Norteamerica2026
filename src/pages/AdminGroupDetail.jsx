@@ -68,7 +68,7 @@ export default function AdminGroupDetail() {
       {/* INVITE */}
       <div className={styles.inviteBox}>
         <button
-          className={styles.primaryButton}
+          className={`button button--primary`}
           onClick={handleGenerateLink}
         >
           Generar link de invitación
@@ -83,7 +83,7 @@ export default function AdminGroupDetail() {
             />
 
             <button
-              className={styles.secondaryButton}
+              className={`button button--success`}
               onClick={handleCopy}
             >
               Copiar link
@@ -120,7 +120,7 @@ export default function AdminGroupDetail() {
 
               <div className={styles.dangerButtonWrapper}>
                 <button
-                  className={styles.dangerButton}
+                  className={`button button--danger`}
                   onClick={() =>
                     removeUserFromGroup(group.id, uid)
                   }

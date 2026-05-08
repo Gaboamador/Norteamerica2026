@@ -61,7 +61,7 @@ const TablaPosiciones = () => {
         <div className={styles.selector}>
           <button
             onClick={() => setSelected("all")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               selected === "all" ? styles.active : ""
             }`}
           >
@@ -72,7 +72,7 @@ const TablaPosiciones = () => {
             <button
               key={g.id}
               onClick={() => setSelected(g.id)}
-              className={`${styles.selectorButton} ${
+              className={`button button--primary button--small ${
                 selected === g.id ? styles.active : ""
               }`}
             >

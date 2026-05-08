@@ -58,42 +58,10 @@
 
 /* BUTTONS */
 
-.primaryButton {
-  padding: $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid rgba($color-accent-primary, 0.5);
-
-  background: rgba($color-accent-primary, 0.18);
-  color: $color-text-primary;
-
-  font-size: $font-size-body-sm;
-
-  cursor: pointer;
-}
-
-.secondaryButton {
-  padding: $space-2xs $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid $color-border;
-
-  background: rgba($color-bg-elevated, 0.6);
-  color: $color-text-secondary;
-
-  cursor: pointer;
-}
-
-.dangerButton {
-  padding: $space-2xs $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid $color-border;
-
-  background: rgba($color-accent-tertiary, 0.6);
-  color: $color-text-secondary;
-
-  cursor: pointer;
+.linkButtonWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* ===== LINK BOX ===== */
@@ -101,7 +69,7 @@
 .linkBox {
   display: flex;
   flex-direction: column;
-  gap: $space-xs;
+  gap: $space-sm;
 
   padding: $space-md;
 
@@ -113,12 +81,12 @@
 
 .label {
   font-size: $font-size-body-xs;
-  color: $color-text-muted;
+  color: $color-accent-primary;
 }
 
 .copied {
   font-size: $font-size-body-xs;
-  color: $color-accent-secondary;
+  color: $color-success;
 }
 
 /* ===== LIST ===== */
@@ -178,14 +146,5 @@
 @include up(md) {
   .title {
     font-size: $font-size-heading-page;
-  }
-
-  .primaryButton:hover {
-    background: rgba($color-accent-primary, 0.28);
-  }
-
-  .secondaryButton:hover {
-    background: rgba($color-accent-primary, 0.12);
-    color: $color-text-primary;
   }
 }

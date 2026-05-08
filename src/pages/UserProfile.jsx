@@ -240,7 +240,7 @@ export default function UserProfile() {
             hasChangedName ||
             nameStatus !== "available"
           }
-          className={styles.button}
+          className={`button button--success`}
         >
           Guardar cambios
         </button>
@@ -259,7 +259,7 @@ export default function UserProfile() {
       {/* Password */}
       <div className={styles.section}>
         <button
-          className={styles.secondaryButton}
+          className={`button button--danger`}
           onClick={handlePasswordReset}
           disabled={loading}
         >

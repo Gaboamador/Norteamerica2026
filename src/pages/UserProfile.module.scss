@@ -43,7 +43,7 @@
 
 .avatar {
   object-fit: cover;
-  border: 2px solid rgba($brand-green, 0.25);
+  border: 2px solid rgba($color-success, 0.25);
 }
 
 .avatarFallback {
@@ -61,7 +61,7 @@
 
 .email {
   font-size: $font-size-body-sm;
-  color: $color-text-muted;
+  color: $color-text-secondary;
 }
 
 /* =========================
@@ -81,7 +81,7 @@
   transition: border 0.2s ease;
 
   &:focus-within {
-    border-color: rgba($brand-green, 0.4);
+    border-color: rgba($color-success, 0.4);
   }
 }
 
@@ -91,7 +91,7 @@
   letter-spacing: 0.4px;
   text-transform: uppercase;
 
-  color: $color-text-muted;
+  color: $color-accent-primary;
 }
 
 .currentName {
@@ -120,8 +120,8 @@
 
   &:focus {
     outline: none;
-    border-color: $brand-green;
-    box-shadow: 0 0 0 2px rgba($brand-green, 0.15);
+    border-color: $color-success;
+    box-shadow: 0 0 0 2px rgba($color-success, 0.15);
   }
 
   &:disabled {
@@ -139,76 +139,11 @@
 }
 
 .ok {
-  color: $brand-green;
+  color: $color-success;
 }
 
 .error {
-  color: $brand-red;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-.button {
-  width: fit-content;
-
-  padding: $space-sm $space-md;
-
-  border-radius: $radius-md;
-  border: none;
-
-  background: linear-gradient(
-    135deg,
-    $brand-green,
-  );
-
-  color: $color-text-primary;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: transform 0.1s ease, box-shadow 0.15s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba($brand-green, 0.25);
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: none;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-  }
-}
-
-.secondaryButton {
-  width: fit-content;
-
-  padding: $space-sm $space-md;
-
-  border-radius: $radius-md;
-
-  background: transparent;
-  border: 1px solid $color-border;
-
-  color: $color-text-secondary;
-
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition: background 0.15s ease, border 0.15s ease;
-
-  &:hover {
-    background: $color-bg-elevated-2;
-    border-color: $color-border-strong;
-  }
+  color: $color-danger;
 }
 
 /* =========================
@@ -222,7 +157,7 @@
   padding-top: $space-xs;
 
   font-size: $font-size-body-sm;
-  color: $color-text-secondary;
+  color: $color-text-primary;
 }
 
 /* =========================
@@ -230,7 +165,7 @@
 ========================= */
 .hint {
   font-size: $font-size-body-sm;
-  color: $color-text-muted;
+  color: $color-danger;
 }
 
 @include up(md) {

@@ -38,7 +38,7 @@
   border-radius: 50%;
   border: 1px solid rgba($color-border, 0.6);
 
-  background: rgba($color-button-primary-bg, 0.5);
+  background: rgba($color-button-secondary-bg, 0.5);
   backdrop-filter: blur(6px);
 
   color: $color-text-muted;
@@ -90,13 +90,14 @@
   color: $color-text-primary;
   
 }
- .teamName.left {
-  text-align: right;
- }
 
- .teamName.right {
+.teamName.left {
+  text-align: right;
+}
+
+.teamName.right {
   text-align: left;
- }
+}
 
 .score {
   font-family: $font-family-data;
@@ -180,9 +181,9 @@
   padding: $space-xs $space-sm;
 
   border-radius: $radius-sm;
-  border: 1px solid rgba($color-accent-tertiary, 0.25);
+  border: 1px solid rgba($color-danger, 0.25);
 
-  background: rgba($color-accent-tertiary, 0.1);
+  background: rgba($color-danger, 0.1);
   color: $color-text-primary;
 
   cursor: pointer;
@@ -229,8 +230,8 @@
 .resultSection button {
   display: block;
   width: fit-content;
-  
 }
+
 .resultSection input {
   display: flex;
   justify-content: center;
@@ -289,6 +290,8 @@
 }
 
 .scoreControl button {
+  display: flex;
+  justify-content: center;
   width: 28px;
   height: 28px;
 
@@ -313,6 +316,7 @@
 }
 
 /* BUTTONS */
+
 .actions {
   display: flex;
   gap: $space-sm;
@@ -337,7 +341,7 @@
   border: 1px solid $color-border;
 
   background: rgba($color-bg-elevated, 0.6);
-  color: $color-accent-tertiary;
+  color: $color-accent-primary;
 
   cursor: pointer;
 }
@@ -351,11 +355,6 @@
     color: $color-text-primary;
   }
 
-  .card:hover {
-    border-color: rgba($color-accent-primary, 0.3);
-    background: rgba($color-bg-elevated-2, 1);
-  }
-
   .primaryButton:hover {
     background: rgba($color-accent-primary, 0.28);
   }
@@ -364,7 +363,7 @@
     transform: scale(1.08);
   }
 
-    .team:hover .flag {
+  .team:hover .flag {
     transform: scale(1.05);
   }
 

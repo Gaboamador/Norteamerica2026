@@ -124,40 +124,6 @@ export default function AdminGroups() {
       </div>
 
       <DirtyBanner/>
-      {/* {dirty && (
-  <div style={{
-    padding: "12px",
-    borderRadius: 8,
-    marginBottom: 16,
-    background: "rgba(255, 193, 7, 0.10)",
-    border: "1px solid rgba(255, 193, 7, 0.4)",
-    color: "#ffc107",
-    fontSize: "0.9rem",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: 12
-  }}>
-    <span style={{ fontWeight: 600 }}>
-      ⚠️ Hay cambios en grupos o usuarios. Actualizar tabla.
-    </span>
-
-    <button
-      onClick={handleRecompute}
-      style={{
-        padding: "6px 10px",
-        borderRadius: 6,
-        border: "none",
-        background: "#ffc107",
-        color: "#000",
-        fontWeight: 600,
-        cursor: "pointer"
-      }}
-    >
-      Actualizar
-    </button>
-  </div>
-)} */}
 
       {/* CREATE */}
       <form onSubmit={handleCreate} className={styles.form}>
@@ -176,7 +142,7 @@ export default function AdminGroups() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className={styles.primaryButton}>
+        <button className={`button button--success`}>
           Crear grupo
         </button>
       </form>
@@ -192,12 +158,14 @@ export default function AdminGroups() {
             readOnly
           />
 
-          <button
-            className={styles.secondaryButton}
-            onClick={handleCopy}
-          >
-            Copiar link
-          </button>
+          <div className={styles.linkButtonWrapper}>
+            <button
+              className={`button button--success`}
+              onClick={handleCopy}
+            >
+              Copiar link
+            </button>
+          </div>
 
           {copied && (
             <span className={styles.copied}>Copiado ✔</span>
@@ -228,7 +196,7 @@ export default function AdminGroups() {
                 )}
 
                 <button
-                  className={styles.secondaryButton}
+                  className={`button button--primary`}
                   onClick={() =>
                     navigate(`/admin/groups/${g.id}`)
                   }

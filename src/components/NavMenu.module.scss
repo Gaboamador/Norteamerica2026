@@ -137,11 +137,13 @@
 
   .link {
     padding: $space-md $space-xl;
+
     &:hover {
       background: rgba($color-accent-primary, 0.12);
       transform: translateX(2px);
     }
-        &:hover .icon {
+
+    &:hover .icon {
       color: $color-accent-primary;
       transform: scale(1.03);
     }

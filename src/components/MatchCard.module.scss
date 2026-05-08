@@ -27,8 +27,8 @@
   font-size: 0.7rem;
   padding: 2px 6px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  color: $color-text-secondary;
+  background: rgba($color-text-primary, 0.06);
+  color: $color-text-primary;
   border: 1px solid rgba($color-border, 0.4);
   white-space: nowrap;
 }
@@ -36,11 +36,11 @@
 /* Opcionales para diferenciar */
 
 .group {
-  background: rgba(59, 130, 246, 0.12); // azul suave
+  background: rgba($color-accent-primary, 0.12);
 }
 
 .round {
-  background: rgba(16, 185, 129, 0.12); // verde suave
+  background: rgba($color-accent-secondary, 0.12);
 }
 
 .date {
@@ -186,12 +186,12 @@
 
 // PLENO
 .points8 {
-  color: $color-accent-secondary;
+  color: $color-accent-warm;
 
-  border-color: rgba($color-accent-secondary, 0.6);
-  background: rgba($color-accent-secondary, 0.18);
+  border-color: rgba($color-accent-warm, 0.6);
+  background: rgba($color-accent-warm, 0.18);
 
-  box-shadow: 0 0 5px rgba($color-accent-secondary, 0.25);
+  box-shadow: 0 0 5px rgba($color-accent-warm, 0.25);
 }
 // BUEN RESULTADO
 .points5,
@@ -325,7 +325,7 @@
 
 .inputDirty {
   border: 1px solid rgba($color-warning, 0.5);
-  background: rgba(245, 158, 11, 0.08);
+  background: rgba($color-warning, 0.08);
 }
 
 .buttonDirty {
@@ -378,7 +378,6 @@
   .card:hover {
     border-color: rgba($color-accent-primary, 0.3);
     background: rgba($color-bg-elevated-2, 1);
-    transform: translateY(-1px);
   }
 
   .card:hover .score {
@@ -401,6 +400,6 @@
   .teamChip:hover {
     background: rgba($color-accent-primary, 0.08);
     border-color: rgba($color-accent-primary, 0.3);
-    transform: translateY(-1px);
+    // transform: translateY(-1px);
   }
 }

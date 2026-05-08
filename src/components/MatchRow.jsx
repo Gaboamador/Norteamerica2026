@@ -104,7 +104,7 @@ export default function MatchRow({ match, onSetResult }) {
 
       {/* EDITAR METADATA DEL PARTIDO */}
       <button
-        className={styles.editFloating}
+        className={`button button--secondary ${styles.editFloating}`}
         onClick={() => setEditing(true)}
       >
         <span><LuPencil size={12}/></span>
@@ -183,7 +183,10 @@ export default function MatchRow({ match, onSetResult }) {
         {/* ROW 3 */}
         <div className={styles.metaRowFooter}>
           {match.result && (
-            <button onClick={handleResetMatch}>
+            <button
+              className={`button button--danger`}
+              onClick={handleResetMatch}
+              >
               Reset
             </button>
           )}
@@ -239,14 +242,14 @@ export default function MatchRow({ match, onSetResult }) {
 
           <div className={styles.actions}>
             <button
-              className={styles.primaryButton}
+              className={`button button--primary`}
               onClick={handleSave}
             >
               Guardar
             </button>
 
             <button
-              className={styles.secondaryButton}
+              className={`button button--secondary`}
               onClick={() => setEditing(false)}
             >
               Cancelar
@@ -348,7 +351,7 @@ export default function MatchRow({ match, onSetResult }) {
         </div>
 
         <button
-          className={styles.primaryButton}
+          className={`button button--success`}
           onClick={() =>
             onSetResult(match.id, homeGoals, awayGoals)
           }

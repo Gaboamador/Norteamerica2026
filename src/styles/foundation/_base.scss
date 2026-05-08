@@ -30,8 +30,68 @@ label {
 }
 
 button {
+  cursor: pointer;
   font-family: $font-family-compact;
   display: flex;
   align-items: center;
   line-height: 1.2;
+  padding: 8px 14px;
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-accent-primary, 0.5);
+  width: fit-content;
+}
+
+.button--primary {
+  color: $color-text-primary;
+  background: $color-button-primary-bg;
+
+  &:hover {
+    color: $color-text-primary;
+    background: $color-button-primary-bg-hover;
+  }
+}
+
+.button--secondary {
+  color: $color-text-secondary;
+  background: $color-button-secondary-bg;
+
+  &:hover {
+    color: $color-text-primary;
+    background: $color-button-secondary-bg-hover;
+  }
+}
+
+.button--danger {
+  color: $color-text-primary;
+  background: $color-button-danger-bg;
+
+  &:hover {
+    background: $color-button-danger-bg-hover;
+  }
+}
+
+.button--success {
+  color: $color-text-primary;
+  background: $color-button-success-bg;
+
+  &:hover {
+    background: $color-button-success-bg-hover;
+  }
+}
+
+.button--warning {
+  font-weight: $font-weight-bold;
+  color: $palette-primary-foreground;
+  background: $color-button-warning-bg;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-sm;
+  border: none;
+  
+  &:hover {
+    background: $color-button-warning-bg-hover;
+  }
+}
+
+.button--small {
+  padding: $space-2xs $space-sm;
 }

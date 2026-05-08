@@ -17,7 +17,7 @@ import { useMatches } from "@/hooks/useMatches";
 import { ROUND_OPTIONS } from "@/utils/matchRounds";
 import { isGroupStageRound, getRoundLabel } from "@/utils/matchRounds";
 import styles from "./AdminMatches.module.scss";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
 
 
 export default function AdminMatches() {
@@ -135,10 +135,10 @@ export default function AdminMatches() {
     {/* HEADER */}
       <div className={styles.header}>
         <div className={styles.selector}>
-          <span>Ver</span>
+          <span>Ver:</span>
           <button
             onClick={() => setMode("date")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               mode === "date" ? styles.active : ""
             }`}
           >
@@ -147,7 +147,7 @@ export default function AdminMatches() {
 
           <button
             onClick={() => setMode("group")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               mode === "group" ? styles.active : ""
             }`}
           >
@@ -155,7 +155,7 @@ export default function AdminMatches() {
           </button>
           <button
             onClick={() => setMode("round")}
-            className={`${styles.selectorButton} ${
+            className={`button button--primary button--small ${
               mode === "round" ? styles.active : ""
             }`}
           >
@@ -170,7 +170,7 @@ export default function AdminMatches() {
           onClick={() => setCreateOpen((v) => !v)}
         >
           <div className={styles.title}>
-            <IoIosAddCircleOutline/>
+            {createOpen ? <IoIosRemoveCircleOutline/> : <IoIosAddCircleOutline/>}
           </div>
         </div>
 
@@ -241,7 +241,7 @@ export default function AdminMatches() {
               required
             />
           </div>
-          <button className={styles.primaryButton}>
+          <button className={`button button--success`}>
             Crear partido
           </button>
         </form>
