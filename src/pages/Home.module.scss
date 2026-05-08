@@ -1,6 +1,6 @@
 .wrapper {
   width: 100%;
-  min-height: calc(100svh - $header-height-sm);
+  // min-height: calc(100svh - $header-height-sm);
 
   display: flex;
   flex-direction: column;
@@ -22,21 +22,56 @@
   width: 100%;
   max-width: $layout-content-sm;
 
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: $space-sm;
-
-  text-align: center;
 }
+
 
 .title {
   margin: 0;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: $space-2xs;
+
   font-family: $font-family-display;
-  font-size: $font-size-xl;
   font-weight: $font-weight-bold;
-  line-height: 1.02;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+
+  text-align: center;
+
   color: $color-text-primary;
+
 }
+
+.titleMuted {
+  font-size: $font-size-body-sm;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  color: $color-text-muted;
+
+  font-family: $font-family-text;
+  font-weight: $font-weight-medium;
+}
+
+.titleMain {
+display: flex;
+align-items: center;
+gap: $space-sm;
+text-transform: uppercase;
+line-height: 1.2;
+}
+
+.titleNumber {
+  font-family: $font-family-data;
+}
+
 
 .subtitle {
   margin: 0;
@@ -48,7 +83,7 @@
 }
 
 .actions {
-  width: 100%;
+  width: fit-content;
   max-width: $layout-content-sm;
 
   display: grid;
@@ -58,25 +93,16 @@
 
 .card {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   gap: $space-md;
-
-  width: 100%;
-  min-height: $card-min-height-sm;
-  padding: $space-lg;
-
+  width: fit-content;
+  padding: $space-md $space-lg;
   color: inherit;
   text-decoration: none;
-
-  background: linear-gradient(
-    180deg,
-    rgba($color-card-bg, 0.98) 0%,
-    rgba($color-bg-elevated-2, 0.96) 100%
-  );
-  border: 1px solid $color-card-border;
+  background: transparent;
+  border: 1px solid $color-border-strong;
   border-radius: $radius-lg;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+  box-shadow: none;
 
   transition:
     transform 0.18s ease,
@@ -91,6 +117,12 @@
   box-shadow:
     0 0 0 3px $color-focus-ring,
     0 14px 30px rgba(0, 0, 0, 0.22);
+}
+
+.cardTitleDescWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
 }
 
 .cardTitle {
@@ -112,13 +144,9 @@ align-items: flex-start;
 
 .homeIcon {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-shrink: 0;
-
-  width: $space-3xl;
-  height: $space-3xl;
-
   border-radius: $radius-sm;
 
   transition:
@@ -126,22 +154,13 @@ align-items: flex-start;
     background 0.18s ease,
     border-color 0.18s ease,
     color 0.18s ease;
-
-  svg {
-    stroke-width: 2.1;
-  }
-}
-
-.homeIcon.admin {
-  width: $space-2xl;
-  height: $space-2xl;
 }
 
 .cardDesc {
   margin: 0;
 
   font-family: $font-family-text;
-  font-size: $font-size-body-sm;
+  font-size: $font-size-body-xs;
   font-weight: $font-weight-regular;
   line-height: 1.45;
   color: $color-text-muted;
@@ -161,24 +180,18 @@ align-items: flex-start;
 
 .cardAccentBlue {
   .homeIcon {
-    background: rgba($color-accent-primary, 0.14);
-    border: 1px solid rgba($color-accent-primary, 0.3);
     color: $color-accent-primary;
   }
 }
 
 .cardAccentGreen {
   .homeIcon {
-    background: rgba($color-accent-secondary, 0.14);
-    border: 1px solid rgba($color-accent-secondary, 0.3);
     color: $color-accent-secondary;
   }
 }
 
 .cardAccentRed {
   .homeIcon {
-    background: rgba($color-accent-tertiary, 0.14);
-    border: 1px solid rgba($color-accent-tertiary, 0.3);
     color: $color-accent-tertiary;
   }
 }
@@ -188,6 +201,13 @@ align-items: flex-start;
 .adminBlock {
   display: grid;
   gap: $space-sm;
+  border-radius: $radius-lg;
+  border: 1px solid $color-accent-tertiary;
+}
+
+.adminBlock.open {
+  background: rgba($color-accent-tertiary, 0.1);
+  border: none;
 }
 
 .adminCard {
@@ -206,14 +226,9 @@ gap: $space-sm;
   gap: $space-md;
 
   width: 100%;
-  min-height: $card-min-height-sm;
   padding: $space-lg;
 
-  background: linear-gradient(
-    180deg,
-    rgba($color-card-bg, 0.98) 0%,
-    rgba($color-bg-elevated-2, 0.96) 100%
-  );
+  background: transparent;
   border: 1px solid $color-card-border;
   border-radius: $radius-lg;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
@@ -227,8 +242,6 @@ gap: $space-sm;
 }
 
 .adminIcon {
-  background: rgba($color-accent-tertiary, 0.14);
-  border: 1px solid rgba($color-accent-tertiary, 0.3);
   color: $color-accent-tertiary;
 }
 
@@ -256,14 +269,14 @@ gap: $space-sm;
 }
 
 .adminLinksInner {
-  display: grid;
+  display: flex;
+  justify-content: space-between;
   gap: $space-sm;
   padding-top: $space-xs;
 }
 
 @include up(sm) {
   .wrapper {
-    min-height: calc(100svh - $header-height-md);
     gap: $space-2xl;
   }
 
@@ -275,70 +288,28 @@ gap: $space-sm;
     font-size: $font-size-body;
   }
 
-  .card,
-  .adminToggle {
-    padding: $space-xl;
-  }
 
   .cardTitle {
     font-size: $font-size-heading-card;
   }
 
-  .homeIcon {
-    width: $space-4xl;
-    height: $space-4xl;
-  }
-}
-
-@include up(md) {
-  .wrapper {
-    min-height: calc(100svh - $header-height-lg);
-    justify-content: center;
-  }
-
-  .title {
-    font-size: $font-size-heading-page;
-  }
-
-  .actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: $space-lg;
-  }
-
-  .card,
-  .adminToggle {
-    min-height: $card-min-height-md;
-  }
-
   .card:hover,
   .adminToggle:hover {
-    transform: translateY(-4px);
-    border-color: $color-card-border-hover;
-    background: linear-gradient(
-      180deg,
-      rgba($color-card-bg-hover, 1) 0%,
-      rgba($color-bg-elevated-2, 1) 100%
-    );
-    box-shadow: 0 22px 42px rgba(0, 0, 0, 0.34);
-  }
+    border-color: rgba(255,255,255,0.16);
+    background: rgba($color-bg-elevated, 0.62);
+}
 
   .cardAccentBlue:hover .homeIcon {
     transform: scale(1.05);
-    background: rgba($color-accent-primary, 0.22);
-    border-color: rgba($color-accent-primary, 0.45);
   }
 
   .cardAccentGreen:hover .homeIcon {
     transform: scale(1.05);
-    background: rgba($color-accent-secondary, 0.22);
-    border-color: rgba($color-accent-secondary, 0.45);
   }
 
   .cardAccentRed:hover .homeIcon,
   .adminToggle:hover .adminIcon {
     transform: scale(1.05);
-    background: rgba($color-accent-tertiary, 0.22);
-    border-color: rgba($color-accent-tertiary, 0.45);
   }
 
   .adminToggle:hover .adminChevron {
@@ -352,4 +323,17 @@ gap: $space-sm;
   .adminLinksInner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+}
+
+@include up(md) {
+  .title {
+    font-size: $font-size-heading-page;
+  }
+
+  .actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $space-lg;
+  }
+
 }

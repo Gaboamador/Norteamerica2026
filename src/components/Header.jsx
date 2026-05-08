@@ -13,6 +13,8 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuFolderOpen, LuHouse } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
 import { IoMdLogOut } from "react-icons/io";
+import { TbScoreboard , TbTrophy } from "react-icons/tb";
+import { PiStrategy } from "react-icons/pi";
 
 
 export default function Header() {
@@ -41,6 +43,7 @@ export default function Header() {
   const SUBTITLE_ROUTES = [
     { match: "/matches", label: 'Cargar Pronósticos' },
     { match: "/standings", label: 'Tabla de Posiciones' },
+    { match: "/rules", label: '¿Cómo se juega?' },
     { match: "/auth", label: 'Autenticación' },
     { match: "/admin/matches", label: 'Administrar Partidos Oficiales' },
     { match: "/admin/groups", label: 'Administrar Grupos y Miembros' },
@@ -57,12 +60,17 @@ export default function Header() {
     {
       to: "/matches",
       label: 'Cargar Pronósticos',
-      icon: <CiEdit />,
+      icon: <TbScoreboard />,
     },
     {
       to: "/standings",
       label: 'Tabla de Posiciones',
-      icon: <CiViewTable />,
+      icon: <TbTrophy />,
+    },
+    {
+      to: "/rules",
+      label: '¿Cómo se juega?',
+      icon: <PiStrategy />,
     },
     ...(isAdmin ? [
       {

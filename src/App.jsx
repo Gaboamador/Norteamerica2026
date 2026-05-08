@@ -18,6 +18,7 @@ import UserProfile from "@/pages/UserProfile";
 import AdminMatches from "@/pages/AdminMatches";
 import AdminGroups from "@/pages/AdminGroups";
 import AdminGroupDetail from "@/pages/AdminGroupDetail";
+import GameRules from "@/pages/GameRules";
 
 function App() {
   
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/matches" element={<MatchesScreen />} />
                 <Route path="/standings" element={<TablaPosiciones />} />
+                <Route path="/rules" element={<GameRules />} />
                 <Route path="/join" element={<JoinGroup />} />
                 <Route path="/user" element={<UserProfile />} />
                 <Route path="*" element={<Navigate to="/" replace />} />

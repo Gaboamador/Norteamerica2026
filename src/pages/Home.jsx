@@ -7,6 +7,10 @@ import styles from "./Home.module.scss";
 import { LuFolderOpen, LuChevronDown } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
 import { IoIosFootball } from "react-icons/io";
+import { MdOutlineSegment } from "react-icons/md";
+import { TbScoreboard , TbTrophy } from "react-icons/tb";
+import { PiStrategy } from "react-icons/pi";
+
 
 export default function Home() {
   const { loading } = useAuth();
@@ -20,7 +24,13 @@ export default function Home() {
   return (
     <section className={styles.wrapper}>
       <div className={styles.titleWrapper}>
-        <h1 className={styles.title}>Norteamérica 2026</h1>
+      <h1 className={styles.title}>
+        <span className={styles.titleMuted}>Prode</span>
+        <div className={styles.titleMain}>
+        <span>Norteamérica</span>
+        <span className={styles.titleNumber}>2026</span>
+        </div>
+      </h1>
         <p className={styles.subtitle}>
           Cargá tus pronósticos y seguí la tabla de posiciones del grupo.
         </p>
@@ -28,34 +38,35 @@ export default function Home() {
 
       <nav className={styles.actions}>
         <Link to="/matches" className={`${styles.card} ${styles.cardAccentBlue}`}>
-          <div className={styles.cardTitle}>
-            <span className={styles.homeIcon}>
-              <CiEdit size={24} />
-            </span>
-            <span>Cargar Pronósticos</span>
-          </div>
+          <div className={styles.homeIcon}><TbScoreboard size={32} /></div>
 
-          <p className={styles.cardDesc}>
-            Ingresá tus resultados antes de que empiecen los partidos.
-          </p>
+          <div className={styles.cardTitleDescWrapper}>
+            <div className={styles.cardTitle}>Cargar Pronósticos</div>
+            <div className={styles.cardDesc}>Ingresá tus resultados antes de que empiecen los partidos.</div>
+          </div>
         </Link>
 
         <Link to="/standings" className={`${styles.card} ${styles.cardAccentGreen}`}>
-          <div className={styles.cardTitle}>
-            <span className={styles.homeIcon}>
-              <CiViewTable size={24} />
-            </span>
-            <span>Tabla de Posiciones</span>
-          </div>
+          <div className={styles.homeIcon}><TbTrophy size={32} /></div>
 
-          <p className={styles.cardDesc}>
-            Mirá el puntaje acumulado y cómo va el ranking del grupo.
-          </p>
+          <div className={styles.cardTitleDescWrapper}>
+            <div className={styles.cardTitle}>Tabla de Posiciones</div>
+            <div className={styles.cardDesc}>Mirá el puntaje acumulado y cómo va el ranking del grupo.</div>
+          </div>
+        </Link>
+
+        <Link to="/rules" className={`${styles.card} ${styles.cardAccentRed}`}>
+          <div className={styles.homeIcon}><PiStrategy size={32} /></div>
+
+          <div className={styles.cardTitleDescWrapper}>
+            <div className={styles.cardTitle}>¿Cómo se juega?</div>
+            <div className={styles.cardDesc}>Conocé las reglas del prode, el cierre de los pronósticos y cómo se calculan los puntos.</div>
+          </div>
         </Link>
 
         {isAdmin && (
           <motion.div
-            className={styles.adminBlock}
+            className={`${styles.adminBlock} ${adminOpen ? styles.open : ''}`}
             layout
             transition={{ duration: 0.22, ease: "easeOut" }}
           >
@@ -71,10 +82,10 @@ export default function Home() {
                   <LuFolderOpen size={22} />
                 </span>
                 <div className={styles.adminCard}>
-                  <span>Administración</span>
-                  <p className={styles.cardDesc}>
-                    Gestionar partidos oficiales y grupos del sistema.
-                  </p>
+                  <div className={styles.cardTitleDescWrapper}>
+                    <div className={styles.cardTitle}>Administración</div>
+                    <div className={styles.cardDesc}>Gestionar partidos oficiales y grupos del sistema.</div>
+                  </div>
                 </div>
               </div>
                 

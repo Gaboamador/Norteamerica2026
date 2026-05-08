@@ -3,7 +3,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: $space-xl;
+  gap: $space-md;
 }
 
 /* ===== GROUP ===== */
@@ -15,12 +15,25 @@
 }
 
 .groupHeader {
+  position: sticky;
+  top: $header-height-sm;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   border-bottom: 1px solid rgba($color-border, 0.6);
-  padding-bottom: $space-xs;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-sm;
+  background: $color-bg-elevated;
+  z-index: 1;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.groupHeaderOpen {
+  background: $color-title-blue;
 }
 
 .chevron {
@@ -55,9 +68,13 @@
 
 @include up(sm) {
   .wrapper {
-    gap: $space-2xl;
+    gap: $space-md;
   }
 
+  .groupHeader {
+    top: 88.67px;
+  }
+  
   .groupTitle {
     font-size: $font-size-heading-card;
   }
@@ -68,17 +85,12 @@
 }
 
 @include up(md) {
-  
-  .groupHeader {
-    background: $color-bg-page;
-    padding: $space-sm;
-  }
 
   .groupTitle {
     font-size: $font-size-heading-card;
-    position: sticky;
-    top: $header-height-lg;
-    z-index: 5;
+    // position: sticky;
+    // top: $header-height-lg;
+    // z-index: 5;
     
   }
 }

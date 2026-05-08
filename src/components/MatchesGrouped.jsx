@@ -56,7 +56,7 @@ export default function MatchesGrouped({
       {Object.entries(grouped).map(([key, groupMatches]) => (
         <section key={key} className={styles.group}>
           <div
-            className={styles.groupHeader}
+            className={`${styles.groupHeader} ${openGroups[key] ? styles.groupHeaderOpen : ""}`}
             onClick={() => toggleGroup(key)}
           >
             <h3 className={styles.groupTitle}>

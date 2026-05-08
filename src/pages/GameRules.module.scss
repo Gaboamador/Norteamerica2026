@@ -1,0 +1,370 @@
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-lg;
+}
+
+.hero {
+  display: grid;
+  gap: $space-sm;
+
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: $color-text-muted;
+}
+
+.title {
+  margin: 0;
+
+  font-family: $font-family-display;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: $font-weight-bold;
+  line-height: 1;
+
+  color: $color-text-primary;
+}
+
+.description {
+  max-width: 42rem;
+  margin: 0 auto;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: 1.6;
+
+  color: $color-text-secondary;
+}
+
+.section {
+  display: grid;
+  gap: $space-md;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-sm;
+}
+
+.step {
+  flex: 0 0 auto;
+
+  min-width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+  background: $color-card-bg;
+  box-shadow: inset 0 0 0 1px $color-card-border;
+}
+
+.sectionTitle {
+  margin: 0 0 $space-xs;
+
+  font-family: $font-family-display;
+  font-size: $font-size-heading-section;
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+
+  color: $color-text-primary;
+}
+
+.sectionDescription {
+  margin: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: 1.55;
+
+  color: $color-text-secondary;
+}
+
+.ruleCard {
+  padding: $space-lg;
+  border-radius: $radius-lg;
+
+  background: $color-card-bg;
+  box-shadow: inset 0 0 0 1px $color-card-border;
+}
+
+.ruleText,
+.ruleNote {
+  margin: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body;
+  font-weight: $font-weight-regular;
+  line-height: 1.6;
+
+  color: $color-text-secondary;
+
+  strong {
+    color: $color-text-primary;
+    font-weight: $font-weight-bold;
+  }
+}
+
+.ruleNote {
+  margin-top: $space-sm;
+
+  font-size: $font-size-body-sm;
+  color: $color-text-muted;
+}
+
+.pointsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-sm;
+}
+
+.pointsCard {
+  padding: $space-lg;
+  border-radius: $radius-lg;
+
+  display: grid;
+  gap: $space-xs;
+
+  background: $color-card-bg;
+  box-shadow: inset 0 0 0 1px $color-card-border;
+}
+
+.featuredCard {
+  background:
+    linear-gradient(
+      135deg,
+      rgba($color-accent-secondary, 0.14),
+      $color-card-bg
+    );
+
+  box-shadow:
+    inset 0 0 0 1px rgba($color-accent-secondary, 0.35),
+    0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.pointsValue {
+  font-family: $font-family-display;
+  font-size: 2.25rem;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+
+  color: $color-text-primary;
+}
+
+.pointsLabel {
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  color: $color-text-muted;
+}
+
+.pointsText {
+  margin: $space-xs 0 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  font-weight: $font-weight-regular;
+  line-height: 1.45;
+
+  color: $color-text-secondary;
+}
+
+.scoreExample {
+  padding: $space-lg;
+  border-radius: $radius-lg;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-sm;
+
+  background: $color-card-bg;
+  box-shadow: inset 0 0 0 1px $color-card-border;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+
+  font-family: $font-family-text;
+  color: $color-text-primary;
+
+  span {
+    font-size: $font-size-body-sm;
+    font-weight: $font-weight-bold;
+  }
+
+  strong {
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: $radius-sm;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: $font-family-data;
+    font-size: $font-size-heading-section;
+    font-weight: $font-weight-bold;
+
+    background: $color-bg-page;
+    box-shadow: inset 0 0 0 1px $color-border;
+  }
+}
+
+.separator {
+  font-family: $font-family-data;
+  font-size: $font-size-heading-section;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-muted;
+}
+
+.examplesList {
+  display: grid;
+  gap: $space-sm;
+}
+
+.exampleCard {
+  padding: $space-lg;
+  border-radius: $radius-lg;
+
+  display: grid;
+  gap: $space-md;
+
+  background: $color-card-bg;
+  box-shadow: inset 0 0 0 1px $color-card-border;
+}
+
+.exampleCardFeatured {
+  background:
+    linear-gradient(
+      135deg,
+      rgba($color-accent-secondary, 0.12),
+      $color-card-bg
+    );
+
+  box-shadow:
+    inset 0 0 0 1px rgba($color-accent-secondary, 0.42),
+    0 14px 32px rgba(0, 0, 0, 0.2);
+}
+
+.exampleMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-md;
+}
+
+.exampleLabel {
+  display: block;
+  margin-bottom: $space-xs;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-medium;
+
+  color: $color-text-muted;
+}
+
+.prediction {
+  font-family: $font-family-data;
+  font-size: $font-size-heading-section;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+
+  color: $color-text-primary;
+}
+
+.examplePoints {
+  min-width: 4.75rem;
+  padding: $space-sm;
+  border-radius: $radius-md;
+
+  display: grid;
+  justify-items: center;
+  gap: $space-xs;
+
+  background: $color-bg-page;
+  box-shadow: inset 0 0 0 1px $color-border;
+
+  strong {
+    font-family: $font-family-data;
+    font-size: $font-size-heading-page;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+
+    color: $color-text-primary;
+  }
+
+  span {
+    font-family: $font-family-compact;
+    font-size: $font-size-label-sm;
+    font-weight: $font-weight-medium;
+
+    color: $color-text-muted;
+  }
+}
+
+.exampleContent {
+  h3 {
+    margin: 0 0 $space-xs;
+
+    font-family: $font-family-text;
+    font-size: $font-size-body;
+    font-weight: $font-weight-bold;
+
+    color: $color-text-primary;
+  }
+
+  p {
+    margin: 0;
+
+    font-family: $font-family-text;
+    font-size: $font-size-body-sm;
+    font-weight: $font-weight-regular;
+    line-height: 1.55;
+
+    color: $color-text-secondary;
+  }
+}
+
+@include up(sm) {
+  .pointsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .exampleCard {
+    grid-template-columns: minmax(12rem, 15rem) 1fr;
+    align-items: center;
+  }
+
+  .exampleMain {
+    height: 100%;
+  }
+}
