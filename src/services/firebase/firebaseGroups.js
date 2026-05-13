@@ -58,6 +58,30 @@ export const createGroup = async ({
   return { groupId, joinToken };
 };
 
+/**
+ * ===============================
+ * UPDATE GROUP NAME
+ * ===============================
+ */
+
+export const updateGroupName = async (groupId, name) => {
+  const cleanName = name?.trim();
+
+  if (!cleanName) {
+    throw new Error("El nombre del grupo no puede estar vacío");
+  }
+
+  if (cleanName.length > 40) {
+    throw new Error("El nombre del grupo no puede superar los 40 caracteres");
+  }
+
+  const ref = doc(db, "groups", groupId);
+
+  await updateDoc(ref, {
+    name: cleanName,
+    updatedAt: serverTimestamp(),
+  });
+};
 
 /**
  * ===============================

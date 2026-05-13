@@ -22,6 +22,17 @@
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
 
+  color: $color-text-primary;
+  text-align: center;
+}
+
+.titleCrearPartido {
+  margin: 0;
+
+  font-family: $font-family-display;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+
   color: $color-accent-warm;
 }
 
@@ -158,6 +169,10 @@
   .form {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .title {
+    font-size: $font-size-2xl;
+  }
 }
 
 @include up(md) {
@@ -165,6 +180,10 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .title {
+    font-size: $font-size-heading-page;
   }
 
   .selector {

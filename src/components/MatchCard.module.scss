@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: $space-md;
-
   padding: $space-md;
 
   border-radius: $radius-md;
@@ -375,6 +374,14 @@
 }
 
 @include up(md) {
+  .card {
+    min-height: 224px;
+  }
+
+  .lockInfo {
+    margin-top: auto;
+  }
+
   .card:hover {
     border-color: rgba($color-accent-primary, 0.3);
     background: rgba($color-bg-elevated-2, 1);

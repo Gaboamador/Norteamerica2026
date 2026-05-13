@@ -9,6 +9,8 @@ export default function AppLayout() {
 
   if (pathname.startsWith("/auth")) size = "xs";
   if (pathname === "/") size = "sm";
+  if (pathname.startsWith("/matches")) size = "xl";
+  if (pathname.startsWith("/admin/matches")) size = "xl";
 
   return (
     <div className={styles.layout}>

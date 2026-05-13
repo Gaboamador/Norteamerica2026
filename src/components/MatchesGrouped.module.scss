@@ -78,19 +78,25 @@
   .groupTitle {
     font-size: $font-size-heading-card;
   }
-
-  .matches {
-    gap: $space-md;
-  }
 }
 
 @include up(md) {
-
   .groupTitle {
     font-size: $font-size-heading-card;
-    // position: sticky;
-    // top: $header-height-lg;
-    // z-index: 5;
-    
+  }
+
+  .matches {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .matches > * {
+    min-width: 0;
+  }
+}
+
+@include up(lg) {
+  .matches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

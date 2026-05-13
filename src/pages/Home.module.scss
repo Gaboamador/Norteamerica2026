@@ -74,7 +74,6 @@ line-height: 1.2;
   line-height: 1.2;
   vertical-align: baseline;
   position: relative;
-  top: 0.05em;
 }
 
 
@@ -286,6 +285,10 @@ gap: $space-sm;
 
   .title {
     font-size: $font-size-2xl;
+  }
+
+  .titleNumber {
+    top: 0.05em;
   }
 
   .subtitle {

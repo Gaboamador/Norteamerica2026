@@ -349,6 +349,14 @@
 /* BREAKPOINTS */
 
 @include up(md) {
+  .card {
+    min-height: 224px;
+  }
+
+  .resultSection {
+    margin-top: auto;
+  }
+
   .editFloating:hover {
     background: rgba($color-accent-primary, 0.12);
     border-color: rgba($color-accent-primary, 0.4);

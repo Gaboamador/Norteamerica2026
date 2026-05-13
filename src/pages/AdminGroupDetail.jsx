@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase";
-import { removeUserFromGroup, regenerateJoinToken, buildInviteLink } from "@/services/firebase/firebaseGroups";
+import { removeUserFromGroup, regenerateJoinToken, buildInviteLink, updateGroupName } from "@/services/firebase/firebaseGroups";
 import { formatDisplayName } from "@/utils/formatDisplayName";
 import styles from "./AdminGroupDetail.module.scss";
 
@@ -12,7 +12,11 @@ export default function AdminGroupDetail() {
     const [users, setUsers] = useState({});
     const [inviteLink, setInviteLink] = useState("");
     const [copied, setCopied] = useState(false);
+    const [editingName, setEditingName] = useState(false);
+    const [nameDraft, setNameDraft] = useState("");
+    const [savingName, setSavingName] = useState(false);
 
+    /* ------------ HANDLERS ------------ */
     const handleGenerateLink = async () => {
         const token = await regenerateJoinToken(group.id);
         const link = buildInviteLink(group.id, token);
@@ -25,6 +29,26 @@ export default function AdminGroupDetail() {
         setTimeout(() => setCopied(false), 1500);
     };
 
+    const handleSaveName = async () => {
+      const cleanName = nameDraft.trim();
+
+      if (!cleanName) return;
+
+      if (cleanName === group.name) {
+          setEditingName(false);
+          return;
+      }
+
+      try {
+          setSavingName(true);
+          await updateGroupName(group.id, cleanName);
+          setEditingName(false);
+      } finally {
+          setSavingName(false);
+      }
+  };
+
+  /* ------------ HOOKS ------------ */
     useEffect(() => {
         const ref = doc(db, "groups", groupId);
 
@@ -34,7 +58,11 @@ export default function AdminGroupDetail() {
             const data = { id: snap.id, ...snap.data() };
             setGroup(data);
 
-            // 🔥 traer users
+            if (!editingName) {
+              setNameDraft(data.name || "");
+            }
+
+            // traer users
             const userMap = {};
 
             await Promise.all(
@@ -53,7 +81,7 @@ export default function AdminGroupDetail() {
         });
 
         return () => unsub();
-    }, [groupId]);
+    }, [groupId, editingName]);
 
     if (!group) return <div>Cargando...</div>;
 
@@ -62,7 +90,53 @@ export default function AdminGroupDetail() {
       
       {/* HEADER */}
       <div className={styles.header}>
-        <h2 className={styles.title}>{group.name}</h2>
+        {!editingName ? (
+          <>
+            <h2 className={styles.title}>{group.name}</h2>
+
+            <button
+              type="button"
+              className={`button button--danger ${styles.renameButton}`}
+              onClick={() => {
+                setNameDraft(group.name || "");
+                setEditingName(true);
+              }}
+            >
+              Cambiar nombre
+            </button>
+          </>
+        ) : (
+          <div className={styles.renameBox}>
+            <input
+              className={styles.input}
+              value={nameDraft}
+              onChange={(e) => setNameDraft(e.target.value)}
+              maxLength={40}
+              autoFocus
+            />
+
+            <button
+              type="button"
+              className="button button--success"
+              onClick={handleSaveName}
+              disabled={savingName || !nameDraft.trim()}
+            >
+              {savingName ? "Guardando..." : "Guardar"}
+            </button>
+
+            <button
+              type="button"
+              className={`button button--secondary`}
+              onClick={() => {
+                setNameDraft(group.name || "");
+                setEditingName(false);
+              }}
+              disabled={savingName}
+            >
+              Cancelar
+            </button>
+          </div>
+        )}
       </div>
 
       {/* INVITE */}

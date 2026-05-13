@@ -64,9 +64,9 @@ export default function GameRules() {
   return (
     <main className={styles.wrapper}>
       <section className={styles.hero}>
-        <p className={styles.eyebrow}>Reglamento</p>
+        {/* <p className={styles.eyebrow}>Reglamento</p> */}
 
-        <h1 className={styles.title}>¿Cómo se juega?</h1>
+        <div className={styles.title}>¿Cómo se juega?</div>
 
         <p className={styles.description}>
           Cargá tus pronósticos antes de que inicie cada partido, seguí los
@@ -116,24 +116,30 @@ export default function GameRules() {
 
         <div className={styles.pointsGrid}>
           <article className={styles.pointsCard}>
-            <strong className={styles.pointsValue}>3</strong>
-            <span className={styles.pointsLabel}>puntos</span>
+            <p className={styles.pointsText}>
+              <span className={styles.pointsValue}>3</span>
+              <span className={styles.pointsLabel}>puntos</span>
+            </p>
             <p className={styles.pointsText}>
               Por acertar el ganador del partido o el empate.
             </p>
           </article>
 
           <article className={styles.pointsCard}>
-            <strong className={styles.pointsValue}>+1</strong>
-            <span className={styles.pointsLabel}>punto</span>
+            <p className={styles.pointsText}>
+              <span className={styles.pointsValue}>+1</span>
+              <span className={styles.pointsLabel}>punto</span>
+            </p>
             <p className={styles.pointsText}>
               Por acertar los goles exactos de un equipo.
             </p>
           </article>
 
           <article className={`${styles.pointsCard} ${styles.featuredCard}`}>
-            <strong className={styles.pointsValue}>8</strong>
-            <span className={styles.pointsLabel}>puntos</span>
+            <p className={styles.pointsText}>
+              <span className={styles.pointsValue}>8</span>
+              <span className={styles.pointsLabel}>puntos</span>
+            </p>
             <p className={styles.pointsText}>
               Por acertar el resultado exacto: eso es pleno.
             </p>
@@ -152,11 +158,47 @@ export default function GameRules() {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <span className={styles.step}>03</span>
+          <div>
+            <h2 className={styles.sectionTitle}>Criterios de desempate</h2>
+            <p className={styles.sectionDescription}>
+              En caso de empate en puntos, se ordenará según:
+            </p>
+          </div>
+        </div>
+        <article className={styles.criteriaCard}>
+          <strong className={styles.criteriaValue}>1°</strong>
+          <p className={styles.criteriaText}>
+            Mayor cantidad de aciertos de resultado del partido: ganador o empate.
+          </p>
+        </article>
+        <article className={styles.criteriaCard}>
+          <strong className={styles.criteriaValue}>2°</strong>
+          <p className={styles.criteriaText}>
+            Mayor cantidad de partidos en los que el usuario haya sumado al menos 1 punto.
+          </p>
+        </article>
+        <article className={styles.criteriaCard}>
+          <strong className={styles.criteriaValue}>3°</strong>
+          <p className={styles.criteriaText}>
+            Mayor cantidad de plenos.
+          </p>
+        </article>
+        <article className={styles.criteriaCard}>
+          <strong className={styles.criteriaValue}>4°</strong>
+          <p className={styles.criteriaText}>
+            Si persiste el empate, se mantendrá el mismo puesto compartido.
+          </p>
+        </article>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.step}>04</span>
 
           <div>
             <h2 className={styles.sectionTitle}>Ejemplos de puntuación</h2>
             <p className={styles.sectionDescription}>
-              Supongamos que el resultado oficial del partido fue:
+              Supongamos que el resultado oficial de un partido fue:
             </p>
           </div>
         </div>
@@ -184,7 +226,7 @@ export default function GameRules() {
               }`}
             >
               <div className={styles.exampleMain}>
-                <div className={styles.exampleWrapper}>
+                <div className={`${styles.exampleWrapper} ${example.featured ? styles.exampleWrapperFeatured : ""}`}>
                   <span className={styles.exampleLabel}>Tu pronóstico</span>
                   <strong className={styles.prediction}>
                     {example.prediction}
@@ -198,8 +240,8 @@ export default function GameRules() {
               </div>
 
               <div className={styles.exampleContent}>
-                <h3>{example.title}</h3>
-                <p>{example.detail}</p>
+                <h2 className={styles.sectionTitle}>{example.title}</h2>
+                <p className={styles.sectionDescription}>{example.detail}</p>
               </div>
             </article>
           ))}

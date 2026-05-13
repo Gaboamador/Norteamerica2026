@@ -1,30 +1,8 @@
 .wrapper {
   width: 100%;
-
   display: flex;
   flex-direction: column;
   gap: $space-lg;
-}
-
-.titleMain {
-  margin: 0;
-
-  font-family: $font-family-display;
-  font-size: $font-size-xl;
-  font-weight: $font-weight-bold;
-  line-height: 1.1;
-
-  color: $color-text-primary;
-  text-align: center;
-}
-
-/* ===== HEADER ===== */
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: $space-sm;
-  align-items: center;
 }
 
 /* ===== TITLE ===== */
@@ -41,38 +19,30 @@
 }
 
 /* ===== SELECTOR ===== */
+.selectorWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  padding: $space-sm;
+  border-radius: $radius-md;
+
+  background: rgba($color-bg-elevated, 0.5);
+  border: 1px solid rgba($color-border, 0.5);
+}
+
+.selectorLabel {
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-medium;
+
+  color: $color-text-muted;
+}
 
 .selector {
   display: flex;
-  gap: $space-xs;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.selector span {
-  font-size: $font-size-body-xs;
-  color: $color-text-secondary;
-}
-
-.selectorButton {
-  padding: $space-2xs $space-sm;
-
-  border-radius: $radius-sm;
-  border: 1px solid rgba($color-border, 0.7);
-
-  background: rgba($color-bg-elevated, 0.6);
-  color: $color-text-secondary;
-
-  font-size: $font-size-body-xs;
-
-  cursor: pointer;
-
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease,
-    color 0.18s ease,
-    transform 0.18s ease;
+  gap: $space-xs;
 }
 
 .active {
@@ -93,46 +63,13 @@
 /* ===== BREAKPOINTS ===== */
 
 @include up(sm) {
-  .wrapper {
-    gap: $space-xl;
-  }
-
-  .title, .titleMain {
+  .title {
     font-size: $font-size-2xl;
-  }
-
-  .selector span {
-    font-size: $font-size-body-sm;
-  }
-
-  .selectorButton {
-    font-size: $font-size-body-sm;
   }
 }
 
 @include up(md) {
-  .header {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .titleMain {
-    font-size: $font-size-heading-page;
-  }
-
   .title {
     font-size: $font-size-heading-page;
-    text-align: left;
-  }
-
-  .selector {
-    justify-content: flex-end;
-  }
-
-  .selectorButton:hover {
-    background: rgba($color-accent-primary, 0.12);
-    border-color: rgba($color-accent-primary, 0.5);
-    color: $color-text-primary;
   }
 }

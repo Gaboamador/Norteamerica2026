@@ -3,7 +3,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: $space-lg;
+  gap: $space-xl;
 }
 
 .hero {
@@ -29,11 +29,11 @@
   margin: 0;
 
   font-family: $font-family-display;
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: $font-size-xl;
   font-weight: $font-weight-bold;
-  line-height: 1;
 
   color: $color-text-primary;
+  text-align: center;
 }
 
 .description {
@@ -41,7 +41,7 @@
   margin: 0 auto;
 
   font-family: $font-family-text;
-  font-size: $font-size-body;
+  font-size: $font-size-sm;
   font-weight: $font-weight-regular;
   line-height: 1.6;
 
@@ -57,6 +57,8 @@
   display: flex;
   align-items: flex-start;
   gap: $space-sm;
+  border-top: 1px solid $color-accent-warm;
+  padding-top: $space-sm;
 }
 
 .step {
@@ -83,7 +85,7 @@
   margin: 0 0 $space-xs;
 
   font-family: $font-family-display;
-  font-size: $font-size-heading-section;
+  font-size: $font-size-lg;
   font-weight: $font-weight-bold;
   line-height: 1.15;
 
@@ -94,7 +96,7 @@
   margin: 0;
 
   font-family: $font-family-text;
-  font-size: $font-size-body;
+  font-size: $font-size-sm;
   font-weight: $font-weight-regular;
   line-height: 1.55;
 
@@ -102,7 +104,7 @@
 }
 
 .ruleCard {
-  padding: $space-lg;
+  padding: $space-sm $space-md;
   border-radius: $radius-lg;
 
   background: $color-card-bg;
@@ -114,9 +116,8 @@
   margin: 0;
 
   font-family: $font-family-text;
-  font-size: $font-size-body;
+  font-size: $font-size-sm;
   font-weight: $font-weight-regular;
-  line-height: 1.6;
 
   color: $color-text-secondary;
 
@@ -130,7 +131,7 @@
   margin-top: $space-sm;
 
   font-size: $font-size-body-sm;
-  color: $color-text-muted;
+  color: $color-accent-warm-soft;
 }
 
 .pointsGrid {
@@ -140,7 +141,7 @@
 }
 
 .pointsCard {
-  padding: $space-lg;
+  padding: $space-sm $space-md;
   border-radius: $radius-lg;
 
   display: grid;
@@ -164,8 +165,8 @@
 }
 
 .pointsValue {
-  font-family: $font-family-display;
-  font-size: 2.25rem;
+  font-family: $font-family-data;
+  font-size: $font-size-4xl;
   font-weight: $font-weight-bold;
   line-height: 1;
 
@@ -183,10 +184,45 @@
 }
 
 .pointsText {
+  display: flex;
+  gap: $space-sm;
+  align-items: flex-start;
   margin: $space-xs 0 0;
 
   font-family: $font-family-text;
   font-size: $font-size-body-sm;
+  font-weight: $font-weight-regular;
+  line-height: 1.45;
+  color: $color-text-secondary;
+}
+
+.criteriaCard {
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+
+  display: grid;
+  gap: $space-xs;
+
+  background: $color-card-bg;
+  box-shadow: inset 0 0 0 1px $color-card-border;
+
+  display: flex;
+  align-items: flex-start;
+}
+
+.criteriaValue {
+  font-family: $font-family-display;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  // line-height: 1;
+
+  color: $color-text-primary;
+  transform: translateY(1px);
+}
+
+.criteriaText {
+  font-family: $font-family-text;
+  font-size: $font-size-sm;
   font-weight: $font-weight-regular;
   line-height: 1.45;
 
@@ -196,7 +232,7 @@
 .scoreExample {
   position: sticky;
   top: $header-height-sm;
-  padding: $space-lg;
+  padding: $space-sm $space-md;
   border-radius: $radius-lg;
 
   display: flex;
@@ -253,7 +289,7 @@
 }
 
 .exampleCard {
-  padding: $space-lg;
+  padding: $space-sm $space-md;
   border-radius: $radius-lg;
 
   display: grid;
@@ -287,6 +323,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-left: 1.5px solid $color-accent-primary;
+  border-right: 1.5px solid $color-accent-primary;
+  // box-shadow: inset 0 0 0 1px $color-accent-primary;
+  border-radius: $radius-md;
+  padding: $space-2xs $space-sm;
+}
+
+.exampleWrapperFeatured {
+  border-color: $color-accent-warm;
 }
 
 .exampleLabel {
@@ -363,6 +408,10 @@
 }
 
 @include up(sm) {
+  .title {
+    font-size: $font-size-2xl;
+  }
+
   .pointsGrid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -378,5 +427,16 @@
 
   .scoreExample {
     top: 88.67px;
+    width: 100%;
+  }
+
+  .examplesList {
+    gap: $space-md;
+}
+}
+
+@include up(md) {
+  .title {
+    font-size: $font-size-heading-page;
   }
 }

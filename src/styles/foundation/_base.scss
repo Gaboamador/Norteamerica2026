@@ -9,6 +9,10 @@ body,
   font-size: $font-size-md;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 #root {
   display: flex;
   flex-direction: column;

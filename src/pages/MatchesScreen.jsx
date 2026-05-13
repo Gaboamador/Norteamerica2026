@@ -21,33 +21,37 @@ export default function MatchesScreen() {
       <div className={styles.title}>Cargar Pronósticos</div>
 
       {/* SELECTOR */}
-        <div className={styles.selector}>
-          <span>Ver:</span>
-          <button
-            onClick={() => setMode("date")}
-            className={`button button--primary button--small ${
-              mode === "date" ? styles.active : ""
-            }`}
-          >
-            Por fecha
-          </button>
+        <div className={styles.selectorWrapper}>
+          <div className={styles.selectorLabel}>
+            VER:
+          </div>
+          <div className={styles.selector}>
+            <button
+              onClick={() => setMode("date")}
+              className={`button button--primary button--small ${
+                mode === "date" ? styles.active : ""
+              }`}
+            >
+              Por fecha
+            </button>
 
-          <button
-            onClick={() => setMode("group")}
-            className={`button button--primary button--small ${
-              mode === "group" ? styles.active : ""
-            }`}
-          >
-            Por grupo
-          </button>
-          <button
-            onClick={() => setMode("round")}
-            className={`button button--primary button--small ${
-              mode === "round" ? styles.active : ""
-            }`}
-          >
-            Por fase
-          </button>
+            <button
+              onClick={() => setMode("group")}
+              className={`button button--primary button--small ${
+                mode === "group" ? styles.active : ""
+              }`}
+            >
+              Por grupo
+            </button>
+            <button
+              onClick={() => setMode("round")}
+              className={`button button--primary button--small ${
+                mode === "round" ? styles.active : ""
+              }`}
+            >
+              Por fase
+            </button>
+          </div>
         </div>
 
       {/* LIST */}

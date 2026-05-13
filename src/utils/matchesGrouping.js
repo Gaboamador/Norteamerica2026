@@ -1,5 +1,45 @@
 import { getRoundLabel } from "./matchRounds";
 
+const DATE_BUCKET_ORDER = [
+  "date-finished",
+  "date-soon",
+  "date-this-week",
+  "date-next-week",
+  "date-later",
+];
+
+const getDateBucket = (match) => {
+  const start = match.startTime.toDate();
+  const now = new Date();
+
+  if (match.result) {
+    return "date-finished";
+  }
+
+  const in48Hours = new Date(now);
+  in48Hours.setHours(now.getHours() + 48);
+
+  const in7Days = new Date(now);
+  in7Days.setDate(now.getDate() + 7);
+
+  const in14Days = new Date(now);
+  in14Days.setDate(now.getDate() + 14);
+
+  if (start < in48Hours) {
+    return "date-soon";
+  }
+
+  if (start < in7Days) {
+    return "date-this-week";
+  }
+
+  if (start < in14Days) {
+    return "date-next-week";
+  }
+
+  return "date-later";
+};
+
 export const sortMatches = (matches, mode = "date") => {
   return [...matches].sort((a, b) => {
     const dateA = a.startTime.toDate();
@@ -60,17 +100,26 @@ export const groupMatches = (matches, mode = "date") => {
   matches.forEach((m) => {
     let key;
 
+    // if (mode === "group") {
+    //   if (m.round <= 3) {
+    //     key = `group-${m.group}`;
+    //   } else {
+    //     key = `round-${m.round}`;
+    //   }
+    // }
     if (mode === "group") {
-      if (m.round <= 3) {
-        key = `group-${m.group}`;
-      } else {
-        key = `round-${m.round}`;
+      if (m.round > 3) {
+        return;
       }
-    } else if (mode === "round") {
+      key = `group-${m.group}`;
+    }
+    else if (mode === "round") {
       key = `round-${m.round}`;
-    } else {
-      const d = m.startTime.toDate();
-      key = `date-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    } 
+    else {
+      // const d = m.startTime.toDate();
+      // key = `date-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      key = getDateBucket(m);
     }
 
     if (!groups[key]) {
@@ -85,6 +134,11 @@ export const groupMatches = (matches, mode = "date") => {
   // ===============================
 
 const sortedEntries = Object.entries(groups).sort(([keyA], [keyB]) => {
+
+  if (mode === "date") {
+    return DATE_BUCKET_ORDER.indexOf(keyA) - DATE_BUCKET_ORDER.indexOf(keyB);
+  }
+
   const isGroupA = keyA.startsWith("group-");
   const isGroupB = keyB.startsWith("group-");
 
@@ -144,12 +198,30 @@ export const getGroupLabel = (key, mode, matches) => {
   }
 
   // mode === "date"
-  const firstMatch = matches[0];
-  const date = firstMatch.startTime.toDate();
+  // const firstMatch = matches[0];
+  // const date = firstMatch.startTime.toDate();
 
-  return date.toLocaleDateString("es-AR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  // return date.toLocaleDateString("es-AR", {
+  //   day: "2-digit",
+  //   month: "2-digit",
+  //   year: "numeric",
+  // });
+
+  // ===============================
+  // DATE MODE
+  // ===============================
+  const count = matches.length;
+
+  const dateLabels = {
+    "date-soon": "Próximas 48hs",
+    "date-this-week": "En los próximos días",
+    "date-next-week": "En más de una semana",
+    "date-later": "Más adelante",
+    "date-finished": "Ya jugados",
+  };
+
+  const label = dateLabels[key] || "Partidos";
+
+  return `${label} · ${count} ${count === 1 ? "partido" : "partidos"}`;
+
 };

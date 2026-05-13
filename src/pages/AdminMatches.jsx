@@ -131,7 +131,7 @@ export default function AdminMatches() {
 
   return (
     <section className={styles.wrapper}>
-      
+      <div className={styles.title}>Administrar Partidos</div>
     {/* HEADER */}
       <div className={styles.header}>
         <div className={styles.selector}>
@@ -169,7 +169,7 @@ export default function AdminMatches() {
           className={styles.titleRow}
           onClick={() => setCreateOpen((v) => !v)}
         >
-          <div className={styles.title}>
+          <div className={styles.titleCrearPartido}>
             {createOpen ? <IoIosRemoveCircleOutline/> : <IoIosAddCircleOutline/>}
           </div>
         </div>
@@ -186,7 +186,7 @@ export default function AdminMatches() {
           style={{ overflow: "hidden" }}
         >
         <form onSubmit={handleCreate} className={styles.form}>
-        <div className={styles.title}>Crear Partido</div>
+        <div className={styles.titleCrearPartido}>Crear Partido</div>
         <div className={styles.matchMetadata}>
           {!isKnockout && 
           <select

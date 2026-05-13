@@ -32,6 +32,11 @@
   max-width: $layout-content-lg;
 }
 
+.lg {
+  max-width: $layout-content-xl;
+}
+
+
 /* ===== Breakpoints ===== */
 
 @include up(xs) {

@@ -120,7 +120,7 @@ export default function AdminGroups() {
       
       {/* HEADER */}
       <div className={styles.header}>
-        <h2 className={styles.title}>Administrar Grupos y Miembros</h2>
+        <div className={styles.title}>Administrar Grupos y Miembros</div>
       </div>
 
       <DirtyBanner/>
@@ -188,7 +188,7 @@ export default function AdminGroups() {
               <div className={styles.actions}>
                 {isEmpty && (
                   <button
-                    className={styles.dangerButton}
+                    className={`button button--danger`}
                     onClick={() => handleDelete(g.id)}
                   >
                     Eliminar
