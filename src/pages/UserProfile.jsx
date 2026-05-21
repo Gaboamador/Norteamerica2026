@@ -194,7 +194,7 @@ export default function UserProfile() {
 
       {/* Nombre actual */}
       <div className={styles.section}>
-        <div className={styles.label}>Nombre actual</div>
+        <div className={styles.label}>Nombre de usuario actual</div>
         <div className={styles.currentName}>
           {user?.displayName}
         </div>
@@ -257,7 +257,7 @@ export default function UserProfile() {
       </div>
 
       {/* Password */}
-      <div className={styles.section}>
+      {/* <div className={styles.section}>
         <button
           className={`button button--danger`}
           onClick={handlePasswordReset}
@@ -265,7 +265,7 @@ export default function UserProfile() {
         >
           Cambiar contraseña
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

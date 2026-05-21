@@ -80,7 +80,7 @@ const TablaPosiciones = () => {
 
   const activeGroupName = useMemo(() => {
     if (!hasMultipleGroups) {
-      return groups[0]?.name || "Grupo";
+      return groups[0]?.name || "No pertenecés a ningún grupo";
     }
 
     if (activeSelected === "all") {
@@ -90,6 +90,10 @@ const TablaPosiciones = () => {
     const group = groups.find((g) => g.id === activeSelected);
     return group?.name || "Grupo";
   }, [activeSelected, groups, hasMultipleGroups]);
+
+
+  const hasGroups = groups.length > 0;
+  const hasTable = Array.isArray(table) && table.length > 0;
 
 
   return (
@@ -134,14 +138,23 @@ const TablaPosiciones = () => {
       </div>
       
 
-      <p className={styles.tableHint}>
-        Tocá una fila para ver los criterios de desempate.
-      </p>
+      {hasTable ? (
+        <p className={styles.tableHint}>
+          Tocá una fila para ver los criterios de desempate.
+        </p>
+      ) : !hasGroups ? (
+        <p className={styles.tableHint}>
+          Unite a un grupo y cargá tus pronósticos para aparecer en la tabla de posiciones.
+        </p>
+      ) : (
+        <p className={styles.tableHint}>
+          Todavía no hay posiciones para mostrar en esta tabla.
+        </p>
+      )}
 
       {/* TABLA */}
       <AnimatePresence mode="wait">
         <motion.div
-          // key={selected}
           key={activeSelected || "empty"}
           className={styles.table}
           initial={{ opacity: 0, y: 8 }}

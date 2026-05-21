@@ -13,8 +13,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import styles from "./AuthScreen.module.scss";
 
 export default function AuthScreen() {
-  // const [mode, setMode] = useState("login"); 
-  const [mode, setMode] = useState("verify"); 
+  const [mode, setMode] = useState("login");
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -169,6 +168,8 @@ export default function AuthScreen() {
         {mode === "login" && "Accedé o creá tu cuenta"}
         {mode === "register" && "Crear cuenta"}
         {mode === "recovery" && "Recuperar contraseña"}
+        {mode === "verify" && "Verificá tu correo"}
+
       </h2>
 
       {mode === "login" && (
@@ -242,7 +243,7 @@ export default function AuthScreen() {
               </span>
               <button
                 type="button"
-                className={`button button--secondary button--small`}
+                className={`button button--secondary button--small ${styles.registerButton}`}
                 onClick={() => {
                   resetErrors();
                   setMode("register");
