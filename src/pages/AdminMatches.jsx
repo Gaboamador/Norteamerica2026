@@ -261,6 +261,7 @@ export default function AdminMatches() {
             onSetResult={handleSetResult}
           />
         )}
+        userMode={false}
       />
     </section>
   );

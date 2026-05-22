@@ -8,6 +8,7 @@ export default function MatchesGrouped({
   mode,
   renderMatch,
   autoFocusPending = true,
+  userMode = true,
 }) {
   const sorted = sortMatches(matches, mode);
   const grouped = groupMatches(sorted, mode);
@@ -82,7 +83,7 @@ export default function MatchesGrouped({
                 transition={{ duration: 0.25, ease: "easeInOut" }}
                 style={{ overflow: "hidden" }}
               >
-                <div className={styles.matches}>
+                <div className={`${styles.matches} ${userMode ? styles.userMode : ""}`}>
                   {groupMatches.map((m) => {
                     const ref = m.id === firstPendingId ? firstPendingRef : null;
 

@@ -64,7 +64,6 @@ export default function GameRules() {
   return (
     <main className={styles.wrapper}>
       <section className={styles.hero}>
-        {/* <p className={styles.eyebrow}>Reglamento</p> */}
 
         <div className={styles.title}>¿Cómo se juega?</div>
 
@@ -82,7 +81,7 @@ export default function GameRules() {
           <div>
             <h2 className={styles.sectionTitle}>Carga de pronósticos</h2>
             <p className={styles.sectionDescription}>
-              Cada partido tiene un horario de cierre (su fecha y hora de inicio). Podés cargar o modificar
+              Cada partido tiene un horario de cierre propio. Podés cargar o modificar
               tu pronóstico mientras el partido siga habilitado.
             </p>
           </div>
@@ -95,8 +94,8 @@ export default function GameRules() {
           </p>
 
           <p className={styles.ruleNote}>
-            El cierre se calcula con el horario de bloqueo de cada partido. Podés
-            pronosticar hasta la hora de inicio.
+            El cierre se calcula 5 minutos antes del horario de inicio de cada partido.
+            Una vez alcanzado ese momento, el pronóstico queda bloqueado definitivamente.
           </p>
         </div>
       </section>
