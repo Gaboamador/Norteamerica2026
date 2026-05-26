@@ -203,14 +203,16 @@ align-items: flex-start;
 
 .adminBlock {
   display: grid;
-  gap: $space-sm;
+  gap: $space-2xs;
   border-radius: $radius-lg;
   border: 1px solid $color-danger;
 }
 
 .adminBlock.open {
-  background: rgba($color-danger, 0.1);
+  // background: rgba($color-danger, 0.1);
   border: none;
+  border: 1px solid $color-danger;
+  background: $color-danger;
 }
 
 .adminCard {
@@ -222,6 +224,20 @@ min-height: auto;
 gap: $space-sm;
 }
 
+.adminLinkCard {
+  background: $color-bg-page;
+}
+
+.leftLinkCard {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rightLinkCard {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .adminToggle {
   display: flex;
   align-items: center;
@@ -230,7 +246,6 @@ gap: $space-sm;
 
   width: 100%;
   padding: $space-lg;
-
   background: transparent;
   border: 1px solid $color-card-border;
   border-radius: $radius-lg;
@@ -274,7 +289,7 @@ gap: $space-sm;
 .adminLinksInner {
   display: flex;
   justify-content: space-between;
-  gap: $space-sm;
+  gap: 0.1px;
   padding-top: $space-xs;
 }
 
@@ -306,6 +321,11 @@ gap: $space-sm;
     background: rgba($color-bg-elevated, 0.62);
 }
 
+  .adminToggle.open {
+    background: $color-bg-elevated;
+
+  }
+
   .cardAccentBlue:hover .homeIcon {
     transform: scale(1.05);
   }
@@ -329,6 +349,10 @@ gap: $space-sm;
 
   .adminLinksInner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adminLinkCard:hover {
+    background: $color-bg-elevated;
   }
 
 }

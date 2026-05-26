@@ -3,6 +3,7 @@
   top: 0;
   z-index: 50;
   width: 100%;
+  height: $header-height-sm;
   padding: $space-md 0;
 
   backdrop-filter: blur(12px);
@@ -281,6 +282,7 @@ a:hover .authIcon {
 @include up(sm) {
   .header {
     padding: $space-lg 0;
+    height: $header-height-md;
   }
 
   .inner {

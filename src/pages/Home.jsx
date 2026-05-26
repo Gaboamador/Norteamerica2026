@@ -112,7 +112,7 @@ export default function Home() {
                   <div className={styles.adminLinksInner}>
                     <Link
                       to="/admin/matches"
-                      className={`${styles.card} ${styles.cardAccentRed} ${styles.adminCard}`}
+                      className={`${styles.card} ${styles.cardAccentRed} ${styles.adminLinkCard} ${styles.leftLinkCard}`}
                     >
                       <div className={`${styles.cardTitle} ${styles.admin}`}>
                         <span className={`${styles.homeIcon} ${styles.admin}`}>
@@ -131,7 +131,7 @@ export default function Home() {
 
                     <Link
                       to="/admin/groups"
-                      className={`${styles.card} ${styles.cardAccentRed} ${styles.adminCard}`}
+                      className={`${styles.card} ${styles.cardAccentRed} ${styles.adminLinkCard} ${styles.rightLinkCard}`}
                     >
                       <div className={`${styles.cardTitle} ${styles.admin}`}>
                         <span className={`${styles.homeIcon} ${styles.admin}`}>

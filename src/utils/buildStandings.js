@@ -118,9 +118,10 @@ export const buildStandings = (predictions, matches, usersMap = {}, memberIds = 
 
   });
   
-  const sorted = Object.values(table).sort(
-    (a, b) => b.points - a.points
-  );
+  // const sorted = Object.values(table).sort(
+  //   (a, b) => b.points - a.points
+  // );
+  const sorted = Object.values(table).sort(compareStandingsRows);
 
   let previousRow = null;
   let previousPosition = 0;
