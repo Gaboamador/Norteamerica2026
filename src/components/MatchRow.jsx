@@ -11,6 +11,7 @@ import { recomputeStandings } from "@/services/firebase/standingsService";
 import { BREAKPOINTS } from "@/constants/breakpoints";
 import { getRoundLabel } from "@/utils/matchRounds";
 import { formatMatchDate } from "@/utils/dateFormat";
+import TeamSelect from "@/components/TeamSelect";
 
 export default function MatchRow({ match, onSetResult }) {
   const [editing, setEditing] = useState(false);
@@ -106,6 +107,7 @@ export default function MatchRow({ match, onSetResult }) {
       <button
         className={`button button--secondary ${styles.editFloating}`}
         onClick={() => setEditing(true)}
+        title="Editar partido"
       >
         <span><LuPencil size={12}/></span>
       </button>
@@ -197,16 +199,16 @@ export default function MatchRow({ match, onSetResult }) {
       {/* VIEW MODE */}
       {editing && 
         <div className={styles.edit}>
-          <input
-            className={styles.input}
+          <TeamSelect
             value={homeTeam}
-            onChange={(e) => setHomeTeam(e.target.value)}
+            onChange={setHomeTeam}
+            className={styles.input}
           />
 
-          <input
-            className={styles.input}
+          <TeamSelect
             value={awayTeam}
-            onChange={(e) => setAwayTeam(e.target.value)}
+            onChange={setAwayTeam}
+            className={styles.input}
           />
 
           <select

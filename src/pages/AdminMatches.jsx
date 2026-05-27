@@ -23,7 +23,7 @@ import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io"
 export default function AdminMatches() {
 
   const { matches, loading } = useMatches();
-  const { isAdmin, loading: adminLoading } = useAdmin();
+  const { isAdmin, canCreateMatches, loading: adminLoading } = useAdmin();
   const { showToast } = useToast();
   const navigate = useNavigate();
   const [mode, setMode] = useState("date");
@@ -164,7 +164,9 @@ export default function AdminMatches() {
         </div>
       </div>
 
-<div>
+      {/* CREATE FORM */}
+      {canCreateMatches && (
+      <>
         <div
           className={styles.titleRow}
           onClick={() => setCreateOpen((v) => !v)}
@@ -174,81 +176,81 @@ export default function AdminMatches() {
           </div>
         </div>
 
-      {/* CREATE FORM */}
-      <AnimatePresence initial={false}>
-      {createOpen && (
-        <motion.div
-          key="create-form"
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-          style={{ overflow: "hidden" }}
-        >
-        <form onSubmit={handleCreate} className={styles.form}>
-        <div className={styles.titleCrearPartido}>Crear Partido</div>
-        <div className={styles.matchMetadata}>
-          {!isKnockout && 
-          <select
-            className={styles.selectSmall}
-            value={group}
-            onChange={(e) => setGroup(e.target.value)}
-            disabled={isKnockout}
+        <AnimatePresence initial={false}>
+        {createOpen && (
+          <motion.div
+            key="create-form"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
           >
-            {"ABCDEFGHIJKL".split("").map((g) => (
-                <option key={g} value={g}>
-                  Grupo {g}
-                </option>
-              ))
-            }
-          </select>
-          }
+          <form onSubmit={handleCreate} className={styles.form}>
+          <div className={styles.titleCrearPartido}>Crear Partido</div>
+          <div className={styles.matchMetadata}>
+            {!isKnockout && 
             <select
               className={styles.selectSmall}
-              value={round}
-              onChange={(e) => setRound(Number(e.target.value))}
+              value={group}
+              onChange={(e) => setGroup(e.target.value)}
+              disabled={isKnockout}
             >
-              {ROUND_OPTIONS.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
-              ))}
+              {"ABCDEFGHIJKL".split("").map((g) => (
+                  <option key={g} value={g}>
+                    Grupo {g}
+                  </option>
+                ))
+              }
             </select>
-          </div>
-          
-          <input
-            className={styles.input}
-            type="datetime-local"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            required
-          />
-          
-          <div className={styles.match}>
+            }
+              <select
+                className={styles.selectSmall}
+                value={round}
+                onChange={(e) => setRound(Number(e.target.value))}
+              >
+                {ROUND_OPTIONS.map((r) => (
+                  <option key={r.value} value={r.value}>
+                    {r.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
             <input
               className={styles.input}
-              placeholder="Local"
-              value={homeTeam}
-              onChange={(e) => setHomeTeam(e.target.value)}
+              type="datetime-local"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
               required
             />
+            
+            <div className={styles.match}>
+              <input
+                className={styles.input}
+                placeholder="Local"
+                value={homeTeam}
+                onChange={(e) => setHomeTeam(e.target.value)}
+                required
+              />
 
-            <input
-              className={styles.input}
-              placeholder="Visitante"
-              value={awayTeam}
-              onChange={(e) => setAwayTeam(e.target.value)}
-              required
-            />
-          </div>
-          <button className={`button button--success`}>
-            Crear partido
-          </button>
-        </form>
-      </motion.div>
-      )}
-      </AnimatePresence>
-    </div>
+              <input
+                className={styles.input}
+                placeholder="Visitante"
+                value={awayTeam}
+                onChange={(e) => setAwayTeam(e.target.value)}
+                required
+              />
+            </div>
+            <button className={`button button--success`}>
+              Crear partido
+            </button>
+          </form>
+        </motion.div>
+        )}
+        </AnimatePresence>
+        </>
+        )}
 
       {/* LIST */}
       <MatchesGrouped

@@ -42,11 +42,11 @@ function App() {
               {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/matches" element={<MatchesScreen />} />
-                <Route path="/standings" element={<TablaPosiciones />} />
-                <Route path="/rules" element={<GameRules />} />
+                <Route path="/pronosticos" element={<MatchesScreen />} />
+                <Route path="/posiciones" element={<TablaPosiciones />} />
+                <Route path="/reglamento" element={<GameRules />} />
                 <Route path="/join" element={<JoinGroup />} />
-                <Route path="/user" element={<UserProfile />} />
+                <Route path="/usuario" element={<UserProfile />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
 
                 <Route element={<AdminRoute />}>

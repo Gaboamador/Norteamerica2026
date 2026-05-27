@@ -1,92 +1,19 @@
-const TEAM_FLAG_MAP = {
-  // A
-  alemania: "de",
-  "arabia saudi": "sa",
-  argelia: "dz",
-  argentina: "ar",
-  australia: "au",
-  austria: "at",
-
-  // B
-  belgica: "be",
-  "bosnia y herzegovina": "ba",
-  brasil: "br",
-
-  // C
-  "islas de cabo verde": "cv",
-  canada: "ca",
-  chequia: "cz",
-  colombia: "co",
-  "costa de marfil": "ci",
-  croacia: "hr",
-  curazao: "cw",
-  catar: "qa",
-
-  // E
-  ecuador: "ec",
-  egipto: "eg",
-  escocia: "gb-sct",
-  espana: "es",
-  "ee. uu.": "us",
-
-  // F
-  francia: "fr",
-
-  // G
-  ghana: "gh",
-
-  // H
-  haiti: "ht",
-
-  // I
-  inglaterra: "gb-eng",
-  irak: "iq",
-  "ri de iran": "ir",
-
-  // J
-  japon: "jp",
-  jordania: "jo",
-
-  // M
-  marruecos: "ma",
-  mexico: "mx",
-
-  // N
-  noruega: "no",
-  "nueva zelanda": "nz",
-
-  // P
-  "paises bajos": "nl",
-  panama: "pa",
-  paraguay: "py",
-  portugal: "pt",
-
-  // R
-  "republica de corea": "kr",
-  "rd congo": "cd",
-
-  // S
-  senegal: "sn",
-  sudafrica: "za",
-  suecia: "se",
-  suiza: "ch",
-
-  // T
-  tunez: "tn",
-  turquia: "tr",
-
-  // U
-  uruguay: "uy",
-  uzbekistan: "uz",
-};
+import { NATIONAL_TEAMS } from "@/utils/teams";
 
 function normalizeTeamName(name) {
   return String(name || "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, ""); // elimina tildes
+    .replace(/[\u0300-\u036f]/g, "");
 }
+
+const TEAM_FLAG_MAP = Object.fromEntries(
+  NATIONAL_TEAMS.map((team) => [
+    normalizeTeamName(team.name),
+    team.flagCode,
+  ])
+);
 
 export function getTeamFlagCode(teamName) {
   const normalized = normalizeTeamName(teamName);

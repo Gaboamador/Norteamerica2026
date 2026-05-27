@@ -100,13 +100,6 @@ export const groupMatches = (matches, mode = "date") => {
   matches.forEach((m) => {
     let key;
 
-    // if (mode === "group") {
-    //   if (m.round <= 3) {
-    //     key = `group-${m.group}`;
-    //   } else {
-    //     key = `round-${m.round}`;
-    //   }
-    // }
     if (mode === "group") {
       if (m.round > 3) {
         return;
@@ -117,8 +110,6 @@ export const groupMatches = (matches, mode = "date") => {
       key = `round-${m.round}`;
     } 
     else {
-      // const d = m.startTime.toDate();
-      // key = `date-${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
       key = getDateBucket(m);
     }
 
@@ -196,16 +187,6 @@ export const getGroupLabel = (key, mode, matches) => {
 
     return roundMap[round] || `Ronda ${round}`;
   }
-
-  // mode === "date"
-  // const firstMatch = matches[0];
-  // const date = firstMatch.startTime.toDate();
-
-  // return date.toLocaleDateString("es-AR", {
-  //   day: "2-digit",
-  //   month: "2-digit",
-  //   year: "numeric",
-  // });
 
   // ===============================
   // DATE MODE

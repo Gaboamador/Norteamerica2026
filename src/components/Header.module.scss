@@ -12,6 +12,8 @@
   border-bottom: 1px solid rgba($color-border, 0.9);
   box-shadow: 0 10px 24px $color-shadow-soft;
 
+  display: flex;
+  align-items: center;
   white-space: nowrap;
   text-align: center;
 }
@@ -29,7 +31,6 @@
 .left {
   display: flex;
   align-items: center;
-  gap: $space-sm;
   min-width: 0;
 }
 
@@ -49,10 +50,11 @@
 }
 
 .titleWrapper {
-  display: flex;
-  gap: $space-sm;
-  min-width: 0;
+  display: grid;
+  grid-template-columns: $space-3xl minmax(0, auto);
   align-items: center;
+  column-gap: $space-sm;
+  min-width: 0;
 }
 
 .title {
@@ -104,9 +106,20 @@
   color: $color-accent-warm;
 }
 
+.logoSlot {
+  width: $space-3xl;
+  height: $space-3xl;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .logo {
+  display: block;
   height: $header-logo-size-mobile;
-  vertical-align: middle;
+  width: auto;
 }
 
 .logoButton {
@@ -116,8 +129,8 @@
   align-items: center;
   justify-content: center;
 
-  width: $space-3xl;
-  height: $space-3xl;
+  width: 100%;
+  height: 100%;
   padding: 0;
 
   background: rgba($color-accent-primary, 0.08);
@@ -291,7 +304,13 @@ a:hover .authIcon {
   }
 
   .titleWrapper {
-    gap: $space-md;
+    grid-template-columns: $space-3xl minmax(0, auto);
+    column-gap: $space-md;
+  }
+
+  .logoSlot {
+    width: $space-3xl;
+    height: $space-3xl;
   }
 
   .title {
@@ -311,11 +330,6 @@ a:hover .authIcon {
 
   .logo {
     height: $header-logo-size-desktop;
-  }
-
-  .logoButton {
-    width: $space-3xl;
-    height: $space-3xl;
   }
 
   .authControls {

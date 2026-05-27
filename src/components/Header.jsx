@@ -13,8 +13,7 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuFolderOpen, LuHouse } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
 import { IoMdLogOut } from "react-icons/io";
-import { TbScoreboard , TbTrophy } from "react-icons/tb";
-import { PiStrategy } from "react-icons/pi";
+import { TbScoreboard , TbTrophy, TbBook2 } from "react-icons/tb";
 
 
 export default function Header() {
@@ -41,9 +40,9 @@ export default function Header() {
   }
 
   const SUBTITLE_ROUTES = [
-    { match: "/matches", label: 'Cargar Pronósticos' },
-    { match: "/standings", label: 'Tabla de Posiciones' },
-    { match: "/rules", label: '¿Cómo se juega?' },
+    { match: "/pronosticos", label: 'Cargar Pronósticos' },
+    { match: "/posiciones", label: 'Tabla de Posiciones' },
+    { match: "/reglamento", label: '¿Cómo se juega?' },
     { match: "/auth", label: 'Autenticación' },
     { match: "/admin/matches", label: 'Administrar Partidos Oficiales' },
     { match: "/admin/groups", label: 'Administrar Grupos y Miembros' },
@@ -58,19 +57,19 @@ export default function Header() {
       icon: <LuHouse />,
     },
     {
-      to: "/matches",
+      to: "/pronosticos",
       label: 'Cargar Pronósticos',
       icon: <TbScoreboard />,
     },
     {
-      to: "/standings",
+      to: "/posiciones",
       label: 'Tabla de Posiciones',
       icon: <TbTrophy />,
     },
     {
-      to: "/rules",
+      to: "/reglamento",
       label: '¿Cómo se juega?',
-      icon: <PiStrategy />,
+      icon: <TbBook2 />,
     },
     ...(isAdmin ? [
       {
@@ -90,7 +89,7 @@ export default function Header() {
   ? [
       {
         label: "Mi perfil",
-        to: "/user",
+        to: "/usuario",
         icon: <IoPersonCircleSharp />,
         isUserSectionStart: true
       },
@@ -108,7 +107,7 @@ export default function Header() {
       <div className={styles.inner}>
         
         {/* LEFT */}
-        <div className={styles.left}>
+        {/* <div className={styles.left}>
           {(!isHome && isAuthenticated) && (
           <button
             ref={buttonRef}
@@ -130,7 +129,30 @@ export default function Header() {
               <span>PRODE</span>
               <span>Norteamérica 2026</span>
             </div>
-            {/* <DirtyDot /> */}
+          </div>
+        </div> */}
+        <div className={styles.left}>
+          <div className={styles.titleWrapper}>
+            <div className={styles.logoSlot}>
+              {!isHome && isAuthenticated ? (
+                <button
+                  ref={buttonRef}
+                  type="button"
+                  className={`${styles.logoButton} ${menuOpen ? styles.open : ""}`}
+                  onClick={() => setMenuOpen(true)}
+                  aria-label="Abrir menú"
+                >
+                  <HeaderMenuIcon open={menuOpen} />
+                </button>
+              ) : (
+                <img src={logo} alt="Logo" className={styles.logo} />
+              )}
+            </div>
+
+            <div className={styles.title}>
+              <span>PRODE</span>
+              <span>Norteamérica 2026</span>
+            </div>
           </div>
         </div>
 

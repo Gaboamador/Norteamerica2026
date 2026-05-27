@@ -1,18 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { usePredictions } from "@/hooks/usePredictions";
 import { useToast } from "@/context/ToastContext";
 import { isMatchLocked } from "@/services/firebase/firebaseUtils";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
+import { needsPrediction as getNeedsPrediction } from "@/utils/predictionStatus";
 import styles from "./MatchCard.module.scss";
 import { getTimeToLock, formatCountdown } from "@/utils/timeUtils";
 import { getPredictionPoints } from "@/utils/predictionPoints";
 import { getRoundLabel } from "@/utils/matchRounds";
 import { formatMatchDate } from "@/utils/dateFormat";
+import { PiWarningCircle } from "react-icons/pi";
 
-export default function MatchCard({ match }) {
+export default function MatchCard({
+    match,
+    prediction = null,
+    savePrediction,
+  }) {
+
   const { user } = useAuth();
-  const { predictions, savePrediction } = usePredictions();
   const { showToast } = useToast();
   const result = match.result;
 
@@ -27,9 +32,7 @@ export default function MatchCard({ match }) {
   const [home, setHome] = useState("");
   const [away, setAway] = useState("");
 
-  const existing = predictions.find(
-    (p) => p.matchId === match.id
-  );
+  const existing = prediction;
   const draftKey = user ? `pred_draft_${user.uid}_${match.id}` : null;
   const hasHydratedRef = useRef(false);
   const didUserEditRef = useRef(false);
@@ -41,6 +44,8 @@ export default function MatchCard({ match }) {
   const showPoints = match.status === "finished" && points !== null;
   
   const locked = isMatchLocked(match);
+  const needsPrediction = Boolean(user) && getNeedsPrediction(match, existing);
+  
   const [timeLeft, setTimeLeft] = useState(() => getTimeToLock(match));
   const countdown = formatCountdown(timeLeft);
 
@@ -130,8 +135,16 @@ export default function MatchCard({ match }) {
   const isGroupStage = match.round <= 3;
 
   return (
-    <div className={`${styles.card}`}>
+    <div className={`${styles.card} ${needsPrediction ? styles.needsPrediction : ""}`}>
       
+      {needsPrediction && (
+        <div
+          className={styles.pendingPredictionIcon}
+        >
+          <PiWarningCircle size={18} />
+        </div>
+      )}
+
       {/* MATCH METADATA */}
       <div className={styles.meta}>
         {isGroupStage && match.group && (

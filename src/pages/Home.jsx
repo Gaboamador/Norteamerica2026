@@ -2,15 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
-import { useAdmin } from "../hooks/useAdmin";
+import { useAdmin } from "@/hooks/useAdmin";
+import AnimatedHomeIcon from "@/components/AnimatedHomeIcon";
 import styles from "./Home.module.scss";
 import { LuFolderOpen, LuChevronDown } from "react-icons/lu";
-import { CiViewTable, CiEdit } from "react-icons/ci";
+import { CiViewTable } from "react-icons/ci";
 import { IoIosFootball } from "react-icons/io";
-import { MdOutlineSegment } from "react-icons/md";
-import { TbScoreboard , TbTrophy } from "react-icons/tb";
-import { PiStrategy } from "react-icons/pi";
 
+const MotionLink = motion(Link);
 
 export default function Home() {
   const { loading } = useAuth();
@@ -37,32 +36,65 @@ export default function Home() {
       </div>
 
       <nav className={styles.actions}>
-        <Link to="/matches" className={`${styles.card} ${styles.cardAccentBlue}`}>
-          <div className={styles.homeIcon}><TbScoreboard size={32} /></div>
+        <MotionLink
+          to="/pronosticos"
+          className={`${styles.card} ${styles.cardAccentPrimary}`}
+          initial="rest"
+          animate="rest"
+          whileHover="hover"
+          whileTap={{ scale: 0.985 }}
+        >
+          <div className={styles.homeIcon}>
+            <AnimatedHomeIcon type="scoreboard" size={32} />
+          </div>
 
           <div className={styles.cardTitleDescWrapper}>
             <div className={styles.cardTitle}>Cargar Pronósticos</div>
-            <div className={styles.cardDesc}>Ingresá tus resultados antes de que empiecen los partidos.</div>
+            <div className={styles.cardDesc}>
+              Ingresá tus resultados antes de que empiecen los partidos.
+            </div>
           </div>
-        </Link>
+        </MotionLink>
 
-        <Link to="/standings" className={`${styles.card} ${styles.cardAccentGreen}`}>
-          <div className={styles.homeIcon}><TbTrophy size={32} /></div>
+        <MotionLink
+          to="/posiciones"
+          className={`${styles.card} ${styles.cardAccentSecondary}`}
+          initial="rest"
+          animate="rest"
+          whileHover="hover"
+          whileTap={{ scale: 0.985 }}
+        >
+          <div className={styles.homeIcon}>
+            <AnimatedHomeIcon type="trophy" size={32} />
+          </div>
 
           <div className={styles.cardTitleDescWrapper}>
             <div className={styles.cardTitle}>Tabla de Posiciones</div>
-            <div className={styles.cardDesc}>Mirá el puntaje acumulado y cómo va el ranking del grupo.</div>
+            <div className={styles.cardDesc}>
+              Mirá el puntaje acumulado y cómo va el ranking del grupo.
+            </div>
           </div>
-        </Link>
+        </MotionLink>
 
-        <Link to="/rules" className={`${styles.card} ${styles.cardAccentRed}`}>
-          <div className={styles.homeIcon}><PiStrategy size={32} /></div>
+        <MotionLink
+          to="/reglamento"
+          className={`${styles.card} ${styles.cardAccentTertiary}`}
+          initial="rest"
+          animate="rest"
+          whileHover="hover"
+          whileTap={{ scale: 0.985 }}
+        >
+          <div className={styles.homeIcon}>
+            <AnimatedHomeIcon type="strategy" size={32} />
+          </div>
 
           <div className={styles.cardTitleDescWrapper}>
             <div className={styles.cardTitle}>¿Cómo se juega?</div>
-            <div className={styles.cardDesc}>Conocé las reglas del prode, el cierre de los pronósticos y cómo se calculan los puntos.</div>
+            <div className={styles.cardDesc}>
+              Conocé las reglas del prode, el cierre de los pronósticos y cómo se calculan los puntos.
+            </div>
           </div>
-        </Link>
+        </MotionLink>
 
         {isAdmin && (
           <motion.div
@@ -112,7 +144,7 @@ export default function Home() {
                   <div className={styles.adminLinksInner}>
                     <Link
                       to="/admin/matches"
-                      className={`${styles.card} ${styles.cardAccentRed} ${styles.adminLinkCard} ${styles.leftLinkCard}`}
+                      className={`${styles.card} ${styles.cardAccentAdmin} ${styles.adminLinkCard} ${styles.leftLinkCard}`}
                     >
                       <div className={`${styles.cardTitle} ${styles.admin}`}>
                         <span className={`${styles.homeIcon} ${styles.admin}`}>
@@ -131,7 +163,7 @@ export default function Home() {
 
                     <Link
                       to="/admin/groups"
-                      className={`${styles.card} ${styles.cardAccentRed} ${styles.adminLinkCard} ${styles.rightLinkCard}`}
+                      className={`${styles.card} ${styles.cardAccentAdmin} ${styles.adminLinkCard} ${styles.rightLinkCard}`}
                     >
                       <div className={`${styles.cardTitle} ${styles.admin}`}>
                         <span className={`${styles.homeIcon} ${styles.admin}`}>

@@ -99,7 +99,7 @@ export default function JoinGroup() {
         message: `Te uniste a ${group.name}`,
       });
 
-      navigate("/standings");
+      navigate("/posiciones");
     } catch (err) {
       showToast({
         type: "error",
@@ -156,7 +156,7 @@ export default function JoinGroup() {
 
           <button
             className={`button button--primary`}
-            onClick={() => navigate("/standings")}
+            onClick={() => navigate("/posiciones")}
           >
             Ir a tabla
           </button>

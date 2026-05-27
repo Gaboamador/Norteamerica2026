@@ -15,6 +15,26 @@
     transform 0.18s ease;
 }
 
+.card.needsPrediction {
+  position: relative;
+  border-color: $color-info;
+}
+
+.pendingPredictionIcon {
+  position: absolute;
+  top: $space-2xs;
+  right: $space-2xs;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  color: $color-info;
+}
+
 /* ===== MATCH METADATA ===== */
 .meta {
   display: flex;
@@ -383,7 +403,7 @@
   }
 
   .card:hover {
-    border-color: rgba($color-accent-primary, 0.3);
+    // border-color: rgba($color-accent-primary, 0.3);
     background: rgba($color-bg-elevated-2, 1);
   }
 
@@ -407,6 +427,5 @@
   .teamChip:hover {
     background: rgba($color-accent-primary, 0.08);
     border-color: rgba($color-accent-primary, 0.3);
-    // transform: translateY(-1px);
   }
 }

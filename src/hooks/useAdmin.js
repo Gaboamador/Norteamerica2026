@@ -7,6 +7,7 @@ export const useAdmin = () => {
   const { user, loading: authLoading } = useAuth();
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [canCreateMatches, setCanCreateMatches] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ export const useAdmin = () => {
 
     if (!user) {
       setIsAdmin(false);
+      setCanCreateMatches(false);
       setLoading(false);
       return;
     }
@@ -25,10 +27,20 @@ export const useAdmin = () => {
         const ref = doc(db, "admins", user.uid);
         const snap = await getDoc(ref);
 
-        setIsAdmin(snap.exists());
+        if (!snap.exists()) {
+          setIsAdmin(false);
+          setCanCreateMatches(false);
+          return;
+        }
+
+        const data = snap.data();
+
+        setIsAdmin(data.role === "admin");
+        setCanCreateMatches(data.canCreateMatches === true);
       } catch (err) {
         console.error("Error checking admin:", err);
         setIsAdmin(false);
+        setCanCreateMatches(false);
       } finally {
         setLoading(false);
       }
@@ -39,6 +51,7 @@ export const useAdmin = () => {
 
   return {
     isAdmin,
+    canCreateMatches,
     loading: authLoading || loading,
   };
 };

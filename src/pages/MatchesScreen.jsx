@@ -1,12 +1,27 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useMatches } from "@/hooks/useMatches";
+import { usePredictions } from "@/hooks/usePredictions";
+import { countMissingPredictions } from "@/utils/predictionStatus";
 import MatchCard from "@/components/MatchCard";
 import MatchesGrouped from "@/components/MatchesGrouped";
 import styles from "./MatchesScreen.module.scss";
+import { PiWarningCircle } from "react-icons/pi";
 
 export default function MatchesScreen() {
   const { matches, loading } = useMatches();
   const [mode, setMode] = useState("date"); // "date" | "group"
+
+  const { predictions, savePrediction } = usePredictions();
+
+  const missingPredictionsCount = useMemo(() => {
+    return countMissingPredictions(matches, predictions);
+  }, [matches, predictions]);
+
+  const predictionsByMatchId = useMemo(() => {
+    return new Map(
+      predictions.map((prediction) => [prediction.matchId, prediction])
+    );
+  }, [predictions]);
 
   if (loading) {
     return (
@@ -54,13 +69,29 @@ export default function MatchesScreen() {
           </div>
         </div>
 
+      {missingPredictionsCount > 0 && (
+        <div className={styles.pendingLegend}>
+          <PiWarningCircle size={16} />
+          <span>
+            Te faltan cargar {missingPredictionsCount}{" "}
+            {missingPredictionsCount === 1 ? "pronóstico" : "pronósticos"}.
+            Los partidos marcados con este ícono todavía están pendientes de carga.
+          </span>
+        </div>
+      )}
+
       {/* LIST */}
       <MatchesGrouped
         matches={matches}
         mode={mode}
         autoFocusPending={false}
         renderMatch={(m) => (
-          <MatchCard key={m.id} match={m} />
+          <MatchCard
+            key={m.id}
+            match={m}
+            prediction={predictionsByMatchId.get(m.id) || null}
+            savePrediction={savePrediction}
+          />
         )}
       />
     </section>
