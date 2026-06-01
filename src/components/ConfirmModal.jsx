@@ -6,6 +6,9 @@ const ConfirmModal = ({
   message,
   onConfirm,
   onCancel,
+  confirmText = "Confirmar",
+  cancelText = "Cancelar",
+  loading = false,
 }) => {
   if (!open) return null;
 
@@ -18,17 +21,19 @@ const ConfirmModal = ({
 
         <div className={styles.actions}>
           <button
-            className={`button button--danger`}
+            className="button button--danger"
             onClick={onCancel}
+            disabled={loading}
           >
-            Cancelar
+            {cancelText}
           </button>
 
           <button
-            className={`button button--success`}
+            className="button button--success"
             onClick={onConfirm}
+            disabled={loading}
           >
-            Confirmar
+            {loading ? "Procesando..." : confirmText}
           </button>
         </div>
       </div>

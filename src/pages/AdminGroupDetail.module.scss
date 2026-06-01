@@ -51,6 +51,11 @@
   background: rgba($color-bg-elevated, 0.8);
 }
 
+.actionButtons {
+  display: flex;
+  gap: $space-sm;
+}
+
 /* ===== INPUT ===== */
 
 .input {

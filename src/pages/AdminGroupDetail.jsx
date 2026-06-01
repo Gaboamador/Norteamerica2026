@@ -2,8 +2,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase";
-import { removeUserFromGroup, regenerateJoinToken, buildInviteLink, updateGroupName } from "@/services/firebase/firebaseGroups";
+import { removeUserFromGroup, regenerateJoinToken, buildInviteLink, updateGroupName, createJoinTokenIfMissing } from "@/services/firebase/firebaseGroups";
 import { formatDisplayName } from "@/utils/formatDisplayName";
+import ConfirmModal from "@/components/ConfirmModal";
 import styles from "./AdminGroupDetail.module.scss";
 
 export default function AdminGroupDetail() {
@@ -15,12 +16,34 @@ export default function AdminGroupDetail() {
     const [editingName, setEditingName] = useState(false);
     const [nameDraft, setNameDraft] = useState("");
     const [savingName, setSavingName] = useState(false);
+    const [confirmRegenerateOpen, setConfirmRegenerateOpen] = useState(false);
+    const [regeneratingLink, setRegeneratingLink] = useState(false);
 
     /* ------------ HANDLERS ------------ */
-    const handleGenerateLink = async () => {
+    const handleShowOrCreateLink = async () => {
+      if (group.joinToken) {
+        setInviteLink(buildInviteLink(group.id, group.joinToken));
+        return;
+      }
+
+    const token = await createJoinTokenIfMissing(group.id);
+      setInviteLink(buildInviteLink(group.id, token));
+    };
+
+    const handleRequestRegenerateLink = () => {
+      setConfirmRegenerateOpen(true);
+    };
+
+    const handleConfirmRegenerateLink = async () => {
+      try {
+        setRegeneratingLink(true);
+
         const token = await regenerateJoinToken(group.id);
-        const link = buildInviteLink(group.id, token);
-        setInviteLink(link);
+        setInviteLink(buildInviteLink(group.id, token));
+        setConfirmRegenerateOpen(false);
+      } finally {
+        setRegeneratingLink(false);
+      }
     };
 
     const handleCopy = async () => {
@@ -141,12 +164,26 @@ export default function AdminGroupDetail() {
 
       {/* INVITE */}
       <div className={styles.inviteBox}>
-        <button
-          className={`button button--primary`}
-          onClick={handleGenerateLink}
-        >
-          Generar link de invitación
-        </button>
+        <div className={styles.actionButtons}>
+          <button
+            type="button"
+            className="button button--primary"
+            onClick={handleShowOrCreateLink}
+          >
+            {group.joinToken ? "Mostrar link de invitación" : "Generar link de invitación"}
+          </button>
+
+          {group.joinToken && (
+            <button
+              type="button"
+              className="button button--danger"
+              onClick={handleRequestRegenerateLink}
+              disabled={regeneratingLink}
+            >
+              Generar nuevo link
+            </button>
+          )}
+        </div>
 
         {inviteLink && (
           <>
@@ -157,7 +194,8 @@ export default function AdminGroupDetail() {
             />
 
             <button
-              className={`button button--success`}
+              type="button"
+              className="button button--success"
               onClick={handleCopy}
             >
               Copiar link
@@ -206,6 +244,18 @@ export default function AdminGroupDetail() {
           );
         })}
       </div>
+
+      <ConfirmModal
+        open={confirmRegenerateOpen}
+        title="Generar nuevo link"
+        message={`Esto va a generar un nuevo link de invitación para "${group.name}". El link anterior de este grupo va a dejar de funcionar. ¿Querés continuar?`}
+        cancelText="Cancelar"
+        confirmText="Generar nuevo link"
+        loading={regeneratingLink}
+        onCancel={() => setConfirmRegenerateOpen(false)}
+        onConfirm={handleConfirmRegenerateLink}
+      />
+
     </section>
   );
 }

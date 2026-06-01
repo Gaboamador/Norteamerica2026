@@ -200,3 +200,53 @@ export const regenerateJoinToken = async (groupId) => {
 
   return newToken;
 };
+
+/**
+ * ===============================
+ * OBTENER LINK DE INVITACIÓN EXISTENTE
+ * ===============================
+ */
+export const getExistingInviteLink = async (groupId) => {
+  const ref = doc(db, "groups", groupId);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    throw new Error("Grupo no existe");
+  }
+
+  const group = snap.data();
+
+  if (!group.joinToken) {
+    return null;
+  }
+
+  return buildInviteLink(groupId, group.joinToken);
+};
+
+/**
+ * ===============================
+ * CREAR LINK DE INVITACIÓN SOLAMENTE SI NO EXISTE
+ * ===============================
+ */
+export const createJoinTokenIfMissing = async (groupId) => {
+  const ref = doc(db, "groups", groupId);
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    throw new Error("Grupo no existe");
+  }
+
+  const group = snap.data();
+
+  if (group.joinToken) {
+    return group.joinToken;
+  }
+
+  const newToken = generateJoinToken();
+
+  await updateDoc(ref, {
+    joinToken: newToken,
+  });
+
+  return newToken;
+};

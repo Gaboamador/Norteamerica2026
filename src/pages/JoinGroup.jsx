@@ -73,6 +73,12 @@ export default function JoinGroup() {
     run();
   }, [groupId, token, user, loading, showToast]);
 
+    useEffect(() => {
+      if (!checking && alreadyMember) {
+        navigate("/", { replace: true });
+      }
+    }, [checking, alreadyMember, navigate]);
+
   const handleJoin = async () => {
     if (!group || !user) return;
 
@@ -99,7 +105,7 @@ export default function JoinGroup() {
         message: `Te uniste a ${group.name}`,
       });
 
-      navigate("/posiciones");
+      navigate("/posiciones", { replace: true });
     } catch (err) {
       showToast({
         type: "error",
@@ -154,12 +160,7 @@ export default function JoinGroup() {
             Ya sos miembro de <strong>{group.name}</strong> ✔
           </p>
 
-          <button
-            className={`button button--primary`}
-            onClick={() => navigate("/posiciones")}
-          >
-            Ir a tabla
-          </button>
+          <p className={styles.message}>Redirigiendo...</p>
         </div>
       </section>
     );
