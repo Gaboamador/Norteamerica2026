@@ -19,6 +19,7 @@ import AdminMatches from "@/pages/AdminMatches";
 import AdminGroups from "@/pages/AdminGroups";
 import AdminGroupDetail from "@/pages/AdminGroupDetail";
 import GameRules from "@/pages/GameRules";
+import DirtyTabIndicator from "@/components/DirtyTabIndicator";
 
 function App() {
   
@@ -29,6 +30,7 @@ function App() {
     <ConfirmProvider>
     <ToastProvider>
     <>
+      <DirtyTabIndicator />
       <Header />
       <Routes >
         <Route element={<AppLayout />}>
