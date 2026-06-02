@@ -205,6 +205,48 @@
 .name {
   display: flex;
   align-items: center;
+  gap: $space-sm;
+  min-width: 0;
+}
+
+.avatar,
+.avatarFallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  flex: 0 0 28px;
+}
+
+.avatar {
+  object-fit: cover;
+  display: block;
+}
+
+.avatarFallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $color-bg-elevated-2;
+  border: 1px solid $color-border;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.displayName {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.name {
+  display: flex;
+  align-items: center;
   min-width: 0;
   margin-left: $space-sm;
   font-family: $font-family-text;
@@ -219,9 +261,11 @@
 }
 
 .badge {
+  display: flex;
+  align-items: center;
   margin-left: $space-sm;
 
-  padding: 2px 6px;
+  padding: 4px 6px;
   border-radius: $radius-sm;
 
   font-size: 0.7rem;

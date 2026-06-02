@@ -74,6 +74,7 @@ export const buildStandings = (predictions, matches, usersMap = {}, memberIds = 
         currentUser?.email ||
         "Usuario",
       email: currentUser?.email || "",
+      photoURL: currentUser?.photoURL || "",
       points: 0,
       signHits: 0,
       scoredMatches: 0,
@@ -99,6 +100,7 @@ export const buildStandings = (predictions, matches, usersMap = {}, memberIds = 
           currentUser?.email ||
           "Usuario",
         email: currentUser?.email || p.email || "",
+        photoURL: currentUser?.photoURL || "",
         points: 0,
         signHits: 0,
         scoredMatches: 0,

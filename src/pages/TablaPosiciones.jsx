@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserGroupsState } from "@/hooks/useUserGroups";
 import { useGroupStandings } from "@/hooks/useGroupStandings";
@@ -8,6 +8,46 @@ import { formatDisplayName } from "@/utils/formatDisplayName";
 import { motion, AnimatePresence } from "framer-motion";
 import Spinner from "@/components/Spinner";
 import styles from "./TablaPosiciones.module.scss";
+
+// ----------------------------------
+// Componente para mostrar el avatar en la tabla de posiciones
+// ----------------------------------
+const StandingAvatar = ({ user }) => {
+  const [imgError, setImgError] = useState(false);
+
+  const photo = user?.photoURL || null;
+
+  useEffect(() => {
+    setImgError(false);
+  }, [photo]);
+
+  const fallbackInitial =
+  user?.displayName
+    ?.trim()
+    ?.split(/\s+/)
+    ?.slice(0, 2)
+    ?.map((part) => part.charAt(0).toUpperCase())
+    ?.join("") ||
+  user?.email?.charAt(0)?.toUpperCase() ||
+  "?";
+
+  return photo && !imgError ? (
+    <img
+      src={photo}
+      alt="avatar"
+      className={styles.avatar}
+      onError={() => setImgError(true)}
+    />
+  ) : (
+    <span className={styles.avatarFallback}>
+      {fallbackInitial}
+    </span>
+  );
+};
+// ----------------------------------
+// Componente para mostrar el avatar en la tabla de posiciones
+// ----------------------------------
+
 
 const TablaPosiciones = () => {
 
@@ -198,8 +238,11 @@ const TablaPosiciones = () => {
                       <span className={styles.position}>#{u.position}</span>
 
                       <span className={styles.name}>
+                        <StandingAvatar user={u} />
+                        <span className={styles.displayName}>
                         {formatDisplayName(u.displayName, u.email)}
                         {isMe && <span className={styles.badge}>Vos</span>}
+                        </span>
                       </span>
 
                       <motion.span

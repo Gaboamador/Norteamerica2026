@@ -25,8 +25,20 @@ export const ensureUserDoc = async (user) => {
       uid: user.uid,
       displayName,
       email: user.email,
+      photoURL: user.photoURL || "",
       createdAt: serverTimestamp(),
     });
+  }
+
+  // 🔵 agrega url de imagen de perfil en usuarios ya existentes que no la tengan
+  if (userSnap.exists() && user.photoURL && !userSnap.data()?.photoURL) {
+    await setDoc(
+      userRef,
+      {
+        photoURL: user.photoURL,
+      },
+      { merge: true }
+    );
   }
 
   // 🔵 asegurar username SIEMPRE (independiente de users)
