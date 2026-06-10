@@ -9,7 +9,7 @@ import { LuPencil } from "react-icons/lu";
 import useIsMobile from "@/hooks/useIsMobile";
 import { recomputeStandings } from "@/services/firebase/standingsService";
 import { BREAKPOINTS } from "@/constants/breakpoints";
-import { getRoundLabel } from "@/utils/matchRounds";
+import { ROUND_OPTIONS, isGroupStageRound, getRoundLabel } from "@/utils/matchRounds";
 import { formatMatchDate } from "@/utils/dateFormat";
 import TeamSelect from "@/components/TeamSelect";
 
@@ -20,7 +20,8 @@ export default function MatchRow({ match, onSetResult }) {
   const [homeTeam, setHomeTeam] = useState(match.homeTeam);
   const [awayTeam, setAwayTeam] = useState(match.awayTeam);
   const [group, setGroup] = useState(match.group || "");
-  const [round, setRound] = useState(match.round || 1);
+  const [round, setRound] = useState(match.round ?? 1);
+  const isKnockout = !isGroupStageRound(round);
   const safeNumber = (v) => Number(v || 0);
   const isMobile = useIsMobile(BREAKPOINTS.mobile);
 
@@ -45,18 +46,26 @@ export default function MatchRow({ match, onSetResult }) {
     }
   }, [match.result]);
 
+  useEffect(() => {
+    if (isKnockout) {
+      setGroup("");
+    }
+  }, [isKnockout]);
+
   const handleSave = async () => {
     try {
         const start = new Date(startTime);
         const lock = new Date(start.getTime() - 5 * 60 * 1000);
 
+        const normalizedRound = isGroupStageRound(round) ? Number(round) : round;
+
         await updateMatch(match.id, {
-        homeTeam,
-        awayTeam,
-        group,
-        round: Number(round),
-        startTime: Timestamp.fromDate(start),
-        lockTime: Timestamp.fromDate(lock),
+          homeTeam,
+          awayTeam,
+          group: isGroupStageRound(round) ? group : "",
+          round: normalizedRound,
+          startTime: Timestamp.fromDate(start),
+          lockTime: Timestamp.fromDate(lock),
         });
 
         setEditing(false);
@@ -100,13 +109,28 @@ export default function MatchRow({ match, onSetResult }) {
     }
   };
 
+  const openEditor = () => {
+    setHomeTeam(match.homeTeam);
+    setAwayTeam(match.awayTeam);
+    setGroup(match.group || "");
+    setRound(match.round ?? 1);
+
+    setStartTime(
+      match.startTime
+        ? formatLocalDateTime(match.startTime.toDate())
+        : ""
+    );
+
+    setEditing(true);
+  };
+
   return (
     <div className={styles.card}>
 
       {/* EDITAR METADATA DEL PARTIDO */}
       <button
         className={`button button--secondary ${styles.editFloating}`}
-        onClick={() => setEditing(true)}
+        onClick={openEditor}
         title="Editar partido"
       >
         <span><LuPencil size={12}/></span>
@@ -211,29 +235,34 @@ export default function MatchRow({ match, onSetResult }) {
             className={styles.input}
           />
 
-          <select
-            className={styles.selectSmall}
-            value={group}
-            onChange={(e) => setGroup(e.target.value)}
-          >
-            {"ABCDEFGHIJKL".split("").map((g) => (
-              <option key={g} value={g}>
-                Grupo {g}
-              </option>
-            ))}
-          </select>
+          {!isKnockout && (
+            <select
+                className={styles.selectSmall}
+                value={group}
+                onChange={(e) => setGroup(e.target.value)}
+              >
+                {"ABCDEFGHIJKL".split("").map((g) => (
+                  <option key={g} value={g}>
+                    Grupo {g}
+                  </option>
+                ))}
+              </select>
+            )}
 
-          <select
-            className={styles.selectSmall}
-            value={round}
-            onChange={(e) => setRound(Number(e.target.value))}
-          >
-            {[1, 2, 3].map((r) => (
-              <option key={r} value={r}>
-                Fecha {r}
-              </option>
-            ))}
-          </select>
+            <select
+              className={styles.selectSmall}
+              value={round}
+              onChange={(e) => {
+                const value = e.target.value;
+                setRound(isGroupStageRound(value) ? Number(value) : value);
+              }}
+            >
+              {ROUND_OPTIONS.map((r) => (
+                <option key={r.value} value={r.value}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
 
           <input
             className={styles.input}
