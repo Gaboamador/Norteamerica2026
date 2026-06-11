@@ -96,6 +96,29 @@ export default function Home() {
           </div>
         </MotionLink>
 
+        <MotionLink
+          to="/mundial-calculadora"
+          className={`${styles.card} ${styles.cardAccentQuaternary}`}
+          initial="rest"
+          animate="rest"
+          whileHover="hover"
+          whileTap={{ scale: 0.985 }}
+        >
+          <div className={styles.homeIcon}>
+            <AnimatedHomeIcon type="calculator" size={32} />
+          </div>
+
+          <div className={styles.cardTitleDescWrapper}>
+            <div className={styles.cardTitle}>
+              <span>Mundial + Calculadora</span>
+              <span className={styles.cardSubtitle}>(Beta)</span>
+              </div>
+            <div className={styles.cardDesc}>
+              Calculadora extra para simular resultados del Mundial y ver cómo cambiarían las tablas. No modifica tus pronósticos ni influye en el puntaje del Prode.
+            </div>
+          </div>
+        </MotionLink>
+
         {isAdmin && (
           <motion.div
             className={`${styles.adminBlock} ${adminOpen ? styles.open : ''}`}

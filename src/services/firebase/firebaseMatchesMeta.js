@@ -22,6 +22,9 @@ export function buildMatchesSig({ finishedCount, lastResultAtMillis }) {
  * - se carga un resultado
  * - se resetea un partido
  * - se corrige un resultado
+ *
+ * Esta función puede tirar error. Usar refreshMatchesMetaSafely()
+ * cuando el refresh de cache no deba bloquear el flujo principal.
  */
 export async function refreshMatchesMeta() {
   const finishedQuery = query(
@@ -50,4 +53,19 @@ export async function refreshMatchesMeta() {
   await setDoc(MATCHES_META_REF, payload, { merge: true });
 
   return payload;
+}
+
+/**
+ * Versión best-effort para que el cache de partidos nunca bloquee:
+ * - carga de resultado oficial
+ * - reset de resultado
+ * - recompute de standings
+ */
+export async function refreshMatchesMetaSafely(context = "matches meta") {
+  try {
+    return await refreshMatchesMeta();
+  } catch (error) {
+    console.error(`Error actualizando meta/matchesMeta (${context})`, error);
+    return null;
+  }
 }

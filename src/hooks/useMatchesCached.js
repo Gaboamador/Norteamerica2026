@@ -346,7 +346,6 @@ export function useMatchesCached() {
 
           if (cancelled || requestId !== metaRequestIdRef.current) return;
 
-          finishedRef.current = [];
           metaReadyRef.current = true;
           publishMatches();
         }

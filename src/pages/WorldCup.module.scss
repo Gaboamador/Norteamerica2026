@@ -20,6 +20,10 @@
 .title {
   margin: 0;
 
+  display: flex;
+  gap: $space-sm;
+  justify-content: center;
+  
   font-family: $font-family-display;
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
@@ -27,6 +31,7 @@
 
   color: $color-text-primary;
   text-align: center;
+  
 }
 
 .subtitle {

@@ -41,6 +41,11 @@
     overflow-x: visible;
   }
 
+  .tab {
+    flex: 0 0 calc((100% - #{5 * $space-xs}) / 6);
+    text-align: center;
+  }
+
   .tab:hover {
     background: rgba($color-accent-primary, 0.12);
     border-color: rgba($color-accent-primary, 0.5);

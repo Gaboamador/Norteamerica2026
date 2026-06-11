@@ -20,7 +20,10 @@ export default function WorldCup() {
     <section className={styles.wrapper}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Mundial - Calculadora</h1>
+          <h1 className={styles.title}>
+            <span>Mundial + Calculadora</span>
+            <span>(Beta)</span>
+          </h1>
           <p className={styles.subtitle}>
             Simulá resultados pendientes y mirá cómo quedarían las tablas de
             cada grupo.

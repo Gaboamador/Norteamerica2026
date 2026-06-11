@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAdmin } from "../hooks/useAdmin";
 import { createMatch, setOfficialMatchResult } from "@/services/firebase/firebaseUtils";
 import { recomputeStandings } from "@/services/firebase/standingsService";
+import { refreshMatchesMetaSafely } from "@/services/firebase/firebaseMatchesMeta";
 import { useToast } from "@/context/ToastContext";
 import { Timestamp } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -94,32 +95,63 @@ export default function AdminMatches() {
     }
   };
 
-  // UPDATE RESULT
-  const handleSetResult = async (matchId, homeGoals, awayGoals) => {
-    try {
-      const result = {
-        homeGoals: Number(homeGoals),
-        awayGoals: Number(awayGoals),
-      };
+// UPDATE RESULT
+const handleSetResult = async (matchId, homeGoals, awayGoals) => {
+  try {
+    const rawHomeGoals = String(homeGoals).trim();
+    const rawAwayGoals = String(awayGoals).trim();
 
-      await setOfficialMatchResult(matchId, result);
-
-      await recomputeStandings();
-
-      showToast({
-        type: "success",
-        message: "Resultado cargado",
-      });
-
-    } catch (err) {
-      console.error("Error cargando resultado", err);
-
+    if (rawHomeGoals === "" || rawAwayGoals === "") {
       showToast({
         type: "error",
-        message: "Error cargando resultado",
+        message: "Cargá ambos goles antes de guardar el resultado",
       });
+      return;
     }
-  };
+
+    const parsedHomeGoals = Number(rawHomeGoals);
+    const parsedAwayGoals = Number(rawAwayGoals);
+
+    if (
+      !Number.isInteger(parsedHomeGoals) ||
+      !Number.isInteger(parsedAwayGoals) ||
+      parsedHomeGoals < 0 ||
+      parsedAwayGoals < 0 ||
+      parsedHomeGoals > 20 ||
+      parsedAwayGoals > 20
+    ) {
+      showToast({
+        type: "error",
+        message: "El resultado debe tener goles enteros entre 0 y 20",
+      });
+      return;
+    }
+
+    const result = {
+      homeGoals: parsedHomeGoals,
+      awayGoals: parsedAwayGoals,
+    };
+
+    await setOfficialMatchResult(matchId, result);
+
+    await recomputeStandings();
+
+    await refreshMatchesMetaSafely("carga de resultado oficial");
+
+    showToast({
+      type: "success",
+      message: "Resultado cargado",
+    });
+
+  } catch (err) {
+    console.error("Error cargando resultado", err);
+
+    showToast({
+      type: "error",
+      message: "Error cargando resultado",
+    });
+  }
+};
 
   return (
     <section className={styles.wrapper}>

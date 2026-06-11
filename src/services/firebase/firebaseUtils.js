@@ -9,7 +9,7 @@ import {
   where,
   serverTimestamp,
 } from "firebase/firestore";
-import { refreshMatchesMeta } from "@/services/firebase/firebaseMatchesMeta";
+// import { refreshMatchesMeta } from "@/services/firebase/firebaseMatchesMeta";
 
 /**
  * ===============================
@@ -142,18 +142,6 @@ export const getStandings = async () => {
  */
 
 /**
- * Crear tiempo de lockeo de un partido
- */
-const buildLockTime = (date) => {
-  const base =
-    date?.toMillis?.()
-      ? date.toMillis()
-      : new Date(date).getTime();
-
-  return new Date(base - 15 * 60 * 1000);
-};
-
-/**
  * Saber si un match está bloqueado (frontend)
  * ⚠️ esto es solo UX, la seguridad está en rules
  */
@@ -192,7 +180,9 @@ export const updateMatch = async (matchId, data) => {
  * - actualizar el documento del match
  * - marcarlo como finished
  * - guardar timestamps útiles para cache incremental
- * - refrescar meta/matchesMeta
+ *
+ * No recalcula standings ni refresca meta/matchesMeta.
+ * Eso se hace desde el flujo admin, después del recompute principal.
  */
 export const setOfficialMatchResult = async (matchId, result) => {
   if (!matchId) throw new Error("matchId requerido");
@@ -215,8 +205,6 @@ export const setOfficialMatchResult = async (matchId, result) => {
     },
     { merge: true }
   );
-
-  await refreshMatchesMeta();
 };
 
 /**
@@ -244,8 +232,6 @@ export const resetMatchResult = async (matchId) => {
     },
     { merge: true }
   );
-
-  await refreshMatchesMeta();
 };
 
 export const resetMatch = async (matchId) => {

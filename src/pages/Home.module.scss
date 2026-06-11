@@ -141,6 +141,10 @@ line-height: 1.2;
   color: $color-text-primary;
 }
 
+  .cardSubtitle {
+    color: $color-text-secondary;
+  }
+
 .cardTitle.admin {
 align-items: flex-start;
 }
@@ -196,6 +200,12 @@ align-items: flex-start;
 .cardAccentTertiary {
   .homeIcon {
     color: $color-accent-warm;
+  }
+}
+
+.cardAccentQuaternary {
+  .homeIcon {
+    color: $color-accent-variant;
   }
 }
 

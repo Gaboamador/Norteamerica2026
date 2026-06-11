@@ -3,19 +3,30 @@ import ManualTiebreakerControl from "./ManualTiebreakerControl";
 import styles from "./BestThirdsTable.module.scss";
 
 function getRankingLabel(row) {
-  if (row.rankingStatus === "manual") return "Manual";
-  if (row.unresolvedTiebreaker) return "Pendiente";
-  if (row.sourceGroupUnresolved) return "Grupo pendiente";
+  if (row?.rankingStatus === "manual") return "Manual";
+  if (row?.unresolvedTiebreaker) return "Pendiente";
+  if (row?.sourceGroupUnresolved) return "Grupo pendiente";
 
   return null;
 }
 
+function canShowBestThirdsManualControl(rows) {
+  if (!Array.isArray(rows)) return false;
+
+  return (
+    rows.length === 12 &&
+    rows.every((row) => Number(row?.played ?? 0) > 0)
+  );
+}
+
 export default function BestThirdsTable({
-  rows,
+  rows = [],
   onChangeRank,
   onClearGroup,
 }) {
-  if (!rows.length) {
+  const safeRows = Array.isArray(rows) ? rows : [];
+
+  if (!safeRows.length) {
     return (
       <section className={styles.card}>
         <h2 className={styles.title}>Mejores terceros</h2>
@@ -25,6 +36,8 @@ export default function BestThirdsTable({
       </section>
     );
   }
+
+  const showManualTiebreaker = canShowBestThirdsManualControl(safeRows);
 
   return (
     <section className={styles.wrapper}>
@@ -57,48 +70,51 @@ export default function BestThirdsTable({
             </thead>
 
             <tbody>
-              {rows.map((row) => {
+              {safeRows.map((row, index) => {
                 const rankingLabel = getRankingLabel(row);
+                const rowKey =
+                  row?.teamKey ?? row?.team ?? row?.group ?? `third-${index}`;
+                const team = row?.team ?? "";
 
                 return (
                   <tr
-                    key={row.teamKey}
+                    key={rowKey}
                     className={
-                      row.bestThirdStatus === "qualified"
+                      row?.bestThirdStatus === "qualified"
                         ? styles.qualified
                         : styles.eliminated
                     }
                   >
-                    <td>{row.position}</td>
+                    <td>{row?.position ?? "-"}</td>
 
                     <td>
                       <div className={styles.team}>
                         <img
                           className={styles.flag}
-                          src={getTeamFlagSrc(row.team)}
+                          src={getTeamFlagSrc(team)}
                           alt=""
                           onError={handleFlagImageError}
                         />
-                        <span>{row.team}</span>
+                        <span>{team || "-"}</span>
                       </div>
                     </td>
 
-                    <td>{row.group}</td>
-                    <td className={styles.points}>{row.points}</td>
-                    <td>{row.played}</td>
-                    <td>{row.goalsFor}</td>
-                    <td>{row.goalsAgainst}</td>
-                    <td>{row.goalDifference}</td>
+                    <td>{row?.group ?? "-"}</td>
+                    <td className={styles.points}>{row?.points ?? 0}</td>
+                    <td>{row?.played ?? 0}</td>
+                    <td>{row?.goalsFor ?? 0}</td>
+                    <td>{row?.goalsAgainst ?? 0}</td>
+                    <td>{row?.goalDifference ?? 0}</td>
 
                     <td>
                       <span
                         className={`${styles.statusBadge} ${
-                          row.bestThirdStatus === "qualified"
+                          row?.bestThirdStatus === "qualified"
                             ? styles.statusQualified
                             : styles.statusEliminated
                         }`}
                       >
-                        {row.bestThirdStatus === "qualified"
+                        {row?.bestThirdStatus === "qualified"
                           ? "Clasifica"
                           : "Eliminado"}
                       </span>
@@ -108,7 +124,7 @@ export default function BestThirdsTable({
                       {rankingLabel ? (
                         <span
                           className={`${styles.tieBadge} ${
-                            row.rankingStatus === "manual"
+                            row?.rankingStatus === "manual"
                               ? styles.manual
                               : styles.pending
                           }`}
@@ -134,11 +150,12 @@ export default function BestThirdsTable({
       </div>
 
       <ManualTiebreakerControl
-        rows={rows}
+        rows={safeRows}
         onChangeRank={onChangeRank}
         onClearGroup={onClearGroup}
         title="Desempate manual entre terceros"
         description="El orden de mejores terceros llegó a criterios de fair play / ranking FIFA. Definí manualmente esas posiciones para continuar la simulación."
+        manualControlEnabled={showManualTiebreaker}
       />
     </section>
   );

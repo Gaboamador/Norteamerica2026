@@ -8,6 +8,7 @@ import styles from "./MatchRow.module.scss";
 import { LuPencil } from "react-icons/lu";
 import useIsMobile from "@/hooks/useIsMobile";
 import { recomputeStandings } from "@/services/firebase/standingsService";
+import { refreshMatchesMetaSafely } from "@/services/firebase/firebaseMatchesMeta";
 import { BREAKPOINTS } from "@/constants/breakpoints";
 import { ROUND_OPTIONS, isGroupStageRound, getRoundLabel } from "@/utils/matchRounds";
 import { formatMatchDate } from "@/utils/dateFormat";
@@ -83,31 +84,39 @@ export default function MatchRow({ match, onSetResult }) {
     }
   };
 
-  const handleResetMatch = async () => {
-    const confirmed = await confirm({
-      title: "Resetear partido",
-      message:
-        "¿Seguro que querés resetear este partido? Se borra el resultado oficial y se recalculan los puntos.",
+const handleResetMatch = async () => {
+  const confirmed = await confirm({
+    title: "Resetear partido",
+    message:
+      "¿Seguro que querés resetear este partido? Se borra el resultado oficial y se recalculan los puntos.",
+  });
+
+  if (!confirmed) return;
+
+  try {
+    await resetMatch(match.id);
+
+    await recomputeStandings();
+
+    await refreshMatchesMetaSafely("reset de resultado oficial");
+
+    setHomeGoals("");
+    setAwayGoals("");
+
+    showToast({
+      type: "success",
+      message: "Partido reseteado",
     });
 
-    if (!confirmed) return;
+  } catch (err) {
+    console.error("Error reseteando partido", err);
 
-    try {
-      await resetMatch(match.id);
-      await recomputeStandings();
-
-      setHomeGoals("");
-      setAwayGoals("");
-
-      showToast({
-        type: "success",
-        message: "Partido reseteado",
-      });
-
-    } catch (err) {
-      console.error("Error reseteando partido", err);
-    }
-  };
+    showToast({
+      type: "error",
+      message: "Error reseteando partido",
+    });
+  }
+};
 
   const openEditor = () => {
     setHomeTeam(match.homeTeam);
