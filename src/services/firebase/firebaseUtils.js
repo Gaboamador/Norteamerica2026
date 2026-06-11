@@ -5,11 +5,11 @@ import {
   getDoc,
   getDocs,
   collection,
-  collectionGroup,
   query,
   where,
   serverTimestamp,
 } from "firebase/firestore";
+import { refreshMatchesMeta } from "@/services/firebase/firebaseMatchesMeta";
 
 /**
  * ===============================
@@ -66,7 +66,7 @@ export const savePrediction = async ({
     ref,
     {
       uid,
-      displayName: displayName || null, // 👈 nuevo
+      displayName: displayName || null,
       matchId,
       predHome,
       predAway,
@@ -161,17 +161,13 @@ export const isMatchLocked = (match) => {
   if (!match?.lockTime) return true;
 
   const now = Date.now();
-  // const lock = new Date(match.lockTime);
 
-  // return now >= lock;
   const lockTime =
     match.lockTime?.toMillis?.() ??
     new Date(match.lockTime).getTime();
 
   return now >= lockTime;
-
 };
-
 
 /**
  * Crear partido
@@ -179,24 +175,48 @@ export const isMatchLocked = (match) => {
 export const createMatch = async (match) => {
   const ref = doc(collection(db, "matches"));
   await setDoc(ref, match);
-  // await setDoc(ref, {
-  //   ...match,
-  //   lockTime: buildLockTime(match.date),
-  // });
 };
 
 /**
- * Actualizar resultado de partido
+ * Actualizar partido genérico
  */
 export const updateMatch = async (matchId, data) => {
   const ref = doc(db, "matches", matchId);
-  // const updateData = { ...data };
-  // if (data.date) {
-  //   updateData.lockTime = buildLockTime(data.date);
-  // }
-
-  // await setDoc(ref, updateData, { merge: true });
   await setDoc(ref, data, { merge: true });
+};
+
+/**
+ * Cargar / corregir resultado oficial de partido.
+ *
+ * Esta función centraliza:
+ * - actualizar el documento del match
+ * - marcarlo como finished
+ * - guardar timestamps útiles para cache incremental
+ * - refrescar meta/matchesMeta
+ */
+export const setOfficialMatchResult = async (matchId, result) => {
+  if (!matchId) throw new Error("matchId requerido");
+  if (!result) throw new Error("result requerido");
+
+  const nowMillis = Date.now();
+  const ref = doc(db, "matches", matchId);
+
+  await setDoc(
+    ref,
+    {
+      result,
+      status: "finished",
+
+      finishedAt: serverTimestamp(),
+      finishedAtMillis: nowMillis,
+
+      resultUpdatedAt: serverTimestamp(),
+      resultUpdatedAtMillis: nowMillis,
+    },
+    { merge: true }
+  );
+
+  await refreshMatchesMeta();
 };
 
 /**
@@ -215,10 +235,19 @@ export const resetMatchResult = async (matchId) => {
     {
       result: null,
       status: "scheduled",
+
+      finishedAt: null,
+      finishedAtMillis: null,
+
+      resultUpdatedAt: serverTimestamp(),
+      resultUpdatedAtMillis: Date.now(),
     },
     { merge: true }
   );
+
+  await refreshMatchesMeta();
 };
+
 export const resetMatch = async (matchId) => {
   await resetMatchResult(matchId);
 };

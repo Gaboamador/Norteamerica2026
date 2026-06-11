@@ -1,0 +1,171 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+
+  padding: $space-md;
+
+  border: 1px solid rgba($color-warning, 0.42);
+  border-radius: $radius-lg;
+
+  background: rgba($color-warning, 0.08);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.title {
+  margin: 0;
+
+  font-family: $font-family-display;
+  font-size: $font-size-heading-card;
+  font-weight: $font-weight-bold;
+  color: $color-warning;
+}
+
+.description {
+  margin: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  line-height: 1.45;
+  color: $color-text-secondary;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  padding: $space-sm;
+
+  border: 1px solid rgba($color-border, 0.72);
+  border-radius: $radius-md;
+
+  background: rgba($color-bg-elevated, 0.72);
+}
+
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-sm;
+  align-items: center;
+}
+
+.groupTitle {
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.clearButton {
+  border: none;
+  background: transparent;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-xs;
+  color: $color-text-muted;
+
+  cursor: pointer;
+}
+
+.clearButton:hover {
+  color: $color-text-primary;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 104px;
+  gap: $space-sm;
+  align-items: center;
+}
+
+.team {
+  display: flex;
+  gap: $space-xs;
+  align-items: center;
+
+  min-width: 0;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-body-sm;
+  color: $color-text-primary;
+}
+
+.team span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flag {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: $radius-xs;
+}
+
+.select {
+  width: 100%;
+
+  padding: $space-xs $space-sm;
+
+  border: 1px solid $color-input-border;
+  border-radius: $radius-sm;
+
+  background: $color-input-bg;
+  color: $color-text-primary;
+
+  font-family: $font-family-input;
+  font-size: $font-size-body-sm;
+}
+
+.select:focus {
+  outline: 2px solid $color-focus-ring;
+  border-color: $color-input-border-focus;
+}
+
+.warning {
+  margin: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  color: $color-warning;
+}
+
+.groupLabel {
+  display: block;
+
+  margin-top: $space-2xs;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-regular;
+  color: $color-text-muted;
+}
+
+.resolvedHint {
+  margin: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  line-height: 1.4;
+  color: $color-text-muted;
+}

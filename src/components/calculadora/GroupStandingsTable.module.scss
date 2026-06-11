@@ -1,0 +1,127 @@
+.card {
+  padding: $space-md;
+
+  border: 1px solid rgba($color-border, 0.7);
+  border-radius: $radius-lg;
+
+  background: rgba($color-bg-elevated, 0.82);
+}
+
+.title {
+  margin: 0 0 $space-md;
+
+  font-family: $font-family-display;
+  font-size: $font-size-heading-card;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+}
+
+.table th,
+.table td {
+  padding: $space-xs;
+  border-bottom: 1px solid rgba($color-border, 0.45);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.table th {
+  color: $color-text-muted;
+  font-family: $font-family-compact;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-medium;
+}
+
+.table td {
+  color: $color-text-secondary;
+}
+
+.table td:nth-child(2),
+.table th:nth-child(2) {
+  text-align: left;
+}
+
+.unresolved {
+  background: rgba($color-warning, 0.06);
+}
+
+.points {
+  color: $color-text-primary !important;
+  font-weight: $font-weight-bold;
+}
+
+.team {
+  display: flex;
+  gap: $space-xs;
+  align-items: center;
+  min-width: 140px;
+
+  color: $color-text-primary;
+  font-family: $font-family-compact;
+}
+
+.flag {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: $radius-xs;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: $space-2xs $space-xs;
+  border-radius: 999px;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+}
+
+.pending {
+  background: rgba($color-warning, 0.14);
+  color: $color-warning;
+}
+
+.manual {
+  background: rgba($color-success, 0.14);
+  color: $color-success;
+}
+
+.dash {
+  color: $color-text-muted;
+}
+
+.note {
+  margin: $space-sm 0 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+  line-height: 1.4;
+}
+
+.empty {
+  padding: $space-lg;
+
+  border: 1px solid rgba($color-border, 0.7);
+  border-radius: $radius-lg;
+
+  background: rgba($color-bg-elevated, 0.82);
+  color: $color-text-secondary;
+  text-align: center;
+}

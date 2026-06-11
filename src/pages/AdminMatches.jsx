@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdmin } from "../hooks/useAdmin";
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase";
-import { createMatch, updateMatch, getAllPredictions } from "@/services/firebase/firebaseUtils";
-import { saveGlobalStandings, saveGroupStandings } from "@/services/firebase/firebaseStandings";
-import { filterStandingsByGroup } from "@/utils/filterStandingsByGroup";
+import { createMatch, setOfficialMatchResult } from "@/services/firebase/firebaseUtils";
 import { recomputeStandings } from "@/services/firebase/standingsService";
 import { useToast } from "@/context/ToastContext";
 import { Timestamp } from "firebase/firestore";
-import { buildStandings } from "@/utils/buildStandings";
 import { motion, AnimatePresence } from "framer-motion";
 import MatchRow from "@/components/MatchRow";
 import MatchesGrouped from "@/components/MatchesGrouped";
 import { useMatches } from "@/hooks/useMatches";
 import { ROUND_OPTIONS } from "@/utils/matchRounds";
-import { isGroupStageRound, getRoundLabel } from "@/utils/matchRounds";
+import { isGroupStageRound } from "@/utils/matchRounds";
 import styles from "./AdminMatches.module.scss";
 import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
-
 
 export default function AdminMatches() {
 
@@ -100,7 +94,7 @@ export default function AdminMatches() {
     }
   };
 
-  // UPDATE RESULTf
+  // UPDATE RESULT
   const handleSetResult = async (matchId, homeGoals, awayGoals) => {
     try {
       const result = {
@@ -108,20 +102,18 @@ export default function AdminMatches() {
         awayGoals: Number(awayGoals),
       };
 
-      // 1. Guardar resultado
-      await updateMatch(matchId, {
-        result,
-        status: "finished",
-      });
+      await setOfficialMatchResult(matchId, result);
 
       await recomputeStandings();
-      
+
       showToast({
         type: "success",
         message: "Resultado cargado",
       });
 
     } catch (err) {
+      console.error("Error cargando resultado", err);
+
       showToast({
         type: "error",
         message: "Error cargando resultado",

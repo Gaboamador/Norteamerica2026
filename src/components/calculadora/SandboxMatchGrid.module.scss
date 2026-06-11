@@ -1,0 +1,171 @@
+.card {
+  padding: $space-md;
+
+  border: 1px solid rgba($color-border, 0.7);
+  border-radius: $radius-lg;
+
+  background: rgba($color-bg-elevated, 0.82);
+}
+
+.title {
+  margin: 0 0 $space-md;
+
+  font-family: $font-family-display;
+  font-size: $font-size-lg;
+  color: $color-text-primary;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.match {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  padding: $space-sm;
+
+  border: 1px solid rgba($color-border, 0.55);
+  border-radius: $radius-md;
+
+  background: rgba($color-bg-elevated-2, 0.42);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-sm;
+  align-items: center;
+
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.badge {
+  padding: $space-2xs $space-xs;
+  border-radius: $radius-lg;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  white-space: nowrap;
+}
+
+.official {
+  background: rgba($color-success, 0.16);
+  color: $color-success;
+}
+
+.sandbox {
+  background: rgba($color-accent-primary, 0.14);
+  color: $color-text-secondary;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: $space-sm;
+  align-items: center;
+}
+
+.team {
+  display: flex;
+  gap: $space-xs;
+  align-items: center;
+
+  min-width: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  color: $color-text-primary;
+  
+}
+
+.team span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+//   white-space: nowrap;
+}
+
+.awayTeam {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flag {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.score {
+  display: flex;
+  gap: $space-2xs;
+  align-items: center;
+
+  font-family: $font-family-display;
+  font-weight: $font-weight-bold;
+}
+
+.score input {
+  width: 44px;
+  height: 36px;
+
+  border: 1px solid rgba($color-border, 0.8);
+  border-radius: $radius-sm;
+
+  background: rgba($color-bg-page, 0.72);
+  color: $color-text-primary;
+
+  font-family: $font-family-display;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  text-align: center;
+
+    // QUITA EL SPINNER INTERNO DEL INPUT PARA QUE SE VEA CENTRADO EL NÚMERO
+  appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  // Firefox
+  -moz-appearance: textfield;
+}
+
+.score input:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.clearMatch {
+  align-self: center;
+
+  border: none;
+  background: transparent;
+  color: $color-text-muted;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+
+  cursor: pointer;
+}
+
+.clearMatch:hover {
+  color: $color-text-primary;
+}
+
+.empty {
+  padding: $space-lg;
+
+  border: 1px solid rgba($color-border, 0.7);
+  border-radius: $radius-lg;
+
+  background: rgba($color-bg-elevated, 0.82);
+  color: $color-text-secondary;
+  text-align: center;
+}

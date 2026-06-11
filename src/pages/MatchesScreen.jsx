@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useMatches } from "@/hooks/useMatches";
+import { useMatchesCached } from "@/hooks/useMatchesCached";
 import { usePredictions } from "@/hooks/usePredictions";
 import { countMissingPredictions } from "@/utils/predictionStatus";
 import MatchCard from "@/components/MatchCard";
@@ -8,7 +8,7 @@ import styles from "./MatchesScreen.module.scss";
 import { PiWarningCircle } from "react-icons/pi";
 
 export default function MatchesScreen() {
-  const { matches, loading } = useMatches();
+  const { matches, loading } = useMatchesCached();
   const [mode, setMode] = useState("date"); // "date" | "group"
 
   const { predictions, savePrediction } = usePredictions();
