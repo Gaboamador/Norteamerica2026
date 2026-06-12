@@ -65,6 +65,16 @@ button {
   }
 }
 
+.button--tertiary {
+  color: $color-text-primary;
+  background: $color-button-tertiary-bg;
+
+  &:hover {
+    color: $color-text-primary;
+    background: $color-button-tertiary-bg-hover;
+  }
+}
+
 .button--danger {
   color: $color-text-primary;
   background: $color-button-danger-bg;

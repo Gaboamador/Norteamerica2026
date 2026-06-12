@@ -11,7 +11,6 @@ import {
 } from "@/utils/calculadora/matchResultUtils";
 import {
   clearCalculatorKnockoutPicks,
-  clearCalculatorManualTiebreakers,
   clearCalculatorStorage,
   readCalculatorKnockoutPicks,
   readCalculatorManualTiebreakers,
@@ -157,25 +156,35 @@ export function useWorldCupCalculator() {
     clearCalculatorKnockoutPicks();
   };
 
-  const clearSelectedGroupSandbox = () => {
-    const groupMatchIds = new Set(groupMatches.map((match) => match.id));
+const clearSelectedGroupSandbox = () => {
+  const groupMatchIds = new Set(groupMatches.map((match) => match.id));
+  const selectedGroupTiebreakerPrefix = `group-${selectedGroup}-tie-`;
 
-    setSandboxResults((current) => {
-      const next = { ...current };
+  setSandboxResults((current) => {
+    const next = { ...current };
 
-      groupMatchIds.forEach((matchId) => {
-        delete next[matchId];
-      });
-
-      return next;
+    groupMatchIds.forEach((matchId) => {
+      delete next[matchId];
     });
 
-    // Los desempates manuales y el cuadro dependen del estado simulado.
-    setManualTiebreakers({});
-    setKnockoutPicks({});
-    clearCalculatorManualTiebreakers();
-    clearCalculatorKnockoutPicks();
-  };
+    return next;
+  });
+
+  setManualTiebreakers((current) => {
+    const next = { ...current };
+
+    Object.keys(next).forEach((unresolvedGroupId) => {
+      if (unresolvedGroupId.startsWith(selectedGroupTiebreakerPrefix)) {
+        delete next[unresolvedGroupId];
+      }
+    });
+
+    return next;
+  });
+
+  setKnockoutPicks({});
+  clearCalculatorKnockoutPicks();
+};
 
   const clearAllSandbox = () => {
     setSandboxResults({});

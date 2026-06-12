@@ -1,12 +1,54 @@
+import { useState } from "react";
 import { useWorldCupCalculator } from "@/hooks/calculadora/useWorldCupCalculator";
 import GroupTabs from "@/components/calculadora/GroupTabs";
 import GroupCalculator from "@/components/calculadora/GroupCalculator";
 import BestThirdsTable from "@/components/calculadora/BestThirdsTable";
 import KnockoutBracket from "@/components/calculadora/KnockoutBracket";
+import ConfirmModal from "@/components/ConfirmModal";
 import styles from "./WorldCup.module.scss";
 
 export default function WorldCup() {
   const calculator = useWorldCupCalculator();
+
+  const [confirmAction, setConfirmAction] = useState(null);
+
+  const handleOpenClearGroupConfirm = () => {
+    setConfirmAction({
+      type: "clearGroup",
+      title: `Limpiar simulación del grupo ${calculator.selectedGroup}`,
+      message:
+        `Se van a borrar los resultados simulados del grupo ${calculator.selectedGroup}. También se van a limpiar los desempates manuales de este grupo y las selecciones del cuadro eliminatorio.`,
+      confirmText: "Sí, limpiar grupo",
+    });
+  };
+
+  const handleOpenClearAllConfirm = () => {
+    setConfirmAction({
+      type: "clearAll",
+      title: "Limpiar toda la simulación",
+      message:
+        "Se van a borrar todos los resultados simulados, todos los desempates manuales y todas las selecciones del cuadro eliminatorio.",
+      confirmText: "Sí, limpiar todo",
+    });
+  };
+
+  const handleCloseConfirm = () => {
+    setConfirmAction(null);
+  };
+
+  const handleConfirm = () => {
+    if (!confirmAction) return;
+
+    if (confirmAction.type === "clearGroup") {
+      calculator.clearSelectedGroupSandbox();
+    }
+
+    if (confirmAction.type === "clearAll") {
+      calculator.clearAllSandbox();
+    }
+
+    setConfirmAction(null);
+  };
 
   if (calculator.loading) {
     return (
@@ -32,8 +74,8 @@ export default function WorldCup() {
 
         <button
           type="button"
-          className={`button button--secondary ${styles.clearAllButton}`}
-          onClick={calculator.clearAllSandbox}
+          className={`button button--danger ${styles.clearAllButton}`}
+          onClick={handleOpenClearAllConfirm}
           disabled={!calculator.hasAnySandboxData}
         >
           Limpiar toda la simulación
@@ -53,7 +95,7 @@ export default function WorldCup() {
         sandboxResults={calculator.sandboxResults}
         setSandboxMatchResult={calculator.setSandboxMatchResult}
         clearSandboxMatchResult={calculator.clearSandboxMatchResult}
-        clearSelectedGroupSandbox={calculator.clearSelectedGroupSandbox}
+        clearSelectedGroupSandbox={handleOpenClearGroupConfirm}
         hasSandboxForSelectedGroup={calculator.hasSandboxForSelectedGroup}
         setManualTiebreakerRank={calculator.setManualTiebreakerRank}
         clearManualTiebreakerGroup={calculator.clearManualTiebreakerGroup}
@@ -71,6 +113,16 @@ export default function WorldCup() {
         onClearWinner={calculator.clearKnockoutWinner}
         onClearAllWinners={calculator.clearAllKnockoutPicks}
         hasAnyKnockoutPicks={calculator.hasAnyKnockoutPicks}
+      />
+
+      <ConfirmModal
+        open={!!confirmAction}
+        title={confirmAction?.title}
+        message={confirmAction?.message}
+        confirmText={confirmAction?.confirmText}
+        cancelText="Cancelar"
+        onConfirm={handleConfirm}
+        onCancel={handleCloseConfirm}
       />
     </section>
   );

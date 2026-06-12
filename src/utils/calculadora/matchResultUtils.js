@@ -116,18 +116,3 @@ export function hasMinimumGroupSignal(groupMatches, sandboxResults) {
 
   return teams.size === 4;
 }
-
-export function formatMatchDate(match) {
-  const date =
-    match?.startTime?.toDate?.() ??
-    (match?.startTime ? new Date(match.startTime) : null);
-
-  if (!date || Number.isNaN(date.getTime())) return "";
-
-  return new Intl.DateTimeFormat("es-AR", {
-    day: "2-digit",
-    month: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
-}

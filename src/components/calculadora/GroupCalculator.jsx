@@ -28,7 +28,7 @@ export default function GroupCalculator({
 
         <button
           type="button"
-          className={`button button--secondary ${styles.clearButton}`}
+          className={`button button--tertiary ${styles.clearButton}`}
           onClick={clearSelectedGroupSandbox}
           disabled={!hasSandboxForSelectedGroup}
         >

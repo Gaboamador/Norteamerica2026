@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { PiCaretDown } from "react-icons/pi";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import styles from "./ManualTiebreakerControl.module.scss";
 
@@ -5,10 +8,12 @@ function getRowKey(row) {
   return row?.teamKey ?? row?.team ?? row?.id ?? "";
 }
 
-function hasAnyPlayedMatch(rows) {
-  if (!Array.isArray(rows)) return false;
-
-  return rows.some((row) => Number(row?.played ?? 0) > 0);
+function hasEveryTeamPlayedAtLeastOnce(rows) {
+  return (
+    Array.isArray(rows) &&
+    rows.length > 0 &&
+    rows.every((row) => Number(row?.played ?? 0) > 0)
+  );
 }
 
 function shouldShowRowInManualControl(row) {
@@ -73,13 +78,15 @@ export default function ManualTiebreakerControl({
   onChangeRank,
   onClearGroup,
   title = "Desempate manual requerido",
-  description = "El cálculo llegó a criterios de fair play / ranking FIFA. Como esos datos no están cargados, definí manualmente el orden para continuar la simulación.",
+  description = "El cálculo llegó a criterios de fair play / ranking FIFA. Definí manualmente el orden.",
   manualControlEnabled,
 }) {
+  const [expanded, setExpanded] = useState(false);
+
   const safeRows = Array.isArray(rows) ? rows : [];
 
   const canShowManualControl =
-    manualControlEnabled ?? hasAnyPlayedMatch(safeRows);
+    manualControlEnabled ?? hasEveryTeamPlayedAtLeastOnce(safeRows);
 
   const unresolvedGroups = canShowManualControl
     ? getUnresolvedGroups(safeRows)
@@ -89,106 +96,135 @@ export default function ManualTiebreakerControl({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>{title}</h3>
-        <p className={styles.description}>{description}</p>
-      </div>
+      <button
+        type="button"
+        className={styles.headerButton}
+        onClick={() => setExpanded((current) => !current)}
+        aria-expanded={expanded}
+      >
+        <span className={styles.headerText}>
+          <span className={styles.title}>{title}</span>
 
-      <div className={styles.groups}>
-        {unresolvedGroups.map(
-          ({
-            unresolvedGroupId,
-            rows: groupRows,
-            positions,
-            isResolvedManually,
-          }) => {
-            const duplicatedRanks = hasDuplicateManualRanks(groupRows);
+          {expanded && (
+            <span className={styles.description}>{description}</span>
+          )}
+        </span>
 
-            return (
-              <div key={unresolvedGroupId} className={styles.group}>
-                <div className={styles.groupHeader}>
-                  <span className={styles.groupTitle}>
-                    {isResolvedManually
-                      ? `Orden manual ${positions.join(" / ")}`
-                      : `Posiciones ${positions.join(" / ")}`}
-                  </span>
+        <PiCaretDown
+          className={`${styles.chevron} ${expanded ? styles.expanded : ""}`}
+          aria-hidden="true"
+        />
+      </button>
 
-                  <button
-                    type="button"
-                    className={styles.clearButton}
-                    onClick={() => onClearGroup?.(unresolvedGroupId)}
-                  >
-                    Limpiar
-                  </button>
-                </div>
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            className={styles.content}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.22, ease: "easeInOut" }}
+          >
+            <div className={styles.groups}>
+              {unresolvedGroups.map(
+                ({
+                  unresolvedGroupId,
+                  rows: groupRows,
+                  positions,
+                  isResolvedManually,
+                }) => {
+                  const duplicatedRanks = hasDuplicateManualRanks(groupRows);
 
-                <div className={styles.rows}>
-                  {groupRows.map((row, index) => {
-                    const rowKey = getRowKey(row) || `${unresolvedGroupId}-${index}`;
-                    const team = row?.team ?? "";
-
-                    return (
-                      <label key={rowKey} className={styles.row}>
-                        <span className={styles.team}>
-                          <img
-                            className={styles.flag}
-                            src={getTeamFlagSrc(team)}
-                            alt=""
-                            onError={handleFlagImageError}
-                          />
-
-                          <span>
-                            {team}
-
-                            {row?.group ? (
-                              <small className={styles.groupLabel}>
-                                Grupo {row.group}
-                              </small>
-                            ) : null}
-                          </span>
+                  return (
+                    <div key={unresolvedGroupId} className={styles.group}>
+                      <div className={styles.groupHeader}>
+                        <span className={styles.groupTitle}>
+                          {isResolvedManually
+                            ? `Orden manual ${positions.join(" / ")}`
+                            : `Posiciones ${positions.join(" / ")}`}
                         </span>
 
-                        <select
-                          className={styles.select}
-                          value={row?.manualTiebreakRank ?? ""}
-                          onChange={(event) =>
-                            onChangeRank?.(
-                              unresolvedGroupId,
-                              getRowKey(row),
-                              event.target.value
-                            )
-                          }
+                        <button
+                          type="button"
+                          className={styles.clearButton}
+                          onClick={() => onClearGroup?.(unresolvedGroupId)}
                         >
-                          <option value="">Elegir</option>
+                          Limpiar
+                        </button>
+                      </div>
 
-                          {positions.map((position) => (
-                            <option key={position} value={position}>
-                              {position}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    );
-                  })}
-                </div>
+                      <div className={styles.rows}>
+                        {groupRows.map((row, index) => {
+                          const rowKey =
+                            getRowKey(row) || `${unresolvedGroupId}-${index}`;
+                          const team = row?.team ?? "";
 
-                {duplicatedRanks && (
-                  <p className={styles.warning}>
-                    No puede haber dos equipos con la misma posición manual.
-                  </p>
-                )}
+                          return (
+                            <label key={rowKey} className={styles.row}>
+                              <span className={styles.team}>
+                                <img
+                                  className={styles.flag}
+                                  src={getTeamFlagSrc(team)}
+                                  alt=""
+                                  onError={handleFlagImageError}
+                                />
 
-                {isResolvedManually && (
-                  <p className={styles.resolvedHint}>
-                    Este desempate ya fue resuelto manualmente. Podés modificar
-                    el orden desde estos selectores o limpiar la asignación.
-                  </p>
-                )}
-              </div>
-            );
-          }
+                                <span>
+                                  {team}
+
+                                  {row?.group ? (
+                                    <small className={styles.groupLabel}>
+                                      Grupo {row.group}
+                                    </small>
+                                  ) : null}
+                                </span>
+                              </span>
+
+                              <select
+                                className={styles.select}
+                                value={row?.manualTiebreakRank ?? ""}
+                                onChange={(event) =>
+                                  onChangeRank?.(
+                                    unresolvedGroupId,
+                                    getRowKey(row),
+                                    event.target.value
+                                  )
+                                }
+                              >
+                                <option value="">Elegir</option>
+
+                                {positions.map((position) => (
+                                  <option key={position} value={position}>
+                                    {position}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          );
+                        })}
+                      </div>
+
+                      {duplicatedRanks && (
+                        <p className={styles.warning}>
+                          No puede haber dos equipos con la misma posición manual.
+                        </p>
+                      )}
+
+                      {isResolvedManually && (
+                        <p className={styles.resolvedHint}>
+                          Este desempate ya fue resuelto manualmente. Podés
+                          modificar el orden desde estos selectores o limpiar la
+                          asignación.
+                        </p>
+                      )}
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 }

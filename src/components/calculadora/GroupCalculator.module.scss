@@ -38,9 +38,14 @@
 }
 
 .sidePanel {
+  position: sticky;
+  top: $header-height-sm;
   display: flex;
   flex-direction: column;
   gap: $space-md;
+  z-index: 1;
+  background: $color-bg-page;
+  border-radius: $radius-md;
 }
 
 @media (min-width: 768px) {
@@ -57,5 +62,11 @@
   .layout {
     grid-template-columns: minmax(0, 1.1fr) minmax(40%, 0.9fr);
     align-items: start;
+  }
+}
+
+@include up(sm) {
+  .sidePanel {
+    top: $header-height-md;
   }
 }

@@ -1,9 +1,9 @@
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import {
-  formatMatchDate,
   getEffectiveResult,
   isOfficialResult,
 } from "@/utils/calculadora/matchResultUtils";
+import { formatMatchDate } from "@/utils/dateFormat";
 import styles from "./SandboxMatchGrid.module.scss";
 
 export default function SandboxMatchGrid({
@@ -29,6 +29,7 @@ export default function SandboxMatchGrid({
           const official = isOfficialResult(match);
           const effectiveResult = getEffectiveResult(match, sandboxResults);
           const sandboxResult = sandboxResults[match.id] ?? {};
+          const formattedDate = match?.startTime ? formatMatchDate(match.startTime) : "";
 
           const homeValue = official
             ? match.result.homeGoals
@@ -41,7 +42,7 @@ export default function SandboxMatchGrid({
           return (
             <article key={match.id} className={styles.match}>
               <div className={styles.meta}>
-                <span>{formatMatchDate(match)}</span>
+                <span>{formattedDate}</span>
 
                 <span
                   className={`${styles.badge} ${

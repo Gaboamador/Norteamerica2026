@@ -1,20 +1,37 @@
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
+import { PiHandPalmBold, PiApproximateEqualsBold } from "react-icons/pi";
+import { TiEquals } from "react-icons/ti";
 import styles from "./GroupStandingsTable.module.scss";
 
-function getRankingLabel(row) {
-  if (row.rankingStatus === "manual") return "=";
-  if (row.unresolvedTiebreaker) return "P";
+function hasEveryTeamPlayedAtLeastOnce(rows) {
+  return (
+    Array.isArray(rows) &&
+    rows.length > 0 &&
+    rows.every((row) => Number(row?.played ?? 0) > 0)
+  );
+}
+
+function getRankingLabel(row, canShowTiebreakerStatus) {
+  if (!canShowTiebreakerStatus) return null;
+
+  if (row?.rankingStatus === "manual") return "manual";
+  if (row?.unresolvedTiebreaker) return "pendiente";
+
   return null;
 }
 
-export default function GroupStandingsTable({ rows }) {
-  if (!rows.length) {
+export default function GroupStandingsTable({ rows = [] }) {
+  const safeRows = Array.isArray(rows) ? rows : [];
+
+  if (!safeRows.length) {
     return (
       <div className={styles.empty}>
         La tabla se va a mostrar cuando haya equipos cargados en el grupo.
       </div>
     );
   }
+
+  const canShowTiebreakerStatus = hasEveryTeamPlayedAtLeastOnce(safeRows);
 
   return (
     <div className={styles.card}>
@@ -39,47 +56,64 @@ export default function GroupStandingsTable({ rows }) {
           </thead>
 
           <tbody>
-            {rows.map((row) => {
-              const rankingLabel = getRankingLabel(row);
+            {safeRows.map((row, index) => {
+              const rankingLabel = getRankingLabel(
+                row,
+                canShowTiebreakerStatus
+              );
+
+              const rowKey = row?.teamKey ?? row?.team ?? `team-${index}`;
+              const team = row?.team ?? "";
+              const shouldMarkAsUnresolved =
+                canShowTiebreakerStatus && row?.unresolvedTiebreaker;
 
               return (
                 <tr
-                  key={row.team}
-                  className={row.unresolvedTiebreaker ? styles.unresolved : ""}
+                  key={rowKey}
+                  className={shouldMarkAsUnresolved ? styles.unresolved : ""}
                 >
-                  <td>{row.position}</td>
+                  <td>{row?.position ?? "-"}</td>
 
                   <td>
                     <div className={styles.team}>
                       <img
                         className={styles.flag}
-                        src={getTeamFlagSrc(row.team)}
+                        src={getTeamFlagSrc(team)}
                         alt=""
                         onError={handleFlagImageError}
                       />
-                      <span>{row.team}</span>
+                      <span>{team || "-"}</span>
                     </div>
                   </td>
 
-                  <td className={styles.points}>{row.points}</td>
-                  <td>{row.played}</td>
-                  <td>{row.won}</td>
-                  <td>{row.drawn}</td>
-                  <td>{row.lost}</td>
-                  <td>{row.goalsFor}</td>
-                  <td>{row.goalsAgainst}</td>
-                  <td>{row.goalDifference}</td>
+                  <td className={styles.points}>{row?.points ?? 0}</td>
+                  <td>{row?.played ?? 0}</td>
+                  <td>{row?.won ?? 0}</td>
+                  <td>{row?.drawn ?? 0}</td>
+                  <td>{row?.lost ?? 0}</td>
+                  <td>{row?.goalsFor ?? 0}</td>
+                  <td>{row?.goalsAgainst ?? 0}</td>
+                  <td>{row?.goalDifference ?? 0}</td>
 
                   <td>
                     {rankingLabel ? (
                       <span
                         className={`${styles.statusBadge} ${
-                          row.rankingStatus === "manual"
+                          row?.rankingStatus === "manual"
                             ? styles.manual
                             : styles.pending
                         }`}
+                        title={
+                          row?.rankingStatus === "manual"
+                            ? "Desempate ajustado manualmente"
+                            : "Desempate pendiente"
+                        }
                       >
-                        {rankingLabel}
+                        {rankingLabel === "manual" ? (
+                          <PiHandPalmBold aria-hidden="true" />
+                        ) : (
+                          <PiApproximateEqualsBold aria-hidden="true" />
+                        )}
                       </span>
                     ) : (
                       <span className={styles.dash}></span>
@@ -93,8 +127,7 @@ export default function GroupStandingsTable({ rows }) {
       </div>
 
       <p className={styles.note}>
-        El orden aplica desempates reglamentarios por resultados. Si el empate
-        llega a fair play / ranking FIFA, la calculadora pide resolución manual.
+        El orden aplica desempates reglamentarios por resultados.
       </p>
     </div>
   );

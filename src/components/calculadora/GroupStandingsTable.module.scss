@@ -1,17 +1,19 @@
 .card {
+  --table-font-reduction: 0.1rem;
+
   padding: $space-md;
 
   border: 1px solid rgba($color-border, 0.7);
   border-radius: $radius-lg;
 
-  background: rgba($color-bg-elevated, 0.82);
+  background: rgba($color-bg-elevated, 1);
 }
 
 .title {
   margin: 0 0 $space-md;
 
   font-family: $font-family-display;
-  font-size: $font-size-heading-card;
+  font-size: calc(#{$font-size-heading-card} - var(--table-font-reduction));
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
@@ -26,7 +28,7 @@
   border-collapse: collapse;
 
   font-family: $font-family-text;
-  font-size: $font-size-body-sm;
+  font-size: calc(#{$font-size-body-sm} - var(--table-font-reduction));
 }
 
 .table th,
@@ -40,7 +42,7 @@
 .table th {
   color: $color-text-muted;
   font-family: $font-family-compact;
-  font-size: $font-size-body-xs;
+  font-size: calc(#{$font-size-body-xs} - var(--table-font-reduction));
   font-weight: $font-weight-medium;
 }
 
@@ -66,15 +68,14 @@
   display: flex;
   gap: $space-xs;
   align-items: center;
-  min-width: 140px;
 
   color: $color-text-primary;
   font-family: $font-family-compact;
 }
 
 .flag {
-  width: 24px;
-  height: 18px;
+  width: 20px;
+  height: 15px;
   object-fit: cover;
   border-radius: $radius-xs;
 }
@@ -88,8 +89,13 @@
   border-radius: 999px;
 
   font-family: $font-family-compact;
-  font-size: $font-size-body-xs;
+  font-size: calc(#{$font-size-body-xs} - var(--table-font-reduction));
   font-weight: $font-weight-bold;
+}
+
+.statusBadge svg {
+  // display: block;
+  // width: 0.5rem;
 }
 
 .pending {
@@ -110,7 +116,7 @@
   margin: $space-sm 0 0;
 
   font-family: $font-family-text;
-  font-size: $font-size-body-xs;
+  font-size: calc(#{$font-size-body-xs} - var(--table-font-reduction));
   color: $color-text-muted;
   line-height: 1.4;
 }
@@ -124,4 +130,22 @@
   background: rgba($color-bg-elevated, 0.82);
   color: $color-text-secondary;
   text-align: center;
+}
+
+@include up(sm) {
+  .flag {
+    width: 24px;
+    height: 18px;
+  }
+  .title {
+    font-size: $font-size-heading-card;
+  }
+  
+  .table {
+    font-size: $font-size-body-sm;
+  }
+
+  .note, .statusBadge, .table th {
+    font-size: $font-size-body-xs;
+  }
 }

@@ -11,10 +11,46 @@
   background: rgba($color-warning, 0.08);
 }
 
-.header {
+.headerButton {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-sm;
+  align-items: flex-start;
+
+  width: 100%;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  text-align: left;
+  cursor: pointer;
+}
+
+.headerText {
   display: flex;
   flex-direction: column;
   gap: $space-xs;
+  min-width: 0;
+}
+
+.chevron {
+  flex: 0 0 auto;
+
+  width: 1.1rem;
+  height: 1.1rem;
+
+  color: $color-warning;
+
+  transition: transform 0.18s ease;
+}
+
+.expanded {
+  transform: rotate(180deg);
+}
+
+.content {
+  overflow: hidden;
 }
 
 .title {
