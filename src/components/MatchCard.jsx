@@ -10,11 +10,13 @@ import { getPredictionPoints } from "@/utils/predictionPoints";
 import { getRoundLabel } from "@/utils/matchRounds";
 import { formatMatchDate } from "@/utils/dateFormat";
 import { PiWarningCircle } from "react-icons/pi";
+import LockedPredictionsPanel from "@/components/LockedPredictionsPanel";
 
 export default function MatchCard({
     match,
     prediction = null,
     savePrediction,
+    lockedPredictionsController,
   }) {
 
   const { user } = useAuth();
@@ -292,9 +294,18 @@ export default function MatchCard({
           </button>
           
           {locked && (
-            <div className={styles.lockedMessage}>
-              🔒 Partido bloqueado
-            </div>
+            <>
+              <div className={styles.lockedMessage}>
+                🔒 Partido bloqueado
+              </div>
+
+              {lockedPredictionsController && (
+                <LockedPredictionsPanel
+                  match={match}
+                  controller={lockedPredictionsController}
+                />
+              )}
+            </>
           )}
 
         </div>

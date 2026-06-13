@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useMatchesCached } from "@/hooks/useMatchesCached";
 import { usePredictions } from "@/hooks/usePredictions";
+import { useLockedPredictionsSummaries } from "@/hooks/useLockedPredictionsSummaries";
 import { countMissingPredictions } from "@/utils/predictionStatus";
 import MatchCard from "@/components/MatchCard";
 import MatchesGrouped from "@/components/MatchesGrouped";
@@ -12,6 +13,7 @@ export default function MatchesScreen() {
   const [mode, setMode] = useState("date"); // "date" | "group"
 
   const { predictions, savePrediction } = usePredictions();
+  const lockedPredictionsController = useLockedPredictionsSummaries();
 
   const missingPredictionsCount = useMemo(() => {
     return countMissingPredictions(matches, predictions);
@@ -91,6 +93,7 @@ export default function MatchesScreen() {
             match={m}
             prediction={predictionsByMatchId.get(m.id) || null}
             savePrediction={savePrediction}
+            lockedPredictionsController={lockedPredictionsController}
           />
         )}
       />

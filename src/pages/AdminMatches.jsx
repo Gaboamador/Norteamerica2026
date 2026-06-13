@@ -4,6 +4,7 @@ import { useAdmin } from "../hooks/useAdmin";
 import { createMatch, setOfficialMatchResult } from "@/services/firebase/firebaseUtils";
 import { recomputeStandings } from "@/services/firebase/standingsService";
 import { refreshMatchesMetaSafely } from "@/services/firebase/firebaseMatchesMeta";
+import { publishLockedPredictions } from "@/services/firebase/firebaseLockedPredictions";
 import { useToast } from "@/context/ToastContext";
 import { Timestamp } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +30,7 @@ export default function AdminMatches() {
   const [round, setRound] = useState(1);
   const [startTime, setStartTime] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
+  const [publishingLockedPredictions, setPublishingLockedPredictions] = useState(false);
   const isKnockout = !isGroupStageRound(round);
 
 
@@ -153,6 +155,37 @@ const handleSetResult = async (matchId, homeGoals, awayGoals) => {
   }
 };
 
+// PUBLISH LOCKED PREDICTIONS
+const handlePublishLockedPredictions = async () => {
+  try {
+    setPublishingLockedPredictions(true);
+
+    const result = await publishLockedPredictions();
+
+    if (result.newMatchCount === 0) {
+      showToast({
+        type: "info",
+        message: "No hay partidos bloqueados nuevos para publicar",
+      });
+      return;
+    }
+
+    showToast({
+      type: "success",
+      message: `Pronósticos publicados: ${result.newMatchCount} partido(s), ${result.groupCount} grupo(s)`,
+    });
+  } catch (err) {
+    console.error("Error publicando pronósticos bloqueados", err);
+
+    showToast({
+      type: "error",
+      message: "Error publicando pronósticos bloqueados",
+    });
+  } finally {
+    setPublishingLockedPredictions(false);
+  }
+};
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.title}>Administrar Partidos</div>
@@ -177,6 +210,7 @@ const handleSetResult = async (matchId, homeGoals, awayGoals) => {
           >
             Por grupo
           </button>
+
           <button
             onClick={() => setMode("round")}
             className={`button button--primary button--small ${
@@ -186,6 +220,17 @@ const handleSetResult = async (matchId, homeGoals, awayGoals) => {
             Por fase
           </button>
         </div>
+
+        <button
+          type="button"
+          className="button button--warning button--small"
+          onClick={handlePublishLockedPredictions}
+          disabled={publishingLockedPredictions}
+        >
+          {publishingLockedPredictions
+            ? "Publicando..."
+            : "Publicar pronósticos bloqueados"}
+        </button>
       </div>
 
       {/* CREATE FORM */}
