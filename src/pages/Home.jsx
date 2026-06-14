@@ -77,6 +77,26 @@ export default function Home() {
         </MotionLink>
 
         <MotionLink
+          to="/linea-de-tiempo"
+          className={`${styles.card} ${styles.cardAccentTimeline}`}
+          initial="rest"
+          animate="rest"
+          whileHover="hover"
+          whileTap={{ scale: 0.985 }}
+        >
+          <div className={styles.homeIcon}>
+            <AnimatedHomeIcon type="timeline" size={32} />
+          </div>
+
+          <div className={styles.cardTitleDescWrapper}>
+            <div className={styles.cardTitle}>Línea de Tiempo</div>
+            <div className={styles.cardDesc}>
+              Seguí partido a partido cómo se mueve el ranking del grupo y quién sube o baja con cada resultado.
+            </div>
+          </div>
+        </MotionLink>
+
+        <MotionLink
           to="/reglamento"
           className={`${styles.card} ${styles.cardAccentTertiary}`}
           initial="rest"

@@ -13,7 +13,7 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuFolderOpen, LuHouse } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
 import { IoMdLogOut } from "react-icons/io";
-import { TbScoreboard , TbTrophy, TbBook2, TbCalculator } from "react-icons/tb";
+import { TbScoreboard , TbTrophy, TbTimelineEvent, TbBook2, TbCalculator } from "react-icons/tb";
 
 
 export default function Header() {
@@ -42,6 +42,7 @@ export default function Header() {
   const SUBTITLE_ROUTES = [
     { match: "/pronosticos", label: 'Cargar Pronósticos' },
     { match: "/posiciones", label: 'Tabla de Posiciones' },
+    { match: "/linea-de-tiempo", label: "Línea de Tiempo" },
     { match: "/reglamento", label: '¿Cómo se juega?' },
     { match: "/auth", label: 'Autenticación' },
     { match: "/admin/matches", label: 'Administrar Partidos Oficiales' },
@@ -65,6 +66,11 @@ export default function Header() {
       to: "/posiciones",
       label: 'Tabla de Posiciones',
       icon: <TbTrophy />,
+    },
+    {
+      to: "/linea-de-tiempo",
+      label: "Línea de Tiempo",
+      icon: <TbTimelineEvent />,
     },
     {
       to: "/reglamento",

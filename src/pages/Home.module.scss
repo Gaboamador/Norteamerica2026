@@ -209,6 +209,12 @@ align-items: flex-start;
   }
 }
 
+.cardAccentTimeline {
+  .homeIcon {
+    color: $color-accent-timeline;
+  }
+}
+
 .cardAccentAdmin {
   .homeIcon {
     color: $color-danger;

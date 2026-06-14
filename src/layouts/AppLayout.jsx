@@ -11,6 +11,7 @@ export default function AppLayout() {
   if (pathname === "/") size = "sm";
   if (pathname.startsWith("/pronosticos")) size = "xl";
   if (pathname.startsWith("/admin/matches")) size = "xl";
+  if (pathname.startsWith("/linea-de-tiempo")) size = "xl";
 
   return (
     <div className={styles.layout}>

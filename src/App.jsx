@@ -20,6 +20,7 @@ import AdminGroups from "@/pages/AdminGroups";
 import AdminGroupDetail from "@/pages/AdminGroupDetail";
 import GameRules from "@/pages/GameRules";
 import WorldCup from "@/pages/WorldCup";
+import ProdeTimeline from "@/pages/ProdeTimeline";
 import DirtyTabIndicator from "@/components/DirtyTabIndicator";
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/pronosticos" element={<MatchesScreen />} />
                 <Route path="/posiciones" element={<TablaPosiciones />} />
+                <Route path="/linea-de-tiempo" element={<ProdeTimeline />} />
                 <Route path="/reglamento" element={<GameRules />} />
                 <Route path="/mundial-calculadora" element={<WorldCup />} />
                 <Route path="/join" element={<JoinGroup />} />

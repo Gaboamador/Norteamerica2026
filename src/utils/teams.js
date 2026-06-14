@@ -1,65 +1,95 @@
 export const NATIONAL_TEAMS = [
-  { name: "Alemania", flagCode: "de" },
-  { name: "Arabia Saudí", flagCode: "sa" },
-  { name: "Argelia", flagCode: "dz" },
-  { name: "Argentina", flagCode: "ar" },
-  { name: "Australia", flagCode: "au" },
-  { name: "Austria", flagCode: "at" },
+  { name: "Alemania", shortName: "Alemania", flagCode: "de" },
+  { name: "Arabia Saudí", shortName: "Arabia Saudí", flagCode: "sa" },
+  { name: "Argelia", shortName: "Argelia", flagCode: "dz" },
+  { name: "Argentina", shortName: "Argentina", flagCode: "ar" },
+  { name: "Australia", shortName: "Australia", flagCode: "au" },
+  { name: "Austria", shortName: "Austria", flagCode: "at" },
 
-  { name: "Bélgica", flagCode: "be" },
-  { name: "Bosnia y Herzegovina", flagCode: "ba" },
-  { name: "Brasil", flagCode: "br" },
+  { name: "Bélgica", shortName: "Bélgica", flagCode: "be" },
+  {
+    name: "Bosnia y Herzegovina",
+    shortName: "Bosnia",
+    flagCode: "ba",
+  },
+  { name: "Brasil", shortName: "Brasil", flagCode: "br" },
 
-  { name: "Islas de Cabo Verde", flagCode: "cv" },
-  { name: "Canadá", flagCode: "ca" },
-  { name: "Chequia", flagCode: "cz" },
-  { name: "Colombia", flagCode: "co" },
-  { name: "Costa de Marfil", flagCode: "ci" },
-  { name: "Croacia", flagCode: "hr" },
-  { name: "Curazao", flagCode: "cw" },
-  { name: "Catar", flagCode: "qa" },
+  {
+    name: "Islas de Cabo Verde",
+    shortName: "Cabo Verde",
+    flagCode: "cv",
+  },
+  { name: "Canadá", shortName: "Canadá", flagCode: "ca" },
+  { name: "Chequia", shortName: "Chequia", flagCode: "cz" },
+  { name: "Colombia", shortName: "Colombia", flagCode: "co" },
+  {
+    name: "Costa de Marfil",
+    shortName: "C. de Marfil",
+    flagCode: "ci",
+  },
+  { name: "Croacia", shortName: "Croacia", flagCode: "hr" },
+  { name: "Curazao", shortName: "Curazao", flagCode: "cw" },
+  { name: "Catar", shortName: "Catar", flagCode: "qa" },
 
-  { name: "Ecuador", flagCode: "ec" },
-  { name: "Egipto", flagCode: "eg" },
-  { name: "Escocia", flagCode: "gb-sct" },
-  { name: "España", flagCode: "es" },
-  { name: "EE. UU.", flagCode: "us" },
+  { name: "Ecuador", shortName: "Ecuador", flagCode: "ec" },
+  { name: "Egipto", shortName: "Egipto", flagCode: "eg" },
+  { name: "Escocia", shortName: "Escocia", flagCode: "gb-sct" },
+  { name: "España", shortName: "España", flagCode: "es" },
+  { name: "EE. UU.", shortName: "EE. UU.", flagCode: "us" },
 
-  { name: "Francia", flagCode: "fr" },
+  { name: "Francia", shortName: "Francia", flagCode: "fr" },
 
-  { name: "Ghana", flagCode: "gh" },
+  { name: "Ghana", shortName: "Ghana", flagCode: "gh" },
 
-  { name: "Haití", flagCode: "ht" },
+  { name: "Haití", shortName: "Haití", flagCode: "ht" },
 
-  { name: "Inglaterra", flagCode: "gb-eng" },
-  { name: "Irak", flagCode: "iq" },
-  { name: "RI de Irán", flagCode: "ir" },
+  { name: "Inglaterra", shortName: "Inglaterra", flagCode: "gb-eng" },
+  { name: "Irak", shortName: "Irak", flagCode: "iq" },
+  { name: "RI de Irán", shortName: "Irán", flagCode: "ir" },
 
-  { name: "Japón", flagCode: "jp" },
-  { name: "Jordania", flagCode: "jo" },
+  { name: "Japón", shortName: "Japón", flagCode: "jp" },
+  { name: "Jordania", shortName: "Jordania", flagCode: "jo" },
 
-  { name: "Marruecos", flagCode: "ma" },
-  { name: "México", flagCode: "mx" },
+  { name: "Marruecos", shortName: "Marruecos", flagCode: "ma" },
+  { name: "México", shortName: "México", flagCode: "mx" },
 
-  { name: "Noruega", flagCode: "no" },
-  { name: "Nueva Zelanda", flagCode: "nz" },
+  { name: "Noruega", shortName: "Noruega", flagCode: "no" },
+  {
+    name: "Nueva Zelanda",
+    shortName: "N. Zelanda",
+    flagCode: "nz",
+  },
 
-  { name: "Países Bajos", flagCode: "nl" },
-  { name: "Panamá", flagCode: "pa" },
-  { name: "Paraguay", flagCode: "py" },
-  { name: "Portugal", flagCode: "pt" },
+  {
+    name: "Países Bajos",
+    shortName: "P. Bajos",
+    flagCode: "nl",
+  },
+  { name: "Panamá", shortName: "Panamá", flagCode: "pa" },
+  { name: "Paraguay", shortName: "Paraguay", flagCode: "py" },
+  { name: "Portugal", shortName: "Portugal", flagCode: "pt" },
 
-  { name: "República de Corea", flagCode: "kr" },
-  { name: "RD Congo", flagCode: "cd" },
+  {
+    name: "República de Corea",
+    shortName: "Corea",
+    flagCode: "kr",
+  },
+  { name: "RD Congo", shortName: "RD Congo", flagCode: "cd" },
 
-  { name: "Senegal", flagCode: "sn" },
-  { name: "Sudáfrica", flagCode: "za" },
-  { name: "Suecia", flagCode: "se" },
-  { name: "Suiza", flagCode: "ch" },
+  { name: "Senegal", shortName: "Senegal", flagCode: "sn" },
+  { name: "Sudáfrica", shortName: "Sudáfrica", flagCode: "za" },
+  { name: "Suecia", shortName: "Suecia", flagCode: "se" },
+  { name: "Suiza", shortName: "Suiza", flagCode: "ch" },
 
-  { name: "Túnez", flagCode: "tn" },
-  { name: "Turquía", flagCode: "tr" },
+  { name: "Túnez", shortName: "Túnez", flagCode: "tn" },
+  { name: "Turquía", shortName: "Turquía", flagCode: "tr" },
 
-  { name: "Uruguay", flagCode: "uy" },
-  { name: "Uzbekistán", flagCode: "uz" },
+  { name: "Uruguay", shortName: "Uruguay", flagCode: "uy" },
+  { name: "Uzbekistán", shortName: "Uzbekistán", flagCode: "uz" },
 ];
+
+export function getTeamShortName(teamName) {
+  const team = NATIONAL_TEAMS.find((item) => item.name === teamName);
+
+  return team?.shortName || teamName;
+}
