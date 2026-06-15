@@ -8,6 +8,7 @@ import {
   query,
   where,
   serverTimestamp,
+  writeBatch,
 } from "firebase/firestore";
 // import { refreshMatchesMeta } from "@/services/firebase/firebaseMatchesMeta";
 
@@ -236,4 +237,44 @@ export const resetMatchResult = async (matchId) => {
 
 export const resetMatch = async (matchId) => {
   await resetMatchResult(matchId);
+};
+
+
+const VALID_MATCH_CHANNELS = new Set(["Telefé", "TyC Sports", "DGO", null]);
+export const updateMatchesChannelsBatch = async (items) => {
+  if (!Array.isArray(items)) {
+    throw new Error("items debe ser un array");
+  }
+
+  if (items.length === 0) {
+    return;
+  }
+
+  if (items.length > 500) {
+    throw new Error("Firestore permite hasta 500 escrituras por batch");
+  }
+
+  const batch = writeBatch(db);
+
+  items.forEach(({ matchId, channel }) => {
+    if (!matchId) {
+      throw new Error("Todos los items deben tener matchId");
+    }
+
+    const normalizedChannel =
+      channel === undefined || channel === "" ? null : channel;
+
+    if (!VALID_MATCH_CHANNELS.has(normalizedChannel)) {
+      throw new Error(`Canal inválido: ${normalizedChannel}`);
+    }
+
+    const ref = doc(db, "matches", matchId);
+
+    batch.update(ref, {
+      channel: normalizedChannel,
+      channelUpdatedAt: serverTimestamp(),
+    });
+  });
+
+  await batch.commit();
 };

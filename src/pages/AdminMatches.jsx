@@ -10,11 +10,14 @@ import { Timestamp } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
 import MatchRow from "@/components/MatchRow";
 import MatchesGrouped from "@/components/MatchesGrouped";
+import MatchChannelsBatchEditor from "@/components/admin/MatchChannelsBatchEditor";
 import { useMatches } from "@/hooks/useMatches";
 import { ROUND_OPTIONS } from "@/utils/matchRounds";
 import { isGroupStageRound } from "@/utils/matchRounds";
 import styles from "./AdminMatches.module.scss";
 import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
+import { PiTelevisionSimple } from "react-icons/pi";
+
 
 export default function AdminMatches() {
 
@@ -30,6 +33,7 @@ export default function AdminMatches() {
   const [round, setRound] = useState(1);
   const [startTime, setStartTime] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
+  const [channelsOpen, setChannelsOpen] = useState(false);
   const [publishingLockedPredictions, setPublishingLockedPredictions] = useState(false);
   const isKnockout = !isGroupStageRound(round);
 
@@ -236,14 +240,42 @@ const handlePublishLockedPredictions = async () => {
       {/* CREATE FORM */}
       {canCreateMatches && (
       <>
-        <div
-          className={styles.titleRow}
-          onClick={() => setCreateOpen((v) => !v)}
-        >
-          <div className={styles.titleCrearPartido}>
-            {createOpen ? <IoIosRemoveCircleOutline/> : <IoIosAddCircleOutline/>}
-          </div>
+        <div className={styles.titleRow}>
+          <button
+            type="button"
+            className={styles.titleIconButton}
+            onClick={() => setCreateOpen((v) => !v)}
+            title={createOpen ? "Ocultar creación de partido" : "Crear partido"}
+            aria-expanded={createOpen}
+          >
+            {createOpen ? <IoIosRemoveCircleOutline /> : <IoIosAddCircleOutline />}
+          </button>
+
+          <button
+            type="button"
+            className={styles.titleIconButton}
+            onClick={() => setChannelsOpen((v) => !v)}
+            title={channelsOpen ? "Ocultar editor de canales" : "Editar canales"}
+            aria-expanded={channelsOpen}
+          >
+            <PiTelevisionSimple />
+          </button>
         </div>
+
+        <AnimatePresence initial={false}>
+          {channelsOpen && (
+            <motion.div
+              key="channels-editor"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              style={{ overflow: "hidden" }}
+            >
+              <MatchChannelsBatchEditor matches={matches} />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence initial={false}>
         {createOpen && (

@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/context/ToastContext";
 import { isMatchLocked } from "@/services/firebase/firebaseUtils";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
+import { getBroadcasterLogoSrc, handleBroadcasterLogoError } from "@/utils/broadcasterUtils";
 import { needsPrediction as getNeedsPrediction } from "@/utils/predictionStatus";
 import styles from "./MatchCard.module.scss";
 import { getTimeToLock, formatCountdown } from "@/utils/timeUtils";
@@ -136,6 +137,8 @@ export default function MatchCard({
 
   const isGroupStage = match.round <= 3;
 
+  const showBroadcaster = match.status === "scheduled" && Boolean(match.channel);
+
   return (
     <div className={`${styles.card} ${needsPrediction ? styles.needsPrediction : ""}`}>
       
@@ -162,6 +165,21 @@ export default function MatchCard({
         <span className={`${styles.label} ${styles.date}`}>
           {formattedDate}
         </span>
+
+        {showBroadcaster && (
+          <span
+            className={`${styles.label} ${styles.broadcaster}`}
+            title={`Transmite ${match.channel}`}
+            aria-label={`Transmite ${match.channel}`}
+          >
+            <img
+              src={getBroadcasterLogoSrc(match.channel)}
+              alt={match.channel}
+              className={styles.broadcasterLogo}
+              onError={handleBroadcasterLogoError}
+            />
+          </span>
+        )}
       </div>
 
       {/* MATCH INFO */}
