@@ -21,6 +21,7 @@ import AdminGroupDetail from "@/pages/AdminGroupDetail";
 import GameRules from "@/pages/GameRules";
 import WorldCup from "@/pages/WorldCup";
 import ProdeTimeline from "@/pages/ProdeTimeline";
+import LocalProdeSimulatorScreen from "@/pages/LocalProdeSimulatorScreen";
 import DirtyTabIndicator from "@/components/DirtyTabIndicator";
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/pronosticos" element={<MatchesScreen />} />
+                <Route path="/pronosticos/simulador" element={<LocalProdeSimulatorScreen />} />
                 <Route path="/posiciones" element={<TablaPosiciones />} />
                 <Route path="/linea-de-tiempo" element={<ProdeTimeline />} />
                 <Route path="/reglamento" element={<GameRules />} />

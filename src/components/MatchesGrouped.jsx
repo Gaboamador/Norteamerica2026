@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { sortMatches, groupMatches, getGroupLabel } from "@/utils/matchesGrouping";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./MatchesGrouped.module.scss";
@@ -9,9 +9,10 @@ export default function MatchesGrouped({
   renderMatch,
   autoFocusPending = true,
   userMode = true,
+  focusMatchId = null,
 }) {
-  const sorted = sortMatches(matches, mode);
-  const grouped = groupMatches(sorted, mode);
+  const sorted = useMemo(() => sortMatches(matches, mode), [matches, mode]);
+  const grouped = useMemo(() => groupMatches(sorted, mode), [sorted, mode]);
   const firstPendingRef = useRef(null);
   const firstPendingId = autoFocusPending ? sorted.find((m) => !m.result)?.id : null;
   const [openGroups, setOpenGroups] = useState({});
@@ -51,6 +52,21 @@ export default function MatchesGrouped({
       }
     }
   }, [firstPendingId, mode]);
+
+  useEffect(() => {
+    if (!focusMatchId) return;
+
+    for (const [key, list] of Object.entries(grouped)) {
+      if (list.some((match) => match.id === focusMatchId)) {
+        setOpenGroups((prev) => ({
+          ...prev,
+          [key]: true,
+        }));
+
+        break;
+      }
+    }
+  }, [focusMatchId, grouped]);
 
   return (
     <div className={styles.wrapper}>

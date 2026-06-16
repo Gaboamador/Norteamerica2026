@@ -6,9 +6,15 @@
 }
 
 .tab {
-  flex: 0 0 auto;
+  flex: 0 0 calc((100% - #{$space-xs}) / 2);
 
+  min-width: 0;
   padding: $space-xs $space-sm;
+
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  column-gap: $space-sm;
 
   border-radius: $radius-sm;
   border: 1px solid rgba($color-border, 0.7);
@@ -28,6 +34,38 @@
     transform 0.18s ease;
 }
 
+.label {
+  min-width: 57px;
+  white-space: nowrap;
+}
+
+.flags {
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+}
+
+.flagSlot {
+  min-width: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flag {
+  width: 16px;
+  height: 12px;
+
+  display: block;
+
+  object-fit: cover;
+  border-radius: 0 4px 0 4px;
+  box-shadow: 0 0 0 1px $color-text-primary;
+}
+
 .active {
   background: rgba($color-accent-primary, 0.16);
   border-color: rgba($color-accent-primary, 0.5);
@@ -36,14 +74,33 @@
 
 @include up(md) {
   .tabs {
-    flex-wrap: wrap;
     justify-content: center;
     overflow-x: visible;
   }
 
   .tab {
     flex: 0 0 calc((100% - #{5 * $space-xs}) / 6);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $space-2xs;
+
     text-align: center;
+  }
+
+  .label {
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .flags {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
   }
 
   .tab:hover {

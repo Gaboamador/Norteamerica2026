@@ -1,19 +1,15 @@
 .wrapper {
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: $space-sm;
+  display: contents;
 }
 
 .toggle {
-  align-self: center;
+  flex: 0 0 auto;
 }
 
 .panel {
   overflow: hidden;
   width: 100%;
+  flex-basis: 100%;
 }
 
 .message {
@@ -207,6 +203,16 @@
 /* FALLO */
 .points0 {
   opacity: 0.6;
+}
+
+.simulatorAction {
+  display: flex;
+  justify-content: center;
+
+  margin-top: $space-sm;
+  padding-top: $space-sm;
+
+  border-top: 1px solid rgba($color-border, 0.5);
 }
 
 @include up(sm) {

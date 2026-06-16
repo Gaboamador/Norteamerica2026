@@ -15,9 +15,11 @@ import LockedPredictionsPanel from "@/components/LockedPredictionsPanel";
 
 export default function MatchCard({
     match,
+    matches = [],
     prediction = null,
     savePrediction,
     lockedPredictionsController,
+    onOpenSimulator,
   }) {
 
   const { user } = useAuth();
@@ -47,6 +49,13 @@ export default function MatchCard({
   const showPoints = match.status === "finished" && points !== null;
   
   const locked = isMatchLocked(match);
+  
+  const canOpenSimulator =
+    locked &&
+    !result &&
+    lockedPredictionsController &&
+    typeof onOpenSimulator === "function";
+
   const needsPrediction = Boolean(user) && getNeedsPrediction(match, existing);
   
   const [timeLeft, setTimeLeft] = useState(() => getTimeToLock(match));
@@ -317,12 +326,26 @@ export default function MatchCard({
                 🔒 Partido bloqueado
               </div>
 
-              {lockedPredictionsController && (
-                <LockedPredictionsPanel
-                  match={match}
-                  controller={lockedPredictionsController}
-                />
-              )}
+              <div className={styles.conditionalActions}>
+                {lockedPredictionsController && (
+                  <LockedPredictionsPanel
+                    match={match}
+                    matches={matches}
+                    controller={lockedPredictionsController}
+                  />
+                )}
+
+                {canOpenSimulator && (
+                  <button
+                    type="button"
+                    className={`button button--secondary button--small ${styles.simulatorButton}`}
+                    onClick={() => onOpenSimulator(match)}
+                  >
+                    Simular tabla
+                  </button>
+                )}
+                
+              </div>
             </>
           )}
 

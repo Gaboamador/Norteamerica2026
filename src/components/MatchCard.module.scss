@@ -260,6 +260,14 @@
   align-items: center;
 }
 
+.conditionalActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: $space-sm;
+  width: 100%;
+}
 /* ===== INPUTS ===== */
 
 .inputsTitle {
@@ -382,6 +390,13 @@
 .lockedMessage {
   font-size: $font-size-body-xs;
   color: $color-text-muted;
+}
+
+.simulatorButton {
+  align-self: center;
+  width: fit-content;
+  white-space: nowrap;
+  color: $color-accent-warm-soft !important;
 }
 
 .loginMessage {

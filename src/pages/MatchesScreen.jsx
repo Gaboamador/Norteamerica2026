@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useMatchesCached } from "@/hooks/useMatchesCached";
 import { usePredictions } from "@/hooks/usePredictions";
 import { useLockedPredictionsSummaries } from "@/hooks/useLockedPredictionsSummaries";
@@ -9,11 +10,68 @@ import styles from "./MatchesScreen.module.scss";
 import { PiWarningCircle } from "react-icons/pi";
 
 export default function MatchesScreen() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { matches, loading } = useMatchesCached();
   const [mode, setMode] = useState("date"); // "date" | "group"
+  const [returnMatchId, setReturnMatchId] = useState(null);
 
   const { predictions, savePrediction } = usePredictions();
   const lockedPredictionsController = useLockedPredictionsSummaries();
+  
+  const handleOpenSimulator = async (match) => {
+    const loadedGroups = lockedPredictionsController.groups.length
+      ? lockedPredictionsController.groups
+      : await lockedPredictionsController.loadGroups();
+
+    const firstGroupId = loadedGroups?.[0]?.id || "";
+
+    const params = new URLSearchParams();
+
+    if (firstGroupId) {
+      params.set("groupId", firstGroupId);
+    }
+
+    params.set("matchId", match.id);
+
+    navigate(`/pronosticos/simulador?${params.toString()}`, {
+      state: {
+        returnMatchId: match.id,
+      },
+    });
+  };
+
+  useEffect(() => {
+  const matchId = location.state?.scrollToMatchId;
+
+  if (!matchId) return;
+
+  setReturnMatchId(matchId);
+}, [location.state]);
+
+useEffect(() => {
+  if (!returnMatchId) return;
+
+  const timeoutId = window.setTimeout(() => {
+    const element = document.querySelector(`[data-match-id="${returnMatchId}"]`);
+
+    element?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    setReturnMatchId(null);
+
+    navigate(location.pathname, {
+      replace: true,
+      state: null,
+    });
+  }, 320);
+
+  return () => {
+    window.clearTimeout(timeoutId);
+  };
+}, [returnMatchId, location.pathname, navigate]);
 
   const missingPredictionsCount = useMemo(() => {
     return countMissingPredictions(matches, predictions);
@@ -87,14 +145,18 @@ export default function MatchesScreen() {
         matches={matches}
         mode={mode}
         autoFocusPending={false}
+        focusMatchId={returnMatchId}
         renderMatch={(m) => (
-          <MatchCard
-            key={m.id}
-            match={m}
-            prediction={predictionsByMatchId.get(m.id) || null}
-            savePrediction={savePrediction}
-            lockedPredictionsController={lockedPredictionsController}
-          />
+          <div key={m.id} data-match-id={m.id}>
+            <MatchCard
+              match={m}
+              matches={matches}
+              prediction={predictionsByMatchId.get(m.id) || null}
+              savePrediction={savePrediction}
+              lockedPredictionsController={lockedPredictionsController}
+              onOpenSimulator={handleOpenSimulator}
+            />
+          </div>
         )}
       />
     </section>

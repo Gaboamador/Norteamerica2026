@@ -86,6 +86,7 @@ export default function WorldCup() {
         groups={calculator.groups}
         selectedGroup={calculator.selectedGroup}
         onSelectGroup={calculator.setSelectedGroup}
+        matches={calculator.matches}
       />
 
       <GroupCalculator

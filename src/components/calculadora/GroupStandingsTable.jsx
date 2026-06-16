@@ -35,7 +35,7 @@ export default function GroupStandingsTable({ rows = [] }) {
 
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>Tabla</h3>
+      {/* <h3 className={styles.title}>Tabla</h3> */}
 
       <div className={styles.tableWrapper}>
         <table className={styles.table}>
@@ -125,10 +125,10 @@ export default function GroupStandingsTable({ rows = [] }) {
           </tbody>
         </table>
       </div>
-
+{/* 
       <p className={styles.note}>
         El orden aplica desempates reglamentarios por resultados.
-      </p>
+      </p> */}
     </div>
   );
 }

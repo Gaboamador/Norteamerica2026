@@ -1,0 +1,699 @@
+.wrapper {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-md;
+}
+
+.simulationSection,
+.tableSection {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  padding: $space-md;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-card-border, 0.72);
+
+  background: rgba($color-card-bg, 0.78);
+}
+
+.simulationSection {
+  position: sticky;
+  top: $header-height-sm;
+  z-index: 20;
+
+  background: rgba($color-card-bg, 0.96);
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 12px 28px $color-shadow-soft,
+    0 0 0 1px rgba($color-card-border, 0.42);
+
+  transition:
+    padding 0.18s ease,
+    gap 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $space-sm;
+}
+
+.sectionHeaderText {
+  min-width: 0;
+}
+
+.sectionActions {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-xs;
+}
+
+.viewToggle {
+  appearance: none;
+
+//   width: 2rem;
+//   height: 2rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  border: 1px solid rgba($color-accent-primary, 0.72);
+
+  background: rgba($color-card-bg-hover, 0.54);
+  color: $color-accent-warm-soft;
+
+  cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+
+  svg {
+    // width: 1.05rem;
+    // height: 1.05rem;
+  }
+
+  &:hover {
+    color: $color-text-primary;
+    border-color: rgba($color-accent-primary, 0.68);
+    background: rgba($color-accent-primary, 0.14);
+    transform: translateY(-1px);
+  }
+}
+
+.sectionTitle {
+  margin: 0;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sectionDescription {
+  margin: $space-2xs 0 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  line-height: 1.35;
+
+  color: $color-text-muted;
+}
+
+.empty,
+.hint {
+  margin: 0;
+  padding: $space-sm;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-card-border, 0.65);
+
+  background: rgba($color-card-bg-hover, 0.42);
+  color: $color-text-muted;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  line-height: 1.35;
+  text-align: center;
+}
+
+/* =========================
+   Matches
+   ========================= */
+
+.matches {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.match {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  padding: $space-sm;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-card-border, 0.72);
+
+  background: rgba($color-card-bg, 0.72);
+
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.matchActive {
+  border-color: rgba($color-accent-primary, 0.52);
+  background: rgba($color-accent-primary, 0.08);
+  box-shadow: 0 8px 20px rgba($color-accent-primary, 0.08);
+}
+
+.matchMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.currentBadge {
+  flex-shrink: 0;
+
+  padding: $space-2xs $space-xs;
+
+  border-radius: 999px;
+  border: 1px solid rgba($color-accent-primary, 0.4);
+
+  background: rgba($color-accent-primary, 0.1);
+  color: $color-accent-primary;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.matchMain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: $space-sm;
+}
+
+.team {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-xs;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+
+  span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-align: right;
+  }
+}
+
+.awayTeam {
+  justify-content: flex-start;
+}
+
+.flag {
+  width: 22px;
+  height: 16px;
+  flex: 0 0 auto;
+
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba($color-card-border, 0.4);
+}
+
+.score {
+  display: grid;
+  grid-template-columns: 2.5rem auto 2.5rem;
+  align-items: center;
+  gap: $space-xs;
+
+  span {
+    font-family: $font-family-data;
+    font-weight: $font-weight-bold;
+    color: $color-text-muted;
+  }
+
+  input {
+    width: 2.5rem;
+    height: 2.25rem;
+
+    border-radius: $radius-sm;
+    border: 1px solid $color-input-border;
+
+    background: $color-input-bg;
+    color: $color-text-primary;
+
+    font-family: $font-family-data;
+    font-size: $font-size-body;
+    font-weight: $font-weight-bold;
+    text-align: center;
+
+    appearance: textfield;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-input-border-focus;
+      box-shadow: 0 0 0 2px $color-focus-ring;
+    }
+  }
+}
+
+.clearMatch {
+  appearance: none;
+  align-self: center;
+
+  padding: $space-2xs $space-xs;
+
+  border: 0;
+  background: transparent;
+  color: $color-text-muted;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-text-primary;
+  }
+}
+
+/* =========================
+   Compact mode on scroll
+   ========================= */
+
+.simulationCompact {
+  gap: $space-xs;
+  padding: $space-xs $space-sm;
+
+  box-shadow:
+    0 10px 22px $color-shadow-soft,
+    0 0 0 1px rgba($color-card-border, 0.48);
+
+  .sectionHeader {
+    align-items: center;
+  }
+
+  .sectionTitle {
+    font-size: $font-size-label-xs;
+  }
+
+  .matches {
+    gap: $space-xs;
+  }
+
+  .match {
+    display: block;
+
+    padding: $space-xs;
+
+    border-radius: $radius-sm;
+  }
+
+  .matchMeta {
+    display: none;
+  }
+
+  .matchMain {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: $space-xs;
+  }
+
+  .team {
+    gap: 4px;
+
+    font-size: $font-size-body-xs;
+    line-height: 1.1;
+  }
+
+  .flag {
+    width: 18px;
+    height: 13px;
+  }
+
+  .score {
+    grid-template-columns: 2rem auto 2rem;
+    gap: $space-2xs;
+
+    input {
+      width: 2rem;
+      height: 1.85rem;
+
+      font-size: $font-size-body-sm;
+    }
+  }
+
+  .clearMatch {
+    display: none;
+  }
+}
+
+/* =========================
+   Live table tipo ProdeTimeline
+   ========================= */
+
+.tableWrapper {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.liveTable {
+  width: 100%;
+  min-width: 350px;
+
+  display: flex;
+  flex-direction: column;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+}
+
+.tableHeader,
+.tableRow {
+  display: grid;
+  grid-template-columns: 36px minmax(108px, 1fr) 46px 50px 48px;
+  align-items: center;
+  gap: $space-2xs;
+}
+
+.tableHeader {
+  padding: 0 $space-xs $space-xs;
+
+  color: $color-text-muted;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  > div {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  > div:nth-child(2) {
+    text-align: left;
+  }
+}
+
+.liveTableBody {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.tableRow {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 0;
+
+  height: 44px;
+  min-height: 44px;
+
+  padding: $space-xs;
+
+  overflow: hidden;
+
+  border-radius: $radius-sm;
+  border-bottom: 1px solid rgba($color-card-border, 0.55);
+
+  background: rgba($color-card-bg, 0.16);
+  color: $color-text-secondary;
+
+  transform-origin: center;
+  will-change: transform;
+
+  > div {
+    min-width: 0;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  > div:nth-child(2) {
+    text-align: left;
+  }
+}
+
+.positionCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.position,
+.points {
+  font-family: $font-family-data;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.position {
+  width: 26px;
+  height: 26px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: $radius-sm;
+
+  background: rgba($color-bg-elevated, 0.75);
+  box-shadow: inset 0 0 0 1px rgba($color-border, 0.45);
+}
+
+.userCell {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+}
+
+.userName {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: $color-text-primary;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+
+  margin-left: $space-xs;
+  padding: 4px 6px;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-success, 0.4);
+
+  background: rgba($color-success, 0.15);
+  color: $color-success;
+
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pointsBadge {
+  min-width: 34px;
+
+  display: inline-flex;
+  justify-content: center;
+
+  padding: 4px 8px;
+
+  border-radius: $radius-sm;
+  border: 1px solid rgba($color-border, 0.5);
+
+  background: rgba($color-bg-elevated, 0.6);
+
+  font-family: $font-family-data;
+  font-size: 14px;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.points8 {
+  color: $color-accent-warm;
+  border-color: rgba($color-accent-warm, 0.6);
+  background: rgba($color-accent-warm, 0.18);
+  box-shadow: 0 0 5px rgba($color-accent-warm, 0.25);
+}
+
+.points5,
+.points4,
+.points3 {
+  color: $color-text-primary;
+  border-color: rgba($color-accent-primary, 0.4);
+  background: rgba($color-accent-primary, 0.12);
+}
+
+.points2,
+.points1 {
+  color: $color-text-muted;
+}
+
+.points0 {
+  opacity: 0.6;
+}
+
+.movementNeutral,
+.movementUp,
+.movementDown {
+  min-width: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: $space-2xs $space-sm;
+  border-radius: 999px;
+
+  font-family: $font-family-data;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+}
+
+.movementNeutral {
+  color: $color-text-muted;
+  background: rgba($color-card-bg-hover, 0.72);
+}
+
+.movementUp {
+  color: $color-success;
+  background: rgba($color-success, 0.12);
+}
+
+.movementDown {
+  color: $color-danger;
+  background: rgba($color-danger, 0.12);
+}
+
+.liveFlash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  pointer-events: none;
+}
+
+.liveFlash::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 4px;
+}
+
+.liveFlashUp {
+  background: linear-gradient(
+    90deg,
+    rgba($color-success, 0.18),
+    rgba($color-success, 0.045) 44%,
+    transparent 82%
+  );
+
+  &::before {
+    background: $color-success;
+    box-shadow: 0 0 12px rgba($color-success, 0.62);
+  }
+}
+
+.liveFlashDown {
+  background: linear-gradient(
+    90deg,
+    rgba($color-danger, 0.16),
+    rgba($color-danger, 0.04) 44%,
+    transparent 82%
+  );
+
+  &::before {
+    background: $color-danger;
+    box-shadow: 0 0 12px rgba($color-danger, 0.55);
+  }
+}
+
+.rowUp {
+  box-shadow:
+    inset 0 0 0 1px rgba($color-success, 0.18),
+    0 8px 20px rgba($color-success, 0.06);
+}
+
+.rowDown {
+  box-shadow:
+    inset 0 0 0 1px rgba($color-danger, 0.16),
+    0 8px 20px rgba($color-danger, 0.05);
+}
+
+@include up(sm) {
+    .badge {
+    margin-left: $space-sm;
+    }
+    .simulationSection {
+        top: $header-height-md;
+    }
+
+  .simulationSection,
+  .tableSection {
+    padding: $space-lg;
+  }
+
+  .simulationCompact {
+    padding: $space-xs $space-md;
+  }
+
+  .liveTable {
+    min-width: 520px;
+  }
+
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 54px minmax(160px, 1fr) 68px 76px 72px;
+    gap: $space-xs;
+  }
+}

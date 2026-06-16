@@ -5,6 +5,7 @@ import styles from "./LockedPredictionsPanel.module.scss";
 
 export default function LockedPredictionsPanel({
   match,
+  matches = [],
   controller,
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -24,6 +25,10 @@ export default function LockedPredictionsPanel({
   const rows = selectedGroupId
     ? getRowsForMatch(selectedGroupId, match)
     : [];
+
+  const selectedGroup = selectedGroupId
+    ? groups.find((group) => group.id === selectedGroupId) || null
+    : null;
 
   const selectedSummary = selectedGroupId ? summaries[selectedGroupId] : null;
 
@@ -50,10 +55,10 @@ export default function LockedPredictionsPanel({
     await loadSummary(nextGroupId);
   };
 
-    const handleGroupChange = async (groupId) => {
+  const handleGroupChange = async (groupId) => {
     setSelectedGroupId(groupId);
     await loadSummary(groupId);
-    };
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -93,22 +98,22 @@ export default function LockedPredictionsPanel({
             )}
 
             {!isLoading && groups.length > 1 && (
-            <div className={styles.groupSelector}>
+              <div className={styles.groupSelector}>
                 {groups.map((group) => {
-                const active = group.id === selectedGroupId;
+                  const active = group.id === selectedGroupId;
 
-                return (
+                  return (
                     <button
-                    key={group.id}
-                    type="button"
-                    className={`${styles.groupChip} ${active ? styles.active : ""}`}
-                    onClick={() => handleGroupChange(group.id)}
+                      key={group.id}
+                      type="button"
+                      className={`${styles.groupChip} ${active ? styles.active : ""}`}
+                      onClick={() => handleGroupChange(group.id)}
                     >
-                    {group.name}
+                      {group.name}
                     </button>
-                );
+                  );
                 })}
-            </div>
+              </div>
             )}
 
             {!isLoading && selectedGroupId && !selectedMatchWasPublished && (
@@ -124,57 +129,59 @@ export default function LockedPredictionsPanel({
             )}
 
             {!isLoading && rows.length > 0 && (
-              <div className={styles.list}>
-                {rows.map((row) => {
-                  const hasMatchPoints =
-                    row.matchPoints !== null && row.matchPoints !== undefined;
+              <>
+                <div className={styles.list}>
+                  {rows.map((row) => {
+                    const hasMatchPoints =
+                      row.matchPoints !== null && row.matchPoints !== undefined;
 
-                  return (
-                    <div key={row.uid} className={styles.row}>
-                      <span className={styles.name}>
-                        {row.displayName}
-                      </span>
-
-                      <span className={styles.prediction}>
-                        <img
-                          className={styles.flag}
-                          src={getTeamFlagSrc(match.homeTeam)}
-                          alt=""
-                          onError={handleFlagImageError}
-                        />
-
-                        <span className={styles.score}>
-                          {row.predHome} - {row.predAway}
+                    return (
+                      <div key={row.uid} className={styles.row}>
+                        <span className={styles.name}>
+                          {row.displayName}
                         </span>
 
-                        <img
-                          className={styles.flag}
-                          src={getTeamFlagSrc(match.awayTeam)}
-                          alt=""
-                          onError={handleFlagImageError}
-                        />
-                      </span>
+                        <span className={styles.prediction}>
+                          <img
+                            className={styles.flag}
+                            src={getTeamFlagSrc(match.homeTeam)}
+                            alt=""
+                            onError={handleFlagImageError}
+                          />
 
-                      <span
-                        className={`${styles.points} ${
-                          hasMatchPoints ? styles[`points${row.matchPoints}`] : ""
-                        }`}
-                        title={
-                          hasMatchPoints
-                            ? `Puntos obtenidos: ${row.matchPoints}`
-                            : "El partido todavía no tiene resultado oficial"
-                        }
-                      >
-                        {hasMatchPoints ? `+${row.matchPoints}` : "-"}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+                          <span className={styles.score}>
+                            {row.predHome} - {row.predAway}
+                          </span>
+
+                          <img
+                            className={styles.flag}
+                            src={getTeamFlagSrc(match.awayTeam)}
+                            alt=""
+                            onError={handleFlagImageError}
+                          />
+                        </span>
+
+                        <span
+                          className={`${styles.points} ${
+                            hasMatchPoints ? styles[`points${row.matchPoints}`] : ""
+                          }`}
+                          title={
+                            hasMatchPoints
+                              ? `Puntos obtenidos: ${row.matchPoints}`
+                              : "El partido todavía no tiene resultado oficial"
+                          }
+                        >
+                          {hasMatchPoints ? `+${row.matchPoints}` : "-"}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
             )}
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+} 
