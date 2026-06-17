@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useMatchesCached } from "@/hooks/useMatchesCached";
 import { useLockedPredictionsSummaries } from "@/hooks/useLockedPredictionsSummaries";
 import LocalProdeSimulatorPanel from "@/components/LocalProdeSimulatorPanel";
+import { LuArrowLeft } from "react-icons/lu";
 import styles from "./LocalProdeSimulatorScreen.module.scss";
 
 export default function LocalProdeSimulatorScreen() {
@@ -109,7 +110,8 @@ export default function LocalProdeSimulatorScreen() {
           className={`button button--secondary ${styles.backButton}`}
           onClick={handleBack}
         >
-          ← Volver a pronósticos
+            <LuArrowLeft aria-hidden="true" />
+            Volver a pronósticos
         </button>
 
         <div className={styles.message}>
@@ -127,7 +129,8 @@ export default function LocalProdeSimulatorScreen() {
           className={`button button--secondary ${styles.backButton}`}
           onClick={handleBack}
         >
-          ← Volver a pronósticos
+          <LuArrowLeft aria-hidden="true" />
+          Volver a pronósticos
         </button>
 
         <div className={styles.message}>
@@ -152,7 +155,8 @@ export default function LocalProdeSimulatorScreen() {
           className={`button button--tertiary ${styles.backButton}`}
           onClick={handleBack}
         >
-          ← Volver a pronósticos
+          <LuArrowLeft aria-hidden="true" />
+          Volver a pronósticos
         </button>
 
       </header>

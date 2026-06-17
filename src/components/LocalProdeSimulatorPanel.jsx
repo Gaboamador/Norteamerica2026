@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import { getTeamShortName } from "@/utils/teams";
 import { formatMatchDate } from "@/utils/dateFormat";
 import { formatDisplayName } from "@/utils/formatDisplayName";
+import { getPredictionPoints } from "@/utils/predictionPoints";
 import { buildSimulatedProdeStandings, getSimulationCandidateMatches } from "@/utils/buildSimulatedProdeStandings";
 import { PiArrowsInLineVertical, PiArrowsOutLineVertical } from "react-icons/pi";
 import styles from "./LocalProdeSimulatorPanel.module.scss";
@@ -137,6 +138,221 @@ function DeltaPointsBadge({ deltaPoints }) {
   );
 }
 
+function getPredictionForUser(summary, matchId, uid) {
+  const rawPrediction = summary?.matches?.[matchId]?.p?.[uid];
+
+  if (!Array.isArray(rawPrediction)) return null;
+
+  return {
+    predHome: rawPrediction[0],
+    predAway: rawPrediction[1],
+  };
+}
+
+function getSimulatedMatchResult(match, simulatedResultsByMatchId) {
+  const simulated = simulatedResultsByMatchId?.[match.id];
+
+  if (!hasCompleteResult(simulated)) return null;
+
+  return {
+    homeGoals: Number(simulated.homeGoals),
+    awayGoals: Number(simulated.awayGoals),
+  };
+}
+
+function buildPredictionModalRows({
+  selectedPlayer,
+  candidateMatches,
+  summary,
+  simulatedResultsByMatchId,
+}) {
+  if (!selectedPlayer) return [];
+
+  return candidateMatches.map((match) => {
+    const prediction = getPredictionForUser(summary, match.id, selectedPlayer.uid);
+    const simulatedResult = getSimulatedMatchResult(match, simulatedResultsByMatchId);
+
+    const points =
+      prediction && simulatedResult
+        ? getPredictionPoints(
+            prediction,
+            {
+              ...match,
+              result: simulatedResult,
+              status: "finished",
+            }
+          )
+        : null;
+
+    return {
+      match,
+      prediction,
+      simulatedResult,
+      points,
+    };
+  });
+}
+
+function PlayerPredictionModal({
+  player,
+  rows,
+  onClose,
+}) {
+  if (!player) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className={styles.predictionModalBackdrop}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      >
+        <motion.div
+          className={styles.predictionModal}
+          initial={{ opacity: 0, y: 14, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.98 }}
+          transition={{ duration: 0.18, ease: "easeOut" }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="player-prediction-modal-title"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <div className={styles.predictionModalHeader}>
+            <div>
+              <h3
+                id="player-prediction-modal-title"
+                className={styles.predictionModalTitle}
+              >
+                Pronóstico de {formatDisplayName(player.displayName, player.email)}
+              </h3>
+
+              <p className={styles.predictionModalDescription}>
+                Partido{rows.length === 1 ? "" : "s"} incluido{rows.length === 1 ? "" : "s"} en esta simulación.
+              </p>
+              <div className={styles.predictionModalSummary}>
+              <span>
+                Pos
+                <strong>{player.position}</strong>
+              </span>
+
+              <span>
+                Pts
+                <strong>{player.points}</strong>
+              </span>
+
+              <span>
+                +/-
+                <strong>
+                  {player.deltaPoints ? `+${player.deltaPoints}` : "—"}
+                </strong>
+              </span>
+
+              <span>
+                Mov
+                <strong>
+                  {player.movement > 0
+                    ? `↑ ${player.movement}`
+                    : player.movement < 0
+                      ? `↓ ${Math.abs(player.movement)}`
+                      : "—"}
+                </strong>
+              </span>
+            </div>
+            </div>
+
+            <button
+              type="button"
+              className={styles.predictionModalClose}
+              onClick={onClose}
+              aria-label="Cerrar detalle de pronóstico"
+            >
+              ×
+            </button>
+          </div>
+
+          <div className={styles.predictionModalList}>
+            {rows.map(({ match, prediction, simulatedResult, points }) => (
+              <article key={match.id} className={styles.predictionModalMatch}>
+                <div className={styles.predictionModalMatchMeta}>
+                  <span>{getFormattedMatchDate(match)}</span>
+
+                  {simulatedResult ? (
+                    <span className={styles.predictionModalStatusActive}>
+                      simulado
+                    </span>
+                  ) : (
+                    <span className={styles.predictionModalStatusPending}>
+                      pendiente
+                    </span>
+                  )}
+                </div>
+
+                <div className={styles.predictionModalMatchGrid}>
+                  <div className={styles.predictionModalTeam}>
+                    <span>{getTeamShortName(match.homeTeam)}</span>
+                    <img
+                      className={styles.flag}
+                      src={getTeamFlagSrc(match.homeTeam)}
+                      alt=""
+                      onError={handleFlagImageError}
+                    />
+                  </div>
+
+                  <div className={styles.predictionModalScoreBlock}>
+                    <span className={styles.predictionModalLabel}>
+                      Pronóstico
+                    </span>
+
+                    <span className={styles.predictionModalScore}>
+                      {prediction
+                        ? `${prediction.predHome} - ${prediction.predAway}`
+                        : "-"}
+                    </span>
+                  </div>
+
+                  <div className={`${styles.predictionModalTeam} ${styles.predictionModalAwayTeam}`}>
+                    <img
+                      className={styles.flag}
+                      src={getTeamFlagSrc(match.awayTeam)}
+                      alt=""
+                      onError={handleFlagImageError}
+                    />
+                    <span>{getTeamShortName(match.awayTeam)}</span>
+                  </div>
+                </div>
+
+                <div className={styles.predictionModalFooter}>
+                  <span>
+                    Resultado temporal:{" "}
+                    <strong>
+                      {simulatedResult
+                        ? `${simulatedResult.homeGoals} - ${simulatedResult.awayGoals}`
+                        : "-"}
+                    </strong>
+                  </span>
+
+                  <span
+                    className={`${styles.pointsBadge} ${
+                      points !== null && points !== undefined
+                        ? styles[`points${points}`] || ""
+                        : styles.points0
+                    }`}
+                  >
+                    {points !== null && points !== undefined ? `+${points}` : "-"}
+                  </span>
+                </div>
+              </article>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 export default function LocalProdeSimulatorPanel({
   currentMatch,
   group,
@@ -148,6 +364,7 @@ export default function LocalProdeSimulatorPanel({
   const [simulatedResultsByMatchId, setSimulatedResultsByMatchId] = useState(() =>
     readStoredResults()
   );
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   useEffect(() => {
     saveStoredResults(simulatedResultsByMatchId);
@@ -181,6 +398,23 @@ const { table } = useMemo(() => {
   }, [candidateMatchIds, simulatedResultsByMatchId]);
 
   const showClearAll = candidateMatches.length >= 2;
+
+  const selectedPlayerPredictionRows = useMemo(() => {
+  return buildPredictionModalRows({
+    selectedPlayer,
+    candidateMatches,
+    summary,
+    simulatedResultsByMatchId,
+  });
+}, [selectedPlayer, candidateMatches, summary, simulatedResultsByMatchId]);
+
+  const handleOpenPlayerPrediction = (row) => {
+    setSelectedPlayer(row);
+  };
+
+  const handleClosePlayerPrediction = () => {
+    setSelectedPlayer(null);
+  };
 
   const handleChangeResult = (matchId, field, value) => {
     setSimulatedResultsByMatchId((current) => {
@@ -440,13 +674,22 @@ const { table } = useMemo(() => {
                   return (
                     <motion.div
                       key={row.uid}
-                      className={`${styles.tableRow} ${getRowClassName(row)}`}
+                      className={`${styles.tableRow} ${styles.clickableRow} ${getRowClassName(row)}`}
                       initial={false}
                       animate={{
                         y: getLiveRowYByIndex(visualIndex),
                       }}
                       transition={LIVE_ROW_TRANSITION}
                       role="row"
+                      tabIndex={0}
+                      onClick={() => handleOpenPlayerPrediction(row)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          handleOpenPlayerPrediction(row);
+                        }
+                      }}
+                      aria-label={`Ver pronóstico de ${formatDisplayName(row.displayName, row.email)}`}
                     >
                       {hasMovement && (
                         <motion.span
@@ -506,6 +749,12 @@ const { table } = useMemo(() => {
           </p>
         )}
       </section>
+
+      <PlayerPredictionModal
+        player={selectedPlayer}
+        rows={selectedPlayerPredictionRows}
+        onClose={handleClosePlayerPrediction}
+      />
     </div>
   );
 }

@@ -467,6 +467,24 @@
   }
 }
 
+.clickableRow {
+  &:focus-visible {
+    outline: none;
+    border-color: $color-accent-primary;
+    box-shadow:
+      0 0 0 3px $color-focus-ring,
+      inset 0 0 0 1px rgba($color-accent-primary, 0.28);
+  }
+
+  @media (pointer: fine) {
+    cursor: pointer;
+    &:hover {
+      border-color: rgba($color-accent-primary, 0.44);
+      background: rgba($color-accent-primary, 0.08);
+    }
+  }
+}
+
 .positionCell {
   display: flex;
   align-items: center;
@@ -670,6 +688,313 @@
     0 8px 20px rgba($color-danger, 0.05);
 }
 
+
+/* =========================
+   Modal de pronóstico del jugador
+   ========================= */
+
+.predictionModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: $space-sm;
+
+  background: rgba($color-bg-overlay, 0.78);
+  backdrop-filter: blur(6px);
+}
+
+.predictionModal {
+  width: 100%;
+  max-height: 86vh;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border-radius: $radius-lg $radius-lg $radius-md $radius-md;
+  border: 1px solid rgba($color-card-border, 0.82);
+
+  background: rgba($color-card-bg, 0.98);
+  color: $color-text-primary;
+
+  box-shadow:
+    0 16px 34px $color-shadow-medium,
+    0 0 0 1px rgba($color-card-border, 0.32);
+}
+
+.predictionModalHeader {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $space-md;
+
+  padding: $space-md;
+
+  border-bottom: 1px solid rgba($color-card-border, 0.62);
+
+  background: rgba($color-card-bg-hover, 0.28);
+}
+
+.predictionModalTitle {
+  margin: 0;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-sm;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.predictionModalDescription {
+  margin: $space-2xs 0 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  line-height: 1.35;
+
+  color: $color-text-muted;
+}
+
+.predictionModalSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+
+  margin-top: $space-sm;
+
+  span {
+    min-width: 54px;
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: $space-2xs $space-xs;
+
+    border-radius: $radius-sm;
+    border: 1px solid rgba($color-card-border, 0.58);
+
+    background: rgba($color-bg-elevated, 0.46);
+    color: $color-text-muted;
+
+    font-family: $font-family-compact;
+    font-size: $font-size-label-xs;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  strong {
+    font-family: $font-family-data;
+    font-size: $font-size-body-sm;
+    font-weight: $font-weight-bold;
+
+    color: $color-text-primary;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+}
+
+.predictionModalClose {
+  appearance: none;
+
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  border: 1px solid rgba($color-border, 0.7);
+
+  background: rgba($color-bg-elevated, 0.55);
+  color: $color-text-secondary;
+
+  font-family: $font-family-data;
+  font-size: 1.35rem;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
+
+  &:hover {
+    border-color: rgba($color-accent-primary, 0.58);
+    background: rgba($color-accent-primary, 0.12);
+    color: $color-text-primary;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px $color-focus-ring;
+  }
+}
+
+.predictionModalList {
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  padding: $space-sm;
+
+  overflow-y: auto;
+}
+
+.predictionModalMatch {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  padding: $space-sm;
+
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-card-border, 0.68);
+
+  background: rgba($color-bg-elevated, 0.42);
+}
+
+.predictionModalMatchMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+}
+
+.predictionModalStatusActive,
+.predictionModalStatusPending {
+  flex: 0 0 auto;
+
+  padding: $space-2xs $space-xs;
+
+  border-radius: 999px;
+
+  font-family: $font-family-compact;
+  font-size: $font-size-label-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.predictionModalStatusActive {
+  border: 1px solid rgba($color-accent-primary, 0.42);
+  background: rgba($color-accent-primary, 0.12);
+  color: $color-accent-primary;
+}
+
+.predictionModalStatusPending {
+  border: 1px solid rgba($color-border, 0.6);
+  background: rgba($color-card-bg-hover, 0.42);
+  color: $color-text-muted;
+}
+
+.predictionModalMatchGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: $space-xs;
+}
+
+.predictionModalTeam {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-xs;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+
+  span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+  }
+}
+
+.predictionModalAwayTeam {
+  justify-content: flex-start;
+
+  span {
+    text-align: left;
+  }
+}
+
+.predictionModalScoreBlock {
+  min-width: 64px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-2xs;
+}
+
+.predictionModalLabel {
+  font-family: $font-family-compact;
+  font-size: $font-size-label-xs;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.predictionModalScore {
+  font-family: $font-family-data;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+}
+
+.predictionModalFooter {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: $space-xs;
+
+  padding-top: $space-xs;
+
+  border-top: 1px solid rgba($color-card-border, 0.5);
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  color: $color-text-muted;
+
+  strong {
+    font-family: $font-family-data;
+    color: $color-text-primary;
+  }
+}
+
+
+
 @include up(sm) {
     .badge {
     margin-left: $space-sm;
@@ -696,4 +1021,65 @@
     grid-template-columns: 54px minmax(160px, 1fr) 68px 76px 72px;
     gap: $space-xs;
   }
+  
+  .predictionModalBackdrop {
+    align-items: center;
+
+    padding: $space-lg;
+  }
+
+  .predictionModal {
+    width: min(100%, 520px);
+    max-height: min(82vh, 680px);
+
+    border-radius: $radius-lg;
+  }
+
+  .predictionModalHeader {
+    padding: $space-lg;
+  }
+
+  .predictionModalTitle {
+    font-size: $font-size-heading-card;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .predictionModalSummary {
+  span {
+    min-width: 62px;
+  }
+
+  strong {
+    font-size: $font-size-body;
+  }
+}
+
+  .predictionModalList {
+    padding: $space-md;
+  }
+
+  .predictionModalMatchGrid {
+    gap: $space-sm;
+  }
+
+  .predictionModalTeam {
+    font-size: $font-size-body-sm;
+  }
+
+  .predictionModalScoreBlock {
+    min-width: 76px;
+  }
+
+  .predictionModalScore {
+    font-size: $font-size-lg;
+  }
+
+  .predictionModalFooter {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-sm;
+  }
+
 }

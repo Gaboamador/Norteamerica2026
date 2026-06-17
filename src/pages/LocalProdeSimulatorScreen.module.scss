@@ -10,7 +10,7 @@
 .header {
   display: flex;
   justify-content: space-between;
-//   flex-direction: column;
+align-items: center;
   gap: $space-sm;
 
   padding: $space-md;
@@ -21,9 +21,16 @@
   background: rgba($color-card-bg, 0.78);
 }
 
-// .backButton {
-//   align-self: flex-start;
-// }
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-xs;
+
+  svg {
+    flex: 0 0 auto;
+    font-size: 1rem;
+  }
+}
 
 .title {
   margin: 0;
