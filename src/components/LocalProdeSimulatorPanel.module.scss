@@ -27,18 +27,39 @@
   position: sticky;
   top: $header-height-sm;
   z-index: 20;
+  isolation: isolate;
 
-  background: rgba($color-card-bg, 0.96);
-  backdrop-filter: blur(10px);
+  background: transparent;
+  border: none;
 
-  box-shadow:
-    0 12px 28px $color-shadow-soft,
-    0 0 0 1px rgba($color-card-border, 0.42);
+  // &::before {
+  //   content: "";
+  //   position: absolute;
 
-  transition:
-    padding 0.18s ease,
-    gap 0.18s ease,
-    box-shadow 0.18s ease;
+  //   inset: 0 0 0 0;
+  //   z-index: -1;
+  //   border-radius: 10px;
+
+  //   background: linear-gradient(
+  //     90deg,
+  //     #f2a79a 0%,
+  //     #f2a79a 25%,
+
+  //     #e7242f 25%,
+  //     #e7242f 50%,
+
+  //     #b8f12f 50%,
+  //     #b8f12f 75%,
+
+  //     #b894ff 75%,
+  //     #b894ff 100%
+  //   );
+
+  //   transform: translateY(1.5px);
+  //   transform-origin: center;
+
+  //   clip-path: inset(7px 3px 7px 3px round 10px);
+  // }
 }
 
 .sectionHeader {
@@ -46,6 +67,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: $space-sm;
+  align-items: center;
 }
 
 .sectionHeaderText {
@@ -102,7 +124,7 @@
   margin: 0;
 
   font-family: $font-family-compact;
-  font-size: $font-size-label-sm;
+  font-size: $font-size-label-xs;
   font-weight: $font-weight-bold;
 
   color: $color-text-primary;
@@ -120,8 +142,7 @@
   color: $color-text-muted;
 }
 
-.empty,
-.hint {
+.hint, .empty {
   margin: 0;
   padding: $space-sm;
 
@@ -144,31 +165,54 @@
 .matches {
   display: flex;
   flex-direction: column;
-  gap: $space-sm;
+  gap: $space-xs;
+  // background: $color-bg-page;
 }
 
 .match {
-  display: flex;
+  position: relative;
+  display: block;
   flex-direction: column;
   gap: $space-xs;
-
   padding: $space-sm;
+  // border-radius: $radius-sm;
+  // border: 1px solid rgba($color-card-border, 0.72);
+  // background: rgba($color-card-bg, 0.72);
+  
+  // transition:
+  //   border-color 0.18s ease,
+  //   background 0.18s ease,
+  //   box-shadow 0.18s ease;
+  &::before {
+    content: "";
+    position: absolute;
 
-  border-radius: $radius-md;
-  border: 1px solid rgba($color-card-border, 0.72);
+    inset: 0 0 0 0;
+    z-index: -1;
 
-  background: rgba($color-card-bg, 0.72);
+    background: linear-gradient(
+      90deg,
+      #f2a79a 0%,
+      #f2a79a 25%,
 
-  transition:
-    border-color 0.18s ease,
-    background 0.18s ease,
-    box-shadow 0.18s ease;
+      #d60000 25%,
+      #d60000 50%,
+
+      #b0ea00 50%,
+      #b0ea00 75%,
+
+      #b489ff 75%,
+      #b489ff 100%
+    );
+
+    clip-path: inset(9px 2px 6px 2px round 8px);
+  }
 }
 
 .matchActive {
-  border-color: rgba($color-accent-primary, 0.52);
-  background: rgba($color-accent-primary, 0.08);
-  box-shadow: 0 8px 20px rgba($color-accent-primary, 0.08);
+  // border-color: rgba($color-accent-primary, 0.52);
+  // background: rgba($color-accent-primary, 0.08);
+  // box-shadow: 0 8px 20px rgba($color-accent-primary, 0.08);
 }
 
 .matchMeta {
@@ -204,7 +248,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: $space-sm;
+  background: black;
+  border-radius: 12px;
 }
 
 .team {
@@ -213,16 +258,20 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: $space-xs;
-
+  
   font-family: $font-family-text;
-  font-size: $font-size-body-sm;
-  font-weight: $font-weight-bold;
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 600;
   color: $color-text-primary;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: $font-family-team;
+  gap: 16px;
+  padding: 0 8px;
 
   span {
     min-width: 0;
-
     overflow: hidden;
     text-align: right;
   }
@@ -232,42 +281,52 @@
   justify-content: flex-start;
 }
 
+.homeTeamLabel {
+  display: inline-block; // Transforms require a block or inline-block
+  transform: scaleX(1.25); 
+  transform-origin: right center; // Adjusts the pivot point
+}
+
+.awayTeamLabel {
+  display: inline-block; // Transforms require a block or inline-block
+  transform: scaleX(1.25); 
+  transform-origin: left center; // Adjusts the pivot point
+}
+
 .flag {
-  width: 22px;
-  height: 16px;
+  width: 28px;
+  height: 20px;
   flex: 0 0 auto;
 
   object-fit: cover;
-  border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba($color-card-border, 0.4);
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px white;
 }
 
 .score {
-  display: grid;
-  grid-template-columns: 2.5rem auto 2.5rem;
+  display: flex;
+  gap: $space-2xs;
+  justify-content: space-between;
   align-items: center;
-  gap: $space-xs;
-
-  span {
-    font-family: $font-family-data;
-    font-weight: $font-weight-bold;
-    color: $color-text-muted;
-  }
+  background: #00fed9;
+  border-radius: $radius-md;
+  height: 35px;
 
   input {
-    width: 2.5rem;
-    height: 2.25rem;
+    width: 26px !important;
 
     border-radius: $radius-sm;
     border: 1px solid $color-input-border;
+    border: none;
 
-    background: $color-input-bg;
-    color: $color-text-primary;
+    background: transparent;
+    color: black;
 
-    font-family: $font-family-data;
-    font-size: $font-size-body;
-    font-weight: $font-weight-bold;
+
+    font-size: 24px;
     text-align: center;
+    font-family: $font-family-score;
+    font-weight: 500;
 
     appearance: textfield;
     -moz-appearance: textfield;
@@ -281,10 +340,35 @@
     &:focus {
       outline: none;
       border-color: $color-input-border-focus;
-      box-shadow: 0 0 0 2px $color-focus-ring;
+      border-color: transparent;
+      // box-shadow: 0 0 0 2px $color-focus-ring;
     }
+
+    &::selection {
+      // background: rgba($color-accent-primary, 0.28);
+      background: transparent;
+      color: $color-accent-warm;
+    }
+
   }
 }
+
+.inputHome {
+  margin-left: 4px;
+}
+.inputAway {
+  margin-right: 4px;
+}
+
+.logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  padding: 5px;
+  background: black;
+  border-radius: 8px;
+}
+
 
 .clearMatch {
   appearance: none;
@@ -311,65 +395,14 @@
 
 .simulationCompact {
   gap: $space-xs;
-  padding: $space-xs $space-sm;
+  padding: $space-xs;
 
-  box-shadow:
-    0 10px 22px $color-shadow-soft,
-    0 0 0 1px rgba($color-card-border, 0.48);
-
-  .sectionHeader {
-    align-items: center;
-  }
-
-  .sectionTitle {
-    font-size: $font-size-label-xs;
-  }
-
-  .matches {
-    gap: $space-xs;
-  }
-
-  .match {
-    display: block;
-
-    padding: $space-xs;
-
-    border-radius: $radius-sm;
-  }
+  // box-shadow:
+  //   0 10px 22px $color-shadow-soft,
+  //   0 0 0 1px rgba($color-card-border, 0.48);
 
   .matchMeta {
     display: none;
-  }
-
-  .matchMain {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: center;
-    gap: $space-xs;
-  }
-
-  .team {
-    gap: 4px;
-
-    font-size: $font-size-body-xs;
-    line-height: 1.1;
-  }
-
-  .flag {
-    width: 18px;
-    height: 13px;
-  }
-
-  .score {
-    grid-template-columns: 2rem auto 2rem;
-    gap: $space-2xs;
-
-    input {
-      width: 2rem;
-      height: 1.85rem;
-
-      font-size: $font-size-body-sm;
-    }
   }
 
   .clearMatch {
@@ -1009,7 +1042,11 @@
   }
 
   .simulationCompact {
-    padding: $space-xs $space-md;
+    padding: $space-xs;
+  }
+
+  .matches {
+    flex-direction: row;
   }
 
   .liveTable {

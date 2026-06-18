@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
-import { getTeamShortName } from "@/utils/teams";
+import { getTeamShortName, getMarcadorCode } from "@/utils/teams";
 import { formatMatchDate } from "@/utils/dateFormat";
 import { formatDisplayName } from "@/utils/formatDisplayName";
 import { getPredictionPoints } from "@/utils/predictionPoints";
 import { buildSimulatedProdeStandings, getSimulationCandidateMatches } from "@/utils/buildSimulatedProdeStandings";
 import { PiArrowsInLineVertical, PiArrowsOutLineVertical } from "react-icons/pi";
+import logo from "@/assets/logo.png";
 import styles from "./LocalProdeSimulatorPanel.module.scss";
 
 const STORAGE_VERSION = "v1";
@@ -378,6 +379,28 @@ export default function LocalProdeSimulatorPanel({
   });
 }, [currentMatch, summary, matches]);
 
+useEffect(() => {
+  if (!candidateMatches.length) return;
+
+  setSimulatedResultsByMatchId((current) => {
+    let changed = false;
+    const next = { ...current };
+
+    candidateMatches.forEach((match) => {
+      if (!next[match.id]) {
+        next[match.id] = {
+          homeGoals: 0,
+          awayGoals: 0,
+        };
+
+        changed = true;
+      }
+    });
+
+    return changed ? next : current;
+  });
+}, [candidateMatches]);
+
 const { table } = useMemo(() => {
   return buildSimulatedProdeStandings({
     group,
@@ -419,8 +442,10 @@ const { table } = useMemo(() => {
   const handleChangeResult = (matchId, field, value) => {
     setSimulatedResultsByMatchId((current) => {
       const previous = current[matchId] ?? {
-        homeGoals: "",
-        awayGoals: "",
+        // homeGoals: "",
+        // awayGoals: "",
+        homeGoals: 0,
+        awayGoals: 0,
       };
 
       const nextResult = {
@@ -469,12 +494,13 @@ const { table } = useMemo(() => {
 
   return (
     <div className={styles.wrapper}>
-      <section
+      {/* <section
         className={`${styles.simulationSection} ${
           simulationCompact ? styles.simulationCompact : ""
         }`}
-      >
-        <div className={styles.sectionHeader}>
+      > */}
+        <section className={`${candidateMatches.length ? styles.simulationSection : ""} ${styles.simulationCompact}`}>
+        {/* <div className={styles.sectionHeader}>
             <div className={styles.sectionHeaderText}>
                 <h2 className={styles.sectionTitle}>
                 Resultados temporales
@@ -521,7 +547,7 @@ const { table } = useMemo(() => {
                 </button>
                 )}
             </div>
-            </div>
+            </div> */}
 
         {!candidateMatches.length ? (
           <div className={styles.empty}>
@@ -530,18 +556,24 @@ const { table } = useMemo(() => {
         ) : (
           <div className={styles.matches}>
             {candidateMatches.map((match) => {
-              const simulated = simulatedResultsByMatchId[match.id] ?? {};
+              // const simulated = simulatedResultsByMatchId[match.id] ?? {};
+              const simulated = simulatedResultsByMatchId[match.id] ?? {
+                homeGoals: 0,
+                awayGoals: 0,
+              };
               const formattedDate = getFormattedMatchDate(match);
               const matchHasAnyValue = hasAnyValue(simulated);
               const matchHasCompleteResult = hasCompleteResult(simulated);
 
-              const homeTeamLabel = simulationCompact
-                ? getTeamShortName(match.homeTeam)
-                : match.homeTeam;
+              // const homeTeamLabel = simulationCompact
+              //   ? getMarcadorCode(match.homeTeam)
+              //   : match.homeTeam;
+              const homeTeamLabel = getMarcadorCode(match.homeTeam);
 
-              const awayTeamLabel = simulationCompact
-                ? getTeamShortName(match.awayTeam)
-                : match.awayTeam;
+              // const awayTeamLabel = simulationCompact
+              //   ? getMarcadorCode(match.awayTeam)
+              //   : match.awayTeam;
+              const awayTeamLabel = getMarcadorCode(match.awayTeam);
 
               return (
                 <article
@@ -562,13 +594,13 @@ const { table } = useMemo(() => {
 
                   <div className={styles.matchMain}>
                     <div className={styles.team}>
-                      <span>{homeTeamLabel}</span>
                       <img
                         className={styles.flag}
                         src={getTeamFlagSrc(match.homeTeam)}
                         alt=""
                         onError={handleFlagImageError}
                       />
+                      <span className={styles.homeTeamLabel}>{homeTeamLabel}</span>
                     </div>
 
                     <div className={styles.score}>
@@ -587,9 +619,13 @@ const { table } = useMemo(() => {
                           )
                         }
                         aria-label={`Goles de ${match.homeTeam}`}
+                        className={styles.inputHome}
                       />
 
-                      <span>-</span>
+                      <div>
+                        <img src={logo} alt="Logo" className={styles.logo} />
+                      </div>
+                      
 
                       <input
                         type="number"
@@ -606,17 +642,18 @@ const { table } = useMemo(() => {
                           )
                         }
                         aria-label={`Goles de ${match.awayTeam}`}
+                        className={styles.inputAway}
                       />
                     </div>
 
                     <div className={`${styles.team} ${styles.awayTeam}`}>
+                      <span className={styles.awayTeamLabel}>{awayTeamLabel}</span>
                       <img
                         className={styles.flag}
                         src={getTeamFlagSrc(match.awayTeam)}
                         alt=""
                         onError={handleFlagImageError}
                       />
-                      <span>{awayTeamLabel}</span>
                     </div>
                   </div>
 
