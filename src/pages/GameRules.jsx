@@ -157,6 +157,25 @@ export default function GameRules() {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <span className={styles.step}>03</span>
+
+          <div>
+            <h2 className={styles.sectionTitle}>Fase de eliminación directa</h2>
+            <p className={styles.sectionDescription}>
+              En partidos de eliminación directa, el resultado válido para calcular puntos será el marcador final del partido una vez completado el tiempo de juego, incluyendo alargue si corresponde. La definición por penales no suma goles al marcador y sólo se usa para determinar qué equipo avanza. Por lo tanto, un empate a los 90 minutos no se considera resultado final si el partido continúa con alargue.
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.ruleCard}>
+          <p className={styles.ruleText}>
+            Un pronóstico se considera acertado sólo si coincide con el resultado oficial al cierre del partido. Si el marcador era correcto a los 90 minutos pero cambia durante el alargue, deja de ser pleno del mismo modo que dejaría de serlo si cambiara con un gol en tiempo adicional.
+          </p>
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.step}>04</span>
           <div>
             <h2 className={styles.sectionTitle}>Criterios de desempate</h2>
             <p className={styles.sectionDescription}>
@@ -192,7 +211,7 @@ export default function GameRules() {
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <span className={styles.step}>04</span>
+          <span className={styles.step}>05</span>
 
           <div>
             <h2 className={styles.sectionTitle}>Ejemplos de puntuación</h2>
