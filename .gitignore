@@ -30,3 +30,5 @@ node_modules/
 dist/
 .env
 .env.*
+
+public/version.json
