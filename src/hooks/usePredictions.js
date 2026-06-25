@@ -1,51 +1,61 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { savePrediction as savePredictionToFirebase } from "@/services/firebase/firebaseUtils";
 import {
-  collection,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import { db } from "@/services/firebase/firebase";
-import { savePrediction } from "@/services/firebase/firebaseUtils";
+  getPredictionsSessionSnapshot,
+  resetPredictionsSession,
+  startPredictionsSession,
+  subscribePredictionsSession,
+  upsertPredictionInSession,
+} from "@/stores/predictionsSessionStore";
+
+function buildPredictionId(uid, matchId) {
+  return `${uid}_${matchId}`;
+}
 
 export const usePredictions = () => {
   const { user } = useAuth();
 
-  const [predictions, setPredictions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [sessionState, setSessionState] = useState(() =>
+    getPredictionsSessionSnapshot()
+  );
+
+  useEffect(() => {
+    const unsubscribe = subscribePredictionsSession(setSessionState);
+
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
     if (!user) {
-      setPredictions([]);
-      setLoading(false);
+      resetPredictionsSession();
       return;
     }
 
-    const q = query(
-      collection(db, "predictions"),
-      where("uid", "==", user.uid)
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setPredictions(data);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    startPredictionsSession(user);
   }, [user]);
 
   const save = async (matchId, predHome, predAway) => {
     if (!user) throw new Error("Usuario no autenticado");
 
-    await savePrediction({
+    await savePredictionToFirebase({
       uid: user.uid,
       displayName: user.displayName,
+      matchId,
+      predHome,
+      predAway,
+    });
+
+    /**
+     * Actualización local inmediata.
+     *
+     * El onSnapshot también va a traer este cambio desde Firestore.
+     * Esto sólo evita que la UI dependa de ese roundtrip para verse actualizada.
+     */
+    upsertPredictionInSession({
+      id: buildPredictionId(user.uid, matchId),
+      uid: user.uid,
+      displayName: user.displayName || null,
       matchId,
       predHome,
       predAway,
@@ -53,8 +63,8 @@ export const usePredictions = () => {
   };
 
   return {
-    predictions,
-    loading,
+    predictions: sessionState.predictions,
+    loading: sessionState.loading,
     savePrediction: save,
   };
 };

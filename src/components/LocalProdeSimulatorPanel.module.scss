@@ -281,16 +281,17 @@
   justify-content: flex-start;
 }
 
+.homeTeamLabel, .awayTeamLabel {
+  display: inline-block;
+  transform: scaleX(1.25) translateY(1px);
+}
+
 .homeTeamLabel {
-  display: inline-block; // Transforms require a block or inline-block
-  transform: scaleX(1.25); 
-  transform-origin: right center; // Adjusts the pivot point
+  transform-origin: right center;
 }
 
 .awayTeamLabel {
-  display: inline-block; // Transforms require a block or inline-block
-  transform: scaleX(1.25); 
-  transform-origin: left center; // Adjusts the pivot point
+  transform-origin: left center;
 }
 
 .flag {

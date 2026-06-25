@@ -23,10 +23,13 @@ import WorldCup from "@/pages/WorldCup";
 import ProdeTimeline from "@/pages/ProdeTimeline";
 import LocalProdeSimulatorScreen from "@/pages/LocalProdeSimulatorScreen";
 import DirtyTabIndicator from "@/components/DirtyTabIndicator";
+import AppUpdateNotice from "@/components/AppUpdateNotice";
+import { useAppVersionCheck } from "@/hooks/useAppVersionCheck";
 
 function App() {
   
   const { loading } = useAuth();
+  const appVersion = useAppVersionCheck();
 
   return (
     <StandingsDirtyProvider>
@@ -71,6 +74,10 @@ function App() {
         </Route>
       </Routes>
       <ScrollArrow/>
+      <AppUpdateNotice
+        open={appVersion.updateAvailable}
+        onUpdateNow={appVersion.reloadApp}
+      />
     </>
     </ToastProvider>
     </ConfirmProvider>

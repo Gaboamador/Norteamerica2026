@@ -1,21 +1,15 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { getPredictionPoints } from "@/utils/predictionPoints";
 import { formatDisplayName } from "@/utils/formatDisplayName";
 import {
-  getLockedPredictionsSummary,
-  getUserGroupsForLockedPredictions,
-} from "@/services/firebase/firebaseLockedPredictionsRead";
-
-function normalizeGroups(groups) {
-  return Array.isArray(groups)
-    ? groups.map((group) => ({
-        id: group.id,
-        name: group.name || "Grupo",
-        members: Array.isArray(group.members) ? group.members : [],
-      }))
-    : [];
-}
+  getLockedPredictionsSessionSnapshot,
+  loadLockedPredictionGroups,
+  loadLockedPredictionSummary,
+  resetLockedPredictionsSession,
+  startLockedPredictionsSession,
+  subscribeLockedPredictionsSession,
+} from "@/stores/lockedPredictionsSessionStore";
 
 function buildRowsForMatch(summary, match) {
   const matchId = match?.id;
@@ -47,111 +41,66 @@ function buildRowsForMatch(summary, match) {
       };
     })
     .sort((a, b) =>
-        String(a.displayName || "").localeCompare(String(b.displayName || ""), "es")
+      String(a.displayName || "").localeCompare(String(b.displayName || ""), "es")
     );
 }
 
 export function useLockedPredictionsSummaries() {
   const { user } = useAuth();
 
-  const groupsRef = useRef(null);
-  const summariesRef = useRef({});
+  const [sessionState, setSessionState] = useState(() =>
+    getLockedPredictionsSessionSnapshot()
+  );
 
-  const [groups, setGroups] = useState([]);
-  const [groupsLoading, setGroupsLoading] = useState(false);
-  const [summaries, setSummaries] = useState({});
-  const [loadingGroupIds, setLoadingGroupIds] = useState({});
-  const [error, setError] = useState(null);
+  useEffect(() => {
+    const unsubscribe = subscribeLockedPredictionsSession(setSessionState);
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      resetLockedPredictionsSession();
+      return;
+    }
+
+    startLockedPredictionsSession(user);
+  }, [user]);
 
   const loadGroups = useCallback(async () => {
     if (!user?.uid) return [];
 
-    if (groupsRef.current) {
-      return groupsRef.current;
-    }
-
-    try {
-      setError(null);
-      setGroupsLoading(true);
-
-      const loadedGroups = normalizeGroups(
-        await getUserGroupsForLockedPredictions(user.uid)
-      );
-
-      groupsRef.current = loadedGroups;
-      setGroups(loadedGroups);
-
-      return loadedGroups;
-    } catch (err) {
-      console.error("Error cargando grupos para pronósticos bloqueados", err);
-      setError("No se pudieron cargar tus grupos.");
-      return [];
-    } finally {
-      setGroupsLoading(false);
-    }
+    return loadLockedPredictionGroups(user);
   }, [user]);
 
   const loadSummary = useCallback(async (groupId) => {
-    if (!groupId) return null;
-
-    if (summariesRef.current[groupId]) {
-      return summariesRef.current[groupId];
-    }
-
-    try {
-      setError(null);
-
-      setLoadingGroupIds((current) => ({
-        ...current,
-        [groupId]: true,
-      }));
-
-      const summary = await getLockedPredictionsSummary(groupId);
-
-      summariesRef.current[groupId] = summary;
-
-      setSummaries((current) => ({
-        ...current,
-        [groupId]: summary,
-      }));
-
-      return summary;
-    } catch (err) {
-      console.error("Error cargando pronósticos bloqueados", err);
-      setError("No se pudieron cargar los pronósticos del grupo.");
-      return null;
-    } finally {
-      setLoadingGroupIds((current) => ({
-        ...current,
-        [groupId]: false,
-      }));
-    }
+    return loadLockedPredictionSummary(groupId);
   }, []);
 
   const getRowsForMatch = useCallback(
-  (groupId, match) => {
-    return buildRowsForMatch(summaries[groupId], match);
-  },
-  [summaries]
-);
+    (groupId, match) => {
+      return buildRowsForMatch(sessionState.summaries[groupId], match);
+    },
+    [sessionState.summaries]
+  );
 
   const value = useMemo(
     () => ({
-      groups,
-      groupsLoading,
-      summaries,
-      loadingGroupIds,
-      error,
+      groups: sessionState.groups,
+      groupsLoading: sessionState.groupsLoading,
+      summaries: sessionState.summaries,
+      loadingGroupIds: sessionState.loadingGroupIds,
+      error: sessionState.error,
       loadGroups,
       loadSummary,
       getRowsForMatch,
     }),
     [
-      groups,
-      groupsLoading,
-      summaries,
-      loadingGroupIds,
-      error,
+      sessionState.groups,
+      sessionState.groupsLoading,
+      sessionState.summaries,
+      sessionState.loadingGroupIds,
+      sessionState.error,
       loadGroups,
       loadSummary,
       getRowsForMatch,

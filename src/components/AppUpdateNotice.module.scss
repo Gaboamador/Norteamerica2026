@@ -1,0 +1,92 @@
+.notice {
+  position: fixed;
+  left: $space-sm;
+  right: $space-sm;
+  bottom: $space-sm;
+  z-index: 1100;
+
+  max-width: 420px;
+  margin-inline: auto;
+  padding: $space-xs $space-sm;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-sm;
+
+  border: 1px solid rgba($color-accent-warm, 0.42);
+  border-left: 4px solid $color-accent-warm;
+  background: $color-bg-elevated;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+}
+
+.content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.kicker {
+  color: $color-accent-warm;
+  font-family: $font-family-compact;
+  font-size: $font-size-label-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.title {
+  min-width: 0;
+
+  color: $color-text-primary;
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+  line-height: 1.15;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: fit-content;
+  padding-inline: $space-sm;
+  font-weight: $font-weight-bold;
+
+  border-color: rgba($color-accent-warm, 0.58);
+  background: $color-accent-warm;
+  color: $color-bg-page;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-accent-warm, 0.28);
+  }
+
+  @media (pointer: fine) {
+    &:hover {
+      border-color: $color-accent-warm;
+      filter: brightness(1.03);
+    }
+  }
+}
+
+@media (min-width: 640px) {
+  .notice {
+    left: $space-lg;
+    right: auto;
+    bottom: $space-lg;
+
+    width: min(420px, calc(100vw - #{$space-lg * 2}));
+    margin-inline: 0;
+  }
+
+  .title {
+    font-size: $font-size-body-sm;
+  }
+}

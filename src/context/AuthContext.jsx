@@ -6,6 +6,8 @@ import {
   logout,
 } from "@/services/firebase/firebaseAuth";
 import { ensureUserDoc } from "@/services/firebase/firebaseUsers";
+import { resetPredictionsSession } from "@/stores/predictionsSessionStore";
+import { resetLockedPredictionsSession } from "@/stores/lockedPredictionsSessionStore";
 
 export const AuthContext = createContext();
 
@@ -15,6 +17,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthChange((firebaseUser) => {
+      if (!firebaseUser) {
+        resetPredictionsSession();
+        resetLockedPredictionsSession();
+      }
+      
       setUser(firebaseUser);
       setLoading(false);
 
