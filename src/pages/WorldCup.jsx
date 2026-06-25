@@ -32,6 +32,16 @@ export default function WorldCup() {
     });
   };
 
+  const handleOpenClearKnockoutConfirm = () => {
+    setConfirmAction({
+      type: "clearKnockout",
+      title: "Limpiar ganadores del cuadro",
+      message:
+        "Se van a borrar todas las selecciones de ganadores del cuadro eliminatorio. Los resultados simulados de los grupos y los desempates manuales no se van a modificar.",
+      confirmText: "Sí, limpiar ganadores",
+    });
+  };
+
   const handleCloseConfirm = () => {
     setConfirmAction(null);
   };
@@ -45,6 +55,10 @@ export default function WorldCup() {
 
     if (confirmAction.type === "clearAll") {
       calculator.clearAllSandbox();
+    }
+
+    if (confirmAction.type === "clearKnockout") {
+      calculator.clearAllKnockoutPicks();
     }
 
     setConfirmAction(null);
@@ -112,7 +126,7 @@ export default function WorldCup() {
         rounds={calculator.knockoutBracket}
         onPickWinner={calculator.setKnockoutWinner}
         onClearWinner={calculator.clearKnockoutWinner}
-        onClearAllWinners={calculator.clearAllKnockoutPicks}
+        onClearAllWinners={handleOpenClearKnockoutConfirm}
         hasAnyKnockoutPicks={calculator.hasAnyKnockoutPicks}
       />
 

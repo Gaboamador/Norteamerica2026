@@ -1,6 +1,84 @@
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
 import styles from "./KnockoutBracket.module.scss";
 
+const BRACKET_MATCH_ORDER = [
+  74, 77,
+  73, 75,
+  83, 84,
+  81, 82,
+  76, 78,
+  79, 80,
+  86, 88,
+  85, 87,
+
+  89, 90,
+  93, 94,
+  91, 92,
+  95, 96,
+
+  97, 98,
+  99, 100,
+
+  101, 102,
+
+  104,
+  103,
+];
+
+function getMatchNumber(match) {
+  const raw = String(match?.matchId ?? match?.id ?? "");
+  const matchNumber = raw.match(/\d+/)?.[0];
+
+  return matchNumber ? Number(matchNumber) : null;
+}
+
+function getBracketOrderIndex(match) {
+  const matchNumber = getMatchNumber(match);
+  const index = BRACKET_MATCH_ORDER.indexOf(matchNumber);
+
+  return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+}
+
+function getVisualRoundIndex(match, fallbackRoundIndex) {
+  const matchNumber = getMatchNumber(match);
+
+  if (matchNumber >= 73 && matchNumber <= 88) return 0;
+  if (matchNumber >= 89 && matchNumber <= 96) return 1;
+  if (matchNumber >= 97 && matchNumber <= 100) return 2;
+  if (matchNumber >= 101 && matchNumber <= 102) return 3;
+  if (matchNumber >= 103 && matchNumber <= 104) return 4;
+
+  return fallbackRoundIndex;
+}
+
+function getMatchRowStart(match, fallbackRoundIndex, matchIndex) {
+  const matchNumber = getMatchNumber(match);
+
+  if (matchNumber === 104) return 16;
+  if (matchNumber === 103) return 24;
+
+  const visualRoundIndex = getVisualRoundIndex(match, fallbackRoundIndex);
+
+  return (
+    Math.pow(2, visualRoundIndex) +
+    matchIndex * Math.pow(2, visualRoundIndex + 1)
+  );
+}
+
+function getOrderedMatches(matches = []) {
+  return [...matches].sort((a, b) => {
+    const orderA = getBracketOrderIndex(a);
+    const orderB = getBracketOrderIndex(b);
+
+    if (orderA !== orderB) return orderA - orderB;
+
+    const numberA = getMatchNumber(a) ?? 0;
+    const numberB = getMatchNumber(b) ?? 0;
+
+    return numberA - numberB;
+  });
+}
+
 function getSlotClassName(slot, selected) {
   if (selected) return styles.selected;
   if (slot.source === "official") return styles.official;
@@ -69,7 +147,22 @@ function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
     <article className={styles.match}>
       <div className={styles.matchHeader}>
         <span className={styles.matchId}>{match.matchId}</span>
-        <span className={styles.winnerSlot}>{match.winnerSlot}</span>
+
+        <span className={styles.matchHeaderRight}>
+          <span className={styles.winnerSlot}>{match.winnerSlot}</span>
+
+          {hasSelection && (
+            <button
+              type="button"
+              className={styles.clearWinner}
+              onClick={() => onClearWinner(match.matchId)}
+              aria-label={`Limpiar ganador de ${match.matchId}`}
+              title="Limpiar ganador"
+            >
+              Limpiar
+            </button>
+          )}
+        </span>
       </div>
 
       <div className={styles.slots}>
@@ -87,18 +180,58 @@ function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
           onPick={() => onPickWinner(match.matchId, "away")}
         />
       </div>
-
-      {hasSelection && (
-        <button
-          type="button"
-          className={styles.clearWinner}
-          onClick={() => onClearWinner(match.matchId)}
-        >
-          Limpiar ganador
-        </button>
-      )}
     </article>
   );
+}
+
+function getDisplayRounds(rounds) {
+  if (!Array.isArray(rounds)) return [];
+
+  const finalRoundIndex = rounds.findIndex((round) =>
+    round.matches?.some((match) => getMatchNumber(match) === 104)
+  );
+
+  const thirdPlaceRoundIndex = rounds.findIndex((round) =>
+    round.matches?.some((match) => getMatchNumber(match) === 103)
+  );
+
+  if (
+    finalRoundIndex < 0 ||
+    thirdPlaceRoundIndex < 0 ||
+    finalRoundIndex === thirdPlaceRoundIndex
+  ) {
+    return rounds;
+  }
+
+  const thirdPlaceMatches =
+    rounds[thirdPlaceRoundIndex].matches?.filter(
+      (match) => getMatchNumber(match) === 103
+    ) ?? [];
+
+  if (!thirdPlaceMatches.length) return rounds;
+
+  return rounds
+    .map((round, index) => {
+      if (index === finalRoundIndex) {
+        return {
+          ...round,
+          matches: [...round.matches, ...thirdPlaceMatches],
+        };
+      }
+
+      if (index === thirdPlaceRoundIndex) {
+        const remainingMatches =
+          round.matches?.filter((match) => getMatchNumber(match) !== 103) ?? [];
+
+        return {
+          ...round,
+          matches: remainingMatches,
+        };
+      }
+
+      return round;
+    })
+    .filter((round) => round.matches?.length);
 }
 
 export default function KnockoutBracket({
@@ -109,6 +242,18 @@ export default function KnockoutBracket({
   hasAnyKnockoutPicks,
 }) {
   if (!rounds?.length) return null;
+
+  const displayRounds = getDisplayRounds(rounds);
+
+  const firstRound = rounds.find((round) =>
+    round.matches?.some((match) => {
+      const matchNumber = getMatchNumber(match);
+      return matchNumber >= 73 && matchNumber <= 88;
+    })
+  );
+
+  const firstRoundMatchCount = firstRound?.matches?.length ?? 16;
+  const bracketRows = firstRoundMatchCount * 2;
 
   return (
     <section className={styles.wrapper}>
@@ -123,31 +268,91 @@ export default function KnockoutBracket({
 
         <button
           type="button"
-          className={`button button--secondary ${styles.clearAllButton}`}
+          className={`button button--danger ${styles.clearAllButton}`}
           onClick={onClearAllWinners}
           disabled={!hasAnyKnockoutPicks}
         >
-          Limpiar ganadores
+          Limpiar cuadro eliminatorio
         </button>
       </div>
 
-      <div className={styles.rounds}>
-        {rounds.map((round) => (
-          <section key={round.key} className={styles.round}>
-            <h3 className={styles.roundTitle}>{round.title}</h3>
+      <div className={styles.bracketScroller}>
+        <div className={styles.rounds}>
+          {displayRounds.map((round, roundIndex) => {
+            const orderedMatches = getOrderedMatches(round.matches);
 
-            <div className={styles.matches}>
-              {round.matches.map((match) => (
-                <KnockoutMatch
-                  key={match.matchId}
-                  match={match}
-                  onPickWinner={onPickWinner}
-                  onClearWinner={onClearWinner}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
+            return (
+              <section key={round.key} className={styles.round}>
+                <h3 className={styles.roundTitle}>{round.title}</h3>
+
+                <div
+                  className={styles.matches}
+                  style={{
+                    gridTemplateRows: `repeat(${bracketRows}, var(--bracket-track-size))`,
+                  }}
+                >
+                  {orderedMatches.map((match, matchIndex) => {
+                    const rowStart = getMatchRowStart(
+                      match,
+                      roundIndex,
+                      matchIndex
+                    );
+
+                    const visualRoundIndex = getVisualRoundIndex(
+                      match,
+                      roundIndex
+                    );
+
+                    const matchNumber = getMatchNumber(match);
+
+                    const showIncomingConnector =
+                      visualRoundIndex > 0 && matchNumber !== 103;
+
+                    const showOutgoingConnector =
+                      visualRoundIndex < 4;
+
+                    const outgoingDirection =
+                      matchIndex % 2 === 0
+                        ? styles.outgoingConnectorDown
+                        : styles.outgoingConnectorUp;
+
+                    return (
+                        <div
+                          key={match.matchId}
+                          className={`${styles.matchPlacement} ${
+                            matchNumber === 104 ? styles.finalPlacement : ""
+                          }`}
+                          style={{
+                            gridRow: `${rowStart} / span 2`,
+                          }}
+                        >
+                        {showIncomingConnector && (
+                          <span
+                            className={styles.incomingConnector}
+                            aria-hidden="true"
+                          />
+                        )}
+
+                        {showOutgoingConnector && (
+                          <span
+                            className={`${styles.outgoingConnector} ${outgoingDirection}`}
+                            aria-hidden="true"
+                          />
+                        )}
+
+                        <KnockoutMatch
+                          match={match}
+                          onPickWinner={onPickWinner}
+                          onClearWinner={onClearWinner}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
