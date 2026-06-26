@@ -113,7 +113,7 @@
   align-items: center;
   justify-content: center;
 
-  padding: $space-2xs $space-xs;
+  padding: $space-2xs $space-sm;
   border-radius: 999px;
 
   font-family: $font-family-compact;
@@ -122,8 +122,8 @@
 }
 
 .statusQualified {
-  background: rgba($color-success, 0.14);
-  color: $color-success;
+  background: rgba($color-accent-primary, 0.14);
+  color: $color-accent-primary;
 }
 
 .statusEliminated {
@@ -153,4 +153,405 @@
   font-size: $font-size-body-xs;
   color: $color-text-muted;
   line-height: 1.4;
+}
+
+.possibilitiesPanel {
+  margin-top: $space-md;
+  padding-top: $space-md;
+
+  border-top: 1px solid rgba($color-border, 0.55);
+}
+
+.possibilitiesHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+
+  margin-bottom: $space-md;
+}
+
+.possibilitiesTitle {
+  margin: 0;
+
+  font-family: $font-family-display;
+  font-size: $font-size-heading-card;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.possibilitiesDescription {
+  margin: $space-xs 0 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  line-height: 1.45;
+  color: $color-text-secondary;
+}
+
+.combinationCounter {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: $space-2xs;
+  align-self: flex-start;
+
+  padding: $space-xs $space-sm;
+
+  border: 1px solid rgba($color-accent-primary, 0.36);
+  border-radius: $radius-md;
+  background: rgba($color-accent-primary, 0.12);
+
+  font-family: $font-family-data;
+  color: $color-text-primary;
+
+  strong {
+    font-size: $font-size-heading-card;
+    font-weight: $font-weight-bold;
+  }
+
+  span {
+    font-size: $font-size-body-sm;
+    color: $color-text-secondary;
+  }
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: $space-xs;
+
+  margin-bottom: $space-md;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+
+  padding: $space-xs;
+
+  border: 1px solid rgba($color-border, 0.46);
+  border-radius: $radius-md;
+  background: rgba($color-bg-elevated-2, 0.72);
+
+  span {
+    font-family: $font-family-compact;
+    font-size: $font-size-body-xs;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  strong {
+    font-family: $font-family-data;
+    font-size: $font-size-body;
+    color: $color-text-primary;
+  }
+}
+
+.groupStatusGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-xs;
+
+  margin-bottom: $space-md;
+}
+
+.groupBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+
+  padding: $space-xs;
+
+  border: 1px solid rgba($color-border, 0.42);
+  border-radius: $radius-md;
+  background: rgba($color-bg-elevated-2, 0.56);
+}
+
+.groupBlockLabel {
+  font-family: $font-family-compact;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.groupPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2xs;
+}
+
+.groupPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 34px;
+  padding: $space-2xs $space-xs;
+
+  border-radius: 999px;
+  border: 1px solid rgba($color-border, 0.5);
+
+  font-family: $font-family-data;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.guaranteed {
+  border-color: rgba($color-success, 0.45);
+  background: rgba($color-success, 0.14);
+}
+
+.out {
+  border-color: rgba($color-danger, 0.42);
+  background: rgba($color-danger, 0.12);
+  color: $color-text-secondary;
+}
+
+.open {
+  border-color: rgba($color-warning, 0.42);
+  background: rgba($color-warning, 0.12);
+}
+
+.groupEmpty {
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  color: $color-text-muted;
+}
+
+.matchupPanel {
+  padding: $space-sm;
+
+  border: 1px solid rgba($color-border, 0.5);
+  border-radius: $radius-md;
+  background: rgba($color-bg-elevated-2, 0.42);
+}
+
+.matchupHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+
+  margin-bottom: $space-sm;
+}
+
+.matchupTitle {
+  margin: 0;
+
+  font-family: $font-family-display;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.matchupHint {
+  font-family: $font-family-text;
+  font-size: $font-size-body-xs;
+  line-height: 1.4;
+  color: $color-text-muted;
+}
+
+.matchupEmpty {
+  margin: 0;
+
+  font-family: $font-family-text;
+  font-size: $font-size-body-sm;
+  color: $color-text-secondary;
+}
+
+.matchupGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-xs;
+}
+
+.matchupCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: $space-sm;
+  align-items: start;
+
+  min-width: 0;
+  overflow: hidden;
+
+  padding: $space-xs;
+
+  border: 1px solid rgba($color-border, 0.36);
+  border-radius: $radius-md;
+  background: rgba($color-bg-elevated, 0.5);
+}
+
+.matchupColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  align-items: flex-start;
+
+  min-width: 42px;
+
+  span {
+    font-family: $font-family-data;
+    font-size: $font-size-body;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+}
+
+.matchupOptions {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+  min-width: 0;
+}
+
+.matchupOption {
+  display: grid;
+  grid-template-columns: 48px minmax(28px, 1fr) minmax(38px, auto);
+  gap: $space-xs;
+  align-items: center;
+
+  min-width: 0;
+
+  font-family: $font-family-data;
+  font-size: $font-size-body-xs;
+  color: $color-text-secondary;
+
+  strong {
+    color: $color-text-primary;
+    text-align: right;
+    white-space: nowrap;
+  }
+}
+
+.definidoBadge {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  padding: $space-xs $space-sm;
+
+  border-radius: 999px;
+  background: rgba($color-success, 0.14);
+
+  font-family: $font-family-compact;
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-medium;
+  color: $color-success;
+}
+
+.matchupColumnMain {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: $space-xs;
+  min-width: 0;
+}
+
+.thirdSlotLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+
+  white-space: nowrap;
+}
+
+.directSlotLabel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+
+  min-width: 24px;
+
+  white-space: nowrap;
+}
+
+.thirdSlotFlag,
+.directSlotFlag {
+  width: 18px;
+  height: 13px;
+
+  flex: 0 0 auto;
+
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba($color-border, 0.45);
+
+  opacity: 1;
+}
+
+.slotFlagTemporary {
+  opacity: 0.42;
+  filter: saturate(0.78);
+}
+
+.percentageTrack {
+  position: relative;
+  overflow: hidden;
+
+  height: 7px;
+
+  border-radius: 999px;
+  background: rgba($color-border, 0.36);
+}
+
+.percentageFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  border-radius: inherit;
+  background: rgba($color-accent-primary, 0.78);
+}
+
+.guaranteedRow {
+  td {
+    background: rgba($color-success, 0.08);
+  }
+
+  td:first-child {
+    box-shadow: inset 3px 0 0 rgba($color-success, 0.9);
+  }
+
+  .team span,
+  .points {
+    font-weight: $font-weight-bold;
+  }
+}
+
+.statusGuaranteed {
+  border-color: rgba($color-success, 0.42);
+  background: rgba($color-success, 0.16);
+  color: $color-success;
+}
+
+
+@include up(sm) {
+  .possibilitiesHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .combinationCounter {
+    align-self: auto;
+    flex-shrink: 0;
+  }
+
+  .groupStatusGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .matchupGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include up(md) {
+  .matchupGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }

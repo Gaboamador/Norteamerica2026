@@ -1,10 +1,49 @@
 .wrapper {
-  --bracket-track-size: 2.22rem;
-  --bracket-column-width: 9.25rem;
+  /*
+    Cambiar sólo este valor para escalar toda la tipografía del bracket.
+    Referencia original proporcional: 0.64rem.
+    Valor actual propuesto: 0.72rem.
+  */
+  --bracket-font-base: 0.8rem;
+
+  --bracket-font-title-mobile: calc(var(--bracket-font-base) * 1.71875);
+  --bracket-font-title-desktop: calc(var(--bracket-font-base) * 2.03125);
+  --bracket-font-description-mobile: calc(var(--bracket-font-base) * 1.09375);
+  --bracket-font-description-desktop: calc(var(--bracket-font-base) * 1.25);
+  --bracket-font-round-title-mobile: calc(var(--bracket-font-base) * 1.0625);
+  --bracket-font-round-title-desktop: calc(var(--bracket-font-base) * 1.40625);
+  --bracket-font-match-header-mobile: calc(var(--bracket-font-base) * 0.84375);
+  --bracket-font-match-header-sm: calc(var(--bracket-font-base) * 0.96875);
+  --bracket-font-match-header-md: calc(var(--bracket-font-base) * 1);
+  --bracket-font-slot-legend-mobile: calc(var(--bracket-font-base) * 0.71875);
+  --bracket-font-slot-legend-desktop: calc(var(--bracket-font-base) * 0.8125);
+  --bracket-font-slot-name-mobile: calc(var(--bracket-font-base) * 1);
+  --bracket-font-slot-name-sm: calc(var(--bracket-font-base) * 1.1875);
+  --bracket-font-slot-name-md: calc(var(--bracket-font-base) * 1.21875);
+  --bracket-font-clear-winner-mobile: calc(var(--bracket-font-base) * 0.75);
+  --bracket-font-clear-winner-desktop: calc(var(--bracket-font-base) * 0.84375);
+
+  --bracket-round-title-height-mobile: calc(var(--bracket-font-round-title-mobile) * 1.15);
+  --bracket-round-title-height-desktop: calc(var(--bracket-font-round-title-desktop) * 1.15);
+  --bracket-round-title-height: var(--bracket-round-title-height-mobile);
+
+  /* Ajuste fino de la línea naranja si querés moverla a ojo */
+  --bracket-midline-offset-y: 0rem;
+
+  /* Cambiar sólo estos dos valores para escalar alto y ancho del cuadro eliminatorio */
+  --bracket-track-base: 2.48rem;
+  --bracket-column-base: 13rem;
+
+  --bracket-track-size: var(--bracket-track-base);
+  --bracket-column-width: calc(var(--bracket-column-base) * 0.8);
+
   --bracket-column-gap: 0.72rem;
   --bracket-connector-length: 0.64rem;
   --bracket-split-row: 16;
   --bracket-half-gap: 1.05rem;
+
+  /* Separación visual fija entre cajas consecutivas */
+  --bracket-match-gap: 2px;
 
   display: flex;
   flex-direction: column;
@@ -29,7 +68,7 @@
 .title {
   margin: 0;
   font-family: $font-family-display;
-  font-size: $font-size-heading-card;
+  font-size: var(--bracket-font-title-mobile);
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
@@ -37,7 +76,7 @@
 .description {
   margin: $space-2xs 0 0;
   font-family: $font-family-text;
-  font-size: 0.7rem;
+  font-size: var(--bracket-font-description-mobile);
   line-height: 1.35;
   color: $color-text-secondary;
 }
@@ -93,7 +132,11 @@
   );
 
   top: calc(
-    1.05rem + #{$space-xs} + (var(--bracket-track-size) * var(--bracket-split-row)) + (var(--bracket-half-gap) * 0.5)
+    var(--bracket-round-title-height) +
+    #{$space-xs} +
+    (var(--bracket-track-size) * var(--bracket-split-row)) +
+    (var(--bracket-half-gap) * 0.5) +
+    var(--bracket-midline-offset-y)
   );
 
   height: 1px;
@@ -117,7 +160,8 @@
   position: relative;
   z-index: 1;
 
-  min-height: 1.05rem;
+  min-height: var(--bracket-round-title-height);
+
   margin: 0;
 
   overflow: hidden;
@@ -125,7 +169,7 @@
   white-space: nowrap;
 
   font-family: $font-family-compact;
-  font-size: 0.68rem;
+  font-size: var(--bracket-font-round-title-mobile);
   font-weight: $font-weight-bold;
   color: $color-accent-warm;
 
@@ -176,8 +220,7 @@
 }
 
 .round:nth-child(4) {
-  // --connector-half-height: calc(var(--bracket-track-size) * 8);
-    --connector-half-height: calc(
+  --connector-half-height: calc(
     (var(--bracket-track-size) * 8) + (var(--bracket-half-gap) * 0.5)
   );
 }
@@ -235,7 +278,10 @@
 
   width: 100%;
 
-  min-height: calc((var(--bracket-track-size) * 2) - 0.12rem);
+  height: calc((var(--bracket-track-size) * 2) - var(--bracket-match-gap));
+  min-height: max-content;
+  box-sizing: border-box;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -258,7 +304,7 @@
   flex: 0 0 auto;
 
   font-family: $font-family-data;
-  font-size: 0.54rem;
+  font-size: var(--bracket-font-match-header-mobile);
   line-height: 1;
   color: $color-text-muted;
 }
@@ -294,13 +340,17 @@
   flex-direction: column;
   gap: 0.12rem;
 
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 /* Slot vacío: placeholder simple, sin legend */
 .slotButton {
   display: flex;
   align-items: center;
+
+  min-height: 0;
+  height: 1.06rem;
 
   width: 100%;
   min-width: 0;
@@ -357,7 +407,7 @@
   padding: 0 0.12rem;
 
   font-family: $font-family-data;
-  font-size: 0.46rem;
+  font-size: var(--bracket-font-slot-legend-mobile);
   line-height: 1;
   color: $color-text-muted;
 
@@ -366,7 +416,8 @@
 
 /* Dentro de fieldset, el botón ocupa toda la caja pero no pinta borde/fondo propio */
 .slotFieldset .slotButton {
-  min-height: 0.94rem;
+  min-height: 0;
+  height: 1.06rem;
 
   margin-top: -0.08rem;
   padding: 0 0.2rem 0.06rem;
@@ -399,11 +450,80 @@
   white-space: nowrap;
 
   font-family: $font-family-compact;
-  font-size: 0.64rem;
+  font-size: var(--bracket-font-slot-name-mobile);
   line-height: 1.05;
   color: $color-text-primary;
 
   transition: color 0.16s ease;
+}
+
+.slotWithTopOption {
+  .slotMain {
+    position: relative;
+    min-width: 0;
+  }
+
+  .slotName {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    transition: opacity 0.16s ease;
+  }
+
+  .slotNameDesktop {
+    display: none;
+  }
+
+  .slotNameMobile {
+    display: block;
+  }
+
+  .slotHoverLabel {
+    position: absolute;
+    inset: 50% 0 auto 0;
+    transform: translateY(-50%);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: $space-2xs;
+
+    opacity: 0;
+    pointer-events: none;
+    min-width: 0;
+    max-width: 100%;
+
+    font-family: $font-family-compact;
+    font-size: var(--bracket-font-slot-name-mobile);
+    line-height: 1.05;
+    color: $color-text-primary;
+
+    transition: opacity 0.16s ease;
+  }
+  
+  .slotHoverTeam {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (pointer: fine) {
+    &:hover,
+    &:focus-visible {
+      .slotName {
+        opacity: 0;
+      }
+
+      .slotHoverLabel {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .flag {
@@ -582,7 +702,7 @@
   color: $color-text-muted;
 
   font-family: $font-family-compact;
-  font-size: 0.48rem;
+  font-size: var(--bracket-font-clear-winner-mobile);
   line-height: 1;
 
   cursor: pointer;
@@ -601,8 +721,9 @@
 
 @media (min-width: 561px) {
   .wrapper {
-    --bracket-track-size: 2.36rem;
-    --bracket-column-width: 9.85rem;
+    --bracket-round-title-height: var(--bracket-round-title-height-desktop);
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.0593);
+    --bracket-column-width: calc(var(--bracket-column-base) * 1.0615);
     --bracket-column-gap: 0.82rem;
     --bracket-connector-length: 0.72rem;
     --bracket-half-gap: 1.2rem;
@@ -611,25 +732,26 @@
   }
 
   .title {
-    font-size: $font-size-heading-section;
+    font-size: var(--bracket-font-title-desktop);
   }
 
   .description {
-    font-size: $font-size-body-xs;
+    font-size: var(--bracket-font-description-desktop);
   }
 
   .roundTitle {
-    font-size: $font-size-body-sm;
+    font-size: var(--bracket-font-round-title-desktop);
   }
 
   .match {
-    min-height: calc((var(--bracket-track-size) * 2) - 0.1rem);
+    height: calc((var(--bracket-track-size) * 2) - var(--bracket-match-gap));
+    min-height: 0;
     gap: 0.18rem;
     padding: 0.22rem;
   }
 
   .matchHeader {
-    font-size: 0.62rem;
+    font-size: var(--bracket-font-match-header-sm);
   }
 
   .winnerSlot {
@@ -637,22 +759,38 @@
   }
 
   .slotButton {
-    min-height: 1.16rem;
+    min-height: 0;
+    height: 1.16rem;
     padding: 0.07rem 0.24rem;
   }
 
   .slotFieldset .slotButton {
-    min-height: 1.02rem;
+    min-height: 0;
+    height: 1.16rem;
     padding: 0 0.24rem 0.07rem;
   }
 
   .slotLegend {
     margin-left: 0.26rem;
-    font-size: 0.52rem;
+    font-size: var(--bracket-font-slot-legend-desktop);
   }
 
   .slotName {
-    font-size: 0.76rem;
+    font-size: var(--bracket-font-slot-name-sm);
+  }
+
+  .slotWithTopOption {
+    .slotHoverLabel {
+      font-size: var(--bracket-font-slot-name-sm);
+    }
+
+    .slotNameDesktop {
+      display: block;
+    }
+
+    .slotNameMobile {
+      display: none;
+    }
   }
 
   .flag {
@@ -662,14 +800,14 @@
 
   .clearWinner {
     padding: 0.1rem 0.22rem;
-    font-size: 0.54rem;
+    font-size: var(--bracket-font-clear-winner-desktop);
   }
 }
 
 @media (min-width: 768px) {
   .wrapper {
-    --bracket-track-size: 2.38rem;
-    --bracket-column-width: 9.9rem;
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.0678);
+    --bracket-column-width: calc(var(--bracket-column-base) * 1.0718);
     --bracket-column-gap: 0.84rem;
     --bracket-connector-length: 0.74rem;
     --bracket-half-gap: 1.24rem;
@@ -686,32 +824,38 @@
   }
 
   .slotName {
-    font-size: 0.78rem;
+    font-size: var(--bracket-font-slot-name-md);
+  }
+
+  .slotWithTopOption {
+    .slotHoverLabel {
+      font-size: var(--bracket-font-slot-name-md);
+    }
   }
 
   .matchHeader {
-    font-size: 0.64rem;
+    font-size: var(--bracket-font-match-header-md);
   }
 }
 
 @media (min-width: 1120px) {
   .wrapper {
-    --bracket-track-size: 2.4rem;
-    --bracket-column-width: 10rem;
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.0847);
+    --bracket-column-width: calc(var(--bracket-column-base) * 1.0872);
     --bracket-column-gap: 0.86rem;
     --bracket-connector-length: 0.76rem;
     --bracket-half-gap: 1.28rem;
   }
 
   .roundTitle {
-    font-size: $font-size-body-sm;
+    font-size: var(--bracket-font-round-title-desktop);
   }
 
   .slotName {
-    font-size: 0.78rem;
+    font-size: var(--bracket-font-slot-name-md);
   }
 
   .matchHeader {
-    font-size: 0.64rem;
+    font-size: var(--bracket-font-match-header-md);
   }
 }

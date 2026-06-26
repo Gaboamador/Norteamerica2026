@@ -118,6 +118,8 @@ export default function WorldCup() {
 
       <BestThirdsTable
         rows={calculator.bestThirdsTable}
+        thirdPlacePossibilities={calculator.thirdPlacePossibilities}
+        groupTablesByGroup={calculator.groupTablesByGroup}
         onChangeRank={calculator.setManualTiebreakerRank}
         onClearGroup={calculator.clearManualTiebreakerGroup}
       />

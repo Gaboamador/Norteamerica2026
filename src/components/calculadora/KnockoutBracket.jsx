@@ -1,4 +1,5 @@
 import { getTeamFlagSrc, handleFlagImageError } from "@/utils/flagUtils";
+import { getTeamShortName } from "@/utils/teams";
 import styles from "./KnockoutBracket.module.scss";
 
 const BRACKET_MATCH_ORDER = [
@@ -95,23 +96,92 @@ function getSlotClassName(slot, selected) {
   return styles.placeholder;
 }
 
+function formatProbability(value) {
+  const number = Number(value ?? 0);
+
+  if (!Number.isFinite(number)) return "0%";
+
+  if (Number.isInteger(number)) return `${number}%`;
+
+  return `${number.toFixed(1)}%`;
+}
+
+function getTopThirdOptionLabel(option, { includeTeam = false } = {}) {
+  if (!option) return null;
+
+  const baseLabel = `${option.assignedSlot} · ${formatProbability(
+    option.percentage
+  )}`;
+
+  if (includeTeam && option.team) {
+    return `${baseLabel} (${getTeamShortName(option.team)})`;
+  }
+
+  return `Probable: ${baseLabel}`;
+}
+
+function getTopThirdOptionTeam(option) {
+  return option?.team || null;
+}
+
 function Slot({ slot, selected, canPick, onPick }) {
   const showTeam = Boolean(slot.team);
 
-  if (!showTeam) {
-    return (
-      <button
-        type="button"
-        className={`${styles.slotButton} ${styles.placeholder}`}
-        onClick={onPick}
-        disabled={!canPick}
-      >
-        <span className={styles.slotMain}>
-          <span className={styles.slotName}>{slot.displayName}</span>
-        </span>
-      </button>
-    );
-  }
+if (!showTeam) {
+  const topThirdOptionLabel = getTopThirdOptionLabel(slot.topThirdOption);
+  const topThirdOptionMobileLabel = getTopThirdOptionLabel(slot.topThirdOption, {
+    includeTeam: true,
+  });
+  const topThirdOptionTeam = getTopThirdOptionTeam(slot.topThirdOption);
+  const hasTopThirdOption = Boolean(topThirdOptionLabel);
+
+  return (
+    <button
+      type="button"
+      className={`${styles.slotButton} ${styles.placeholder} ${
+        hasTopThirdOption ? styles.slotWithTopOption : ""
+      }`}
+      onClick={onPick}
+      disabled={!canPick}
+      title={hasTopThirdOption ? slot.displayName : undefined}
+    >
+      <span className={styles.slotMain}>
+        {hasTopThirdOption ? (
+          <>
+            <span className={`${styles.slotName} ${styles.slotNameDesktop}`}>
+              {topThirdOptionLabel}
+            </span>
+
+            <span className={`${styles.slotName} ${styles.slotNameMobile}`}>
+              {topThirdOptionMobileLabel}
+            </span>
+          </>
+        ) : (
+          <span className={styles.slotName}>
+            {slot.displayName}
+          </span>
+        )}
+
+        {hasTopThirdOption && (
+          <span className={styles.slotHoverLabel}>
+            {topThirdOptionTeam && (
+              <img
+                className={styles.flag}
+                src={getTeamFlagSrc(topThirdOptionTeam)}
+                alt=""
+                onError={handleFlagImageError}
+              />
+            )}
+
+            <span className={styles.slotHoverTeam}>
+              {topThirdOptionTeam || slot.displayName}
+            </span>
+          </span>
+        )}
+      </span>
+    </button>
+  );
+}
 
   return (
     <fieldset

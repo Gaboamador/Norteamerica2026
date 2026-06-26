@@ -101,6 +101,7 @@ function resolveSlot({
   bestThirdsTable,
   sandboxResults,
   resolvedSlots,
+  thirdPlacePossibilities,
 }) {
   if (slot.type === "direct") {
     return resolveDirectSlot({
@@ -118,6 +119,7 @@ function resolveSlot({
       groupTablesByGroup,
       bestThirdsTable,
       sandboxResults,
+      thirdPlacePossibilities,
     });
   }
 
@@ -172,6 +174,7 @@ function buildKnockoutMatch({
   sandboxResults,
   knockoutPicks,
   resolvedSlots,
+  thirdPlacePossibilities,
 }) {
   const builtMatch = {
     ...match,
@@ -182,6 +185,7 @@ function buildKnockoutMatch({
       bestThirdsTable,
       sandboxResults,
       resolvedSlots,
+      thirdPlacePossibilities,
     }),
     away: resolveSlot({
       slot: match.awaySlot,
@@ -190,6 +194,7 @@ function buildKnockoutMatch({
       bestThirdsTable,
       sandboxResults,
       resolvedSlots,
+      thirdPlacePossibilities,
     }),
   };
 
@@ -217,6 +222,7 @@ export function buildKnockoutBracket({
   bestThirdsTable,
   sandboxResults,
   knockoutPicks,
+  thirdPlacePossibilities,
 }) {
   const resolvedSlots = {};
 
@@ -231,6 +237,7 @@ export function buildKnockoutBracket({
         sandboxResults,
         knockoutPicks,
         resolvedSlots,
+        thirdPlacePossibilities,
       })
     ),
   }));

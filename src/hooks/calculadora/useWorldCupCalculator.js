@@ -3,6 +3,7 @@ import { useCalculatorMatches } from "@/hooks/calculadora/useCalculatorMatches";
 import { buildGroupTable } from "@/utils/calculadora/buildGroupTable";
 import { buildBestThirdsTable } from "@/utils/calculadora/buildBestThirdsTable";
 import { buildKnockoutBracket } from "@/utils/calculadora/buildKnockoutBracket";
+import { buildThirdPlacePossibilities } from "@/utils/calculadora/thirdPlacePossibilities";
 import {
   WORLD_CUP_GROUPS,
   getAvailableGroups,
@@ -87,28 +88,38 @@ export function useWorldCupCalculator() {
     return groupTablesByGroup[selectedGroup] ?? [];
   }, [groupTablesByGroup, selectedGroup]);
 
-  const bestThirdsTable = useMemo(() => {
-    return buildBestThirdsTable({
-      groupTablesByGroup,
-      manualTiebreakers,
-    });
-  }, [groupTablesByGroup, manualTiebreakers]);
+const bestThirdsTable = useMemo(() => {
+  return buildBestThirdsTable({
+    groupTablesByGroup,
+    manualTiebreakers,
+  });
+}, [groupTablesByGroup, manualTiebreakers]);
 
-  const knockoutBracket = useMemo(() => {
-    return buildKnockoutBracket({
-      matches,
-      groupTablesByGroup,
-      bestThirdsTable,
-      sandboxResults,
-      knockoutPicks,
-    });
-  }, [
+const thirdPlacePossibilities = useMemo(() => {
+  return buildThirdPlacePossibilities({
+    matches,
+    sandboxResults,
+    bestThirdsTable,
+  });
+}, [matches, sandboxResults, bestThirdsTable]);
+
+const knockoutBracket = useMemo(() => {
+  return buildKnockoutBracket({
     matches,
     groupTablesByGroup,
     bestThirdsTable,
     sandboxResults,
     knockoutPicks,
-  ]);
+    thirdPlacePossibilities,
+  });
+}, [
+  matches,
+  groupTablesByGroup,
+  bestThirdsTable,
+  sandboxResults,
+  knockoutPicks,
+  thirdPlacePossibilities,
+]);
 
   const setSandboxMatchResult = (matchId, field, value) => {
     setSandboxResults((current) => {
@@ -277,6 +288,7 @@ const clearSelectedGroupSandbox = () => {
     groupTable,
     groupTablesByGroup,
     bestThirdsTable,
+    thirdPlacePossibilities,
     knockoutBracket,
 
     sandboxResults,
