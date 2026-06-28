@@ -125,16 +125,19 @@ export default function Home() {
           whileTap={{ scale: 0.985 }}
         >
           <div className={styles.homeIcon}>
-            <AnimatedHomeIcon type="calculator" size={32} />
+            <AnimatedHomeIcon type="bracket" size={32} />
           </div>
 
           <div className={styles.cardTitleDescWrapper}>
             <div className={styles.cardTitle}>
-              <span>Mundial + Calculadora</span>
-              <span className={styles.cardSubtitle}>(Beta)</span>
+              <span>
+                Cuadro Eliminatorio
+                {/* Mundial + Calculadora */}
+              </span>
               </div>
             <div className={styles.cardDesc}>
-              Calculadora extra para simular resultados del Mundial y ver cómo cambiarían las tablas. No modifica tus pronósticos ni influye en el puntaje del Prode.
+              Simulá los cruces hasta la final. El cuadro se actualiza con los clasificados oficiales y ganadores que vayas eligiendo.
+              {/* Calculadora extra para simular resultados del Mundial y ver cómo cambiarían las tablas. No modifica tus pronósticos ni influye en el puntaje del Prode. */}
             </div>
           </div>
         </MotionLink>

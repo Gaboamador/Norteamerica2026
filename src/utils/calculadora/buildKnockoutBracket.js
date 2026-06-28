@@ -4,7 +4,112 @@ import {
   getGroupMatches,
   hasMinimumGroupSignal,
   isGroupOfficiallyClosed,
+  isOfficialResult,
 } from "./matchResultUtils";
+
+function normalizeMatchCode(value) {
+  const raw = String(value ?? "").trim().toUpperCase();
+
+  if (!raw) return "";
+
+  const directMatch = raw.match(/^M?(7[3-9]|8[0-9]|9[0-9]|10[0-4])$/);
+
+  if (!directMatch) return "";
+
+  return `M${directMatch[1]}`;
+}
+
+function buildOfficialMatchesByCode(matches = []) {
+  return matches.reduce((acc, match) => {
+    const matchCode = normalizeMatchCode(match?.matchCode);
+
+    if (!matchCode) return acc;
+
+    acc[matchCode] = match;
+
+    return acc;
+  }, {});
+}
+
+function getOfficialMatchForBracketMatch(match, officialMatchesByCode) {
+  const matchCode = normalizeMatchCode(match?.matchId);
+
+  if (!matchCode) return null;
+
+  return officialMatchesByCode[matchCode] ?? null;
+}
+
+function getValidWinnerSide(value) {
+  return value === "home" || value === "away" ? value : null;
+}
+
+function getOfficialWinnerSide(officialMatch) {
+  if (!isOfficialResult(officialMatch)) return null;
+
+  const explicitWinnerSide = getValidWinnerSide(officialMatch.winnerSide);
+
+  if (explicitWinnerSide) return explicitWinnerSide;
+
+  const homeGoals = Number(officialMatch.result.homeGoals);
+  const awayGoals = Number(officialMatch.result.awayGoals);
+
+  if (homeGoals > awayGoals) return "home";
+  if (awayGoals > homeGoals) return "away";
+
+  return null;
+}
+
+function getOfficialLoserSide(officialMatch) {
+  const winnerSide = getOfficialWinnerSide(officialMatch);
+
+  if (winnerSide === "home") return "away";
+  if (winnerSide === "away") return "home";
+
+  return null;
+}
+
+function getWinnerSide(match, knockoutPicks) {
+  return (
+    getOfficialWinnerSide(match.officialMatch) ??
+    knockoutPicks?.[match.matchId] ??
+    null
+  );
+}
+
+function getLoserSide(match, knockoutPicks) {
+  const officialLoserSide = getOfficialLoserSide(match.officialMatch);
+
+  if (officialLoserSide) return officialLoserSide;
+
+  const selectedSide = knockoutPicks?.[match.matchId];
+
+  if (selectedSide === "home") return "away";
+  if (selectedSide === "away") return "home";
+
+  return null;
+}
+
+function markSlotAsOfficialKnockoutResult(slot) {
+  if (!slot) return null;
+
+  return {
+    ...slot,
+    source: "official-knockout-result",
+    isResolved: true,
+    isOfficial: true,
+  };
+}
+
+function markSlotAsKnockoutPick(slot) {
+  if (!slot) return null;
+
+  return {
+    ...slot,
+    source: "knockout-pick",
+    isResolved: true,
+    isOfficial: false,
+  };
+}
 
 function resolveDirectSlot({
   slot,
@@ -68,9 +173,9 @@ function resolveWinnerSlot(slot, resolvedSlots) {
   return {
     ...pickedSlot,
     label: slot.label,
-    source: "knockout-pick",
+    source: pickedSlot.source ?? "knockout-pick",
     isResolved: true,
-    isOfficial: false,
+    isOfficial: Boolean(pickedSlot.isOfficial),
   };
 }
 
@@ -88,9 +193,9 @@ function resolveLoserSlot(slot, resolvedSlots) {
   return {
     ...pickedSlot,
     label: slot.label,
-    source: "knockout-pick",
+    source: pickedSlot.source ?? "knockout-pick",
     isResolved: true,
-    isOfficial: false,
+    isOfficial: Boolean(pickedSlot.isOfficial),
   };
 }
 
@@ -139,28 +244,36 @@ function resolveSlot({
 }
 
 function getSelectedWinnerSlot(match, knockoutPicks) {
-  const selectedSide = knockoutPicks?.[match.matchId];
+  const selectedSide = getWinnerSide(match, knockoutPicks);
 
   if (selectedSide === "home" && match.home?.team) {
-    return match.home;
+    return getOfficialWinnerSide(match.officialMatch)
+      ? markSlotAsOfficialKnockoutResult(match.home)
+      : markSlotAsKnockoutPick(match.home);
   }
 
   if (selectedSide === "away" && match.away?.team) {
-    return match.away;
+    return getOfficialWinnerSide(match.officialMatch)
+      ? markSlotAsOfficialKnockoutResult(match.away)
+      : markSlotAsKnockoutPick(match.away);
   }
 
   return null;
 }
 
 function getSelectedLoserSlot(match, knockoutPicks) {
-  const selectedSide = knockoutPicks?.[match.matchId];
+  const loserSide = getLoserSide(match, knockoutPicks);
 
-  if (selectedSide === "home" && match.away?.team) {
-    return match.away;
+  if (loserSide === "home" && match.home?.team) {
+    return getOfficialLoserSide(match.officialMatch)
+      ? markSlotAsOfficialKnockoutResult(match.home)
+      : markSlotAsKnockoutPick(match.home);
   }
 
-  if (selectedSide === "away" && match.home?.team) {
-    return match.home;
+  if (loserSide === "away" && match.away?.team) {
+    return getOfficialLoserSide(match.officialMatch)
+      ? markSlotAsOfficialKnockoutResult(match.away)
+      : markSlotAsKnockoutPick(match.away);
   }
 
   return null;
@@ -169,6 +282,7 @@ function getSelectedLoserSlot(match, knockoutPicks) {
 function buildKnockoutMatch({
   match,
   matches,
+  officialMatchesByCode,
   groupTablesByGroup,
   bestThirdsTable,
   sandboxResults,
@@ -176,8 +290,21 @@ function buildKnockoutMatch({
   resolvedSlots,
   thirdPlacePossibilities,
 }) {
+  const officialMatch = getOfficialMatchForBracketMatch(
+    match,
+    officialMatchesByCode
+  );
+
   const builtMatch = {
     ...match,
+
+    officialMatch,
+    startTime: officialMatch?.startTime ?? match.startTime ?? null,
+    lockTime: officialMatch?.lockTime ?? match.lockTime ?? null,
+    status: officialMatch?.status ?? match.status ?? null,
+    result: officialMatch?.result ?? match.result ?? null,
+    channel: officialMatch?.channel ?? match.channel ?? null,
+
     home: resolveSlot({
       slot: match.homeSlot,
       matches,
@@ -209,10 +336,20 @@ function buildKnockoutMatch({
     resolvedSlots[builtMatch.loserSlot] = loser;
   }
 
+  const officialWinnerSide = getOfficialWinnerSide(builtMatch.officialMatch);
+  const selectedWinnerSide =
+    officialWinnerSide ?? knockoutPicks?.[builtMatch.matchId] ?? null;
+
   return {
     ...builtMatch,
-    selectedWinnerSide: knockoutPicks?.[builtMatch.matchId] ?? null,
-    canPickWinner: Boolean(builtMatch.home.team && builtMatch.away.team),
+    selectedWinnerSide,
+    officialWinnerSide,
+    hasOfficialResult: Boolean(officialWinnerSide),
+    canPickWinner: Boolean(
+      !officialWinnerSide &&
+      builtMatch.home.team &&
+      builtMatch.away.team
+    ),
   };
 }
 
@@ -225,6 +362,7 @@ export function buildKnockoutBracket({
   thirdPlacePossibilities,
 }) {
   const resolvedSlots = {};
+  const officialMatchesByCode = buildOfficialMatchesByCode(matches);
 
   return KNOCKOUT_ROUNDS.map((round) => ({
     ...round,
@@ -232,6 +370,7 @@ export function buildKnockoutBracket({
       buildKnockoutMatch({
         match,
         matches,
+        officialMatchesByCode,
         groupTablesByGroup,
         bestThirdsTable,
         sandboxResults,

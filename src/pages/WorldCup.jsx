@@ -74,11 +74,27 @@ export default function WorldCup() {
 
   return (
     <section className={styles.wrapper}>
+      
+      <div className={styles.header}>
+        <div>
+          <h1 className={styles.title}>
+            <span>Cuadro Eliminatorio</span>
+          </h1>
+        </div>
+      </div>
+      
+      <KnockoutBracket
+        rounds={calculator.knockoutBracket}
+        onPickWinner={calculator.setKnockoutWinner}
+        onClearWinner={calculator.clearKnockoutWinner}
+        onClearAllWinners={handleOpenClearKnockoutConfirm}
+        hasAnyKnockoutPicks={calculator.hasAnyKnockoutPicks}
+      />
+      
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>
             <span>Mundial + Calculadora</span>
-            <span>(Beta)</span>
           </h1>
           <p className={styles.subtitle}>
             Simulá resultados pendientes y mirá cómo quedarían las tablas de
@@ -122,14 +138,6 @@ export default function WorldCup() {
         groupTablesByGroup={calculator.groupTablesByGroup}
         onChangeRank={calculator.setManualTiebreakerRank}
         onClearGroup={calculator.clearManualTiebreakerGroup}
-      />
-
-      <KnockoutBracket
-        rounds={calculator.knockoutBracket}
-        onPickWinner={calculator.setKnockoutWinner}
-        onClearWinner={calculator.clearKnockoutWinner}
-        onClearAllWinners={handleOpenClearKnockoutConfirm}
-        hasAnyKnockoutPicks={calculator.hasAnyKnockoutPicks}
       />
 
       <ConfirmModal

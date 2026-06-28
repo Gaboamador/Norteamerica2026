@@ -9,6 +9,7 @@ import {
   where,
   serverTimestamp,
   writeBatch,
+  deleteField,
 } from "firebase/firestore";
 // import { refreshMatchesMeta } from "@/services/firebase/firebaseMatchesMeta";
 
@@ -185,9 +186,16 @@ export const updateMatch = async (matchId, data) => {
  * No recalcula standings ni refresca meta/matchesMeta.
  * Eso se hace desde el flujo admin, después del recompute principal.
  */
-export const setOfficialMatchResult = async (matchId, result) => {
+export const setOfficialMatchResult = async (
+  matchId,
+  result,
+  winnerSide = null
+) => {
   if (!matchId) throw new Error("matchId requerido");
   if (!result) throw new Error("result requerido");
+
+  const normalizedWinnerSide =
+    winnerSide === "home" || winnerSide === "away" ? winnerSide : null;
 
   const nowMillis = Date.now();
   const ref = doc(db, "matches", matchId);
@@ -197,6 +205,8 @@ export const setOfficialMatchResult = async (matchId, result) => {
     {
       result,
       status: "finished",
+
+      winnerSide: normalizedWinnerSide || deleteField(),
 
       finishedAt: serverTimestamp(),
       finishedAtMillis: nowMillis,
@@ -224,6 +234,7 @@ export const resetMatchResult = async (matchId) => {
     {
       result: null,
       status: "scheduled",
+      winnerSide: deleteField(),
 
       finishedAt: null,
       finishedAtMillis: null,
@@ -273,6 +284,47 @@ export const updateMatchesChannelsBatch = async (items) => {
     batch.update(ref, {
       channel: normalizedChannel,
       channelUpdatedAt: serverTimestamp(),
+    });
+  });
+
+  await batch.commit();
+};
+
+
+const MATCH_CODE_PATTERN = /^M(7[3-9]|8[0-9]|9[0-9]|10[0-4])$/;
+
+export const updateMatchesCodesBatch = async (items) => {
+  if (!Array.isArray(items)) {
+    throw new Error("items debe ser un array");
+  }
+
+  if (items.length === 0) {
+    return;
+  }
+
+  if (items.length > 500) {
+    throw new Error("Firestore permite hasta 500 escrituras por batch");
+  }
+
+  const batch = writeBatch(db);
+
+  items.forEach(({ matchId, matchCode }) => {
+    if (!matchId) {
+      throw new Error("Todos los items deben tener matchId");
+    }
+
+    const normalizedMatchCode =
+      typeof matchCode === "string" ? matchCode.trim().toUpperCase() : "";
+
+    if (!MATCH_CODE_PATTERN.test(normalizedMatchCode)) {
+      throw new Error(`Código de partido inválido: ${matchCode}`);
+    }
+
+    const ref = doc(db, "matches", matchId);
+
+    batch.update(ref, {
+      matchCode: normalizedMatchCode,
+      matchCodeUpdatedAt: serverTimestamp(),
     });
   });
 

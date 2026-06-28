@@ -39,19 +39,54 @@ export default function MatchRow({ match, onSetResult }) {
 
   const [homeGoals, setHomeGoals] = useState("");
   const [awayGoals, setAwayGoals] = useState("");
+  const [winnerSide, setWinnerSide] = useState(match.winnerSide ?? "");
 
   useEffect(() => {
     if (match.result) {
       setHomeGoals(match.result.homeGoals);
       setAwayGoals(match.result.awayGoals);
+    } else {
+      setHomeGoals("");
+      setAwayGoals("");
     }
-  }, [match.result]);
+
+    setWinnerSide(match.winnerSide ?? "");
+  }, [match.result, match.winnerSide]);
 
   useEffect(() => {
     if (isKnockout) {
       setGroup("");
     }
   }, [isKnockout]);
+
+  const rawHomeGoals = String(homeGoals ?? "").trim();
+  const rawAwayGoals = String(awayGoals ?? "").trim();
+
+  const hasCompleteResultInputs =
+    rawHomeGoals !== "" &&
+    rawAwayGoals !== "" &&
+    Number.isInteger(Number(rawHomeGoals)) &&
+    Number.isInteger(Number(rawAwayGoals)) &&
+    Number(rawHomeGoals) >= 0 &&
+    Number(rawAwayGoals) >= 0;
+
+  const resultIsDraw =
+    hasCompleteResultInputs &&
+    Number(rawHomeGoals) === Number(rawAwayGoals);
+
+  const shouldAskWinnerSide = isKnockout && resultIsDraw;
+
+  const hasValidWinnerSide = winnerSide === "home" || winnerSide === "away";
+
+  const canSubmitResult =
+    hasCompleteResultInputs &&
+    (!shouldAskWinnerSide || hasValidWinnerSide);
+
+  useEffect(() => {
+    if (!shouldAskWinnerSide && winnerSide) {
+      setWinnerSide("");
+    }
+  }, [shouldAskWinnerSide, winnerSide]);
 
   const handleSave = async () => {
     try {
@@ -102,6 +137,7 @@ const handleResetMatch = async () => {
 
     setHomeGoals("");
     setAwayGoals("");
+    setWinnerSide("");
 
     showToast({
       type: "success",
@@ -390,10 +426,34 @@ const handleResetMatch = async () => {
 
         </div>
 
+        {shouldAskWinnerSide && (
+          <div className={styles.winnerSideControl}>
+            <label className={styles.winnerSideLabel}>
+              Ganador por penales
+            </label>
+
+            <select
+              className={styles.winnerSideSelect}
+              value={winnerSide}
+              onChange={(e) => setWinnerSide(e.target.value)}
+            >
+              <option value="">Elegir ganador</option>
+              <option value="home">{match.homeTeam}</option>
+              <option value="away">{match.awayTeam}</option>
+            </select>
+          </div>
+        )}
+
         <button
           className={`button button--success`}
+          disabled={!canSubmitResult}
           onClick={() =>
-            onSetResult(match.id, homeGoals, awayGoals)
+            onSetResult(
+              match.id,
+              homeGoals,
+              awayGoals,
+              shouldAskWinnerSide ? winnerSide : null
+            )
           }
         >
           Cargar resultado

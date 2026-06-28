@@ -11,12 +11,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import MatchRow from "@/components/MatchRow";
 import MatchesGrouped from "@/components/MatchesGrouped";
 import MatchChannelsBatchEditor from "@/components/admin/MatchChannelsBatchEditor";
+import MatchCodesBatchEditor from "@/components/admin/MatchCodesBatchEditor";
 import { useMatches } from "@/hooks/useMatches";
 import { ROUND_OPTIONS } from "@/utils/matchRounds";
 import { isGroupStageRound } from "@/utils/matchRounds";
 import styles from "./AdminMatches.module.scss";
 import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
-import { PiTelevisionSimple } from "react-icons/pi";
+import { PiHashStraight, PiTelevisionSimple } from "react-icons/pi";
 
 
 export default function AdminMatches() {
@@ -34,6 +35,7 @@ export default function AdminMatches() {
   const [startTime, setStartTime] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
   const [channelsOpen, setChannelsOpen] = useState(false);
+  const [codesOpen, setCodesOpen] = useState(false);
   const [publishingLockedPredictions, setPublishingLockedPredictions] = useState(false);
   const isKnockout = !isGroupStageRound(round);
 
@@ -102,8 +104,16 @@ export default function AdminMatches() {
   };
 
 // UPDATE RESULT
-const handleSetResult = async (matchId, homeGoals, awayGoals) => {
+const handleSetResult = async (
+  matchId,
+  homeGoals,
+  awayGoals,
+  winnerSide = null
+) => {
   try {
+    const match = matches.find((item) => item.id === matchId);
+    const matchIsKnockout = match ? !isGroupStageRound(match.round) : false;
+
     const rawHomeGoals = String(homeGoals).trim();
     const rawAwayGoals = String(awayGoals).trim();
 
@@ -133,12 +143,28 @@ const handleSetResult = async (matchId, homeGoals, awayGoals) => {
       return;
     }
 
+    const resultIsDraw = parsedHomeGoals === parsedAwayGoals;
+    const normalizedWinnerSide =
+      winnerSide === "home" || winnerSide === "away" ? winnerSide : null;
+
+    if (matchIsKnockout && resultIsDraw && !normalizedWinnerSide) {
+      showToast({
+        type: "error",
+        message: "Elegí el ganador del cruce antes de guardar el empate",
+      });
+      return;
+    }
+
     const result = {
       homeGoals: parsedHomeGoals,
       awayGoals: parsedAwayGoals,
     };
 
-    await setOfficialMatchResult(matchId, result);
+    await setOfficialMatchResult(
+      matchId,
+      result,
+      matchIsKnockout && resultIsDraw ? normalizedWinnerSide : null
+    );
 
     await recomputeStandings();
 
@@ -260,6 +286,20 @@ const handlePublishLockedPredictions = async () => {
           >
             <PiTelevisionSimple />
           </button>
+
+          <button
+            type="button"
+            className={styles.titleIconButton}
+            onClick={() => setCodesOpen((v) => !v)}
+            title={
+              codesOpen
+                ? "Ocultar editor de códigos de partido"
+                : "Editar códigos de partido"
+            }
+            aria-expanded={codesOpen}
+          >
+            <PiHashStraight />
+          </button>
         </div>
 
         <AnimatePresence initial={false}>
@@ -273,6 +313,21 @@ const handlePublishLockedPredictions = async () => {
               style={{ overflow: "hidden" }}
             >
               <MatchChannelsBatchEditor matches={matches} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence initial={false}>
+          {codesOpen && (
+            <motion.div
+              key="codes-editor"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              style={{ overflow: "hidden" }}
+            >
+              <MatchCodesBatchEditor matches={matches} />
             </motion.div>
           )}
         </AnimatePresence>

@@ -1,0 +1,236 @@
+.wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+
+  padding: $space-md;
+  border: 1px solid $color-card-border;
+  border-radius: $radius-lg;
+
+  background: rgba($color-bg-elevated, 0.72);
+  box-shadow: 0 10px 28px $color-shadow-soft;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.title {
+  margin: 0;
+
+  font-family: $font-family-display;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-primary;
+}
+
+.description {
+  margin: $space-2xs 0 0;
+
+  color: $color-text-secondary;
+  font-size: $font-size-body-sm;
+  line-height: 1.35;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+
+  span {
+    width: fit-content;
+
+    padding: $space-2xs $space-xs;
+    border-radius: $radius-sm;
+    border: 1px solid rgba($color-border, 0.7);
+
+    background: rgba($color-bg-elevated-2, 0.8);
+    color: $color-text-secondary;
+
+    font-size: $font-size-body-xs;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.duplicateSummary {
+  border-color: rgba($color-danger, 0.5) !important;
+  background: rgba($color-danger, 0.1) !important;
+  color: $color-danger !important;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-sm;
+
+  padding: $space-sm;
+  border: 1px solid rgba($color-border, 0.65);
+  border-radius: $radius-md;
+
+  background: rgba($color-bg-elevated-2, 0.68);
+
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.dirty {
+  border-color: rgba($color-accent-primary, 0.65);
+  background: rgba($color-accent-primary, 0.08);
+}
+
+.duplicated {
+  border-color: rgba($color-danger, 0.65);
+  background: rgba($color-danger, 0.09);
+}
+
+.finished {
+  opacity: 0.74;
+}
+
+.matchInfo {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: $space-xs;
+  align-items: center;
+
+  color: $color-text-primary;
+  font-size: $font-size-body-sm;
+  font-weight: $font-weight-bold;
+
+  span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span:last-child {
+    text-align: right;
+  }
+
+  strong {
+    color: $color-text-muted;
+    font-size: $font-size-body-xs;
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xs;
+
+  color: $color-text-muted;
+  font-size: $font-size-body-xs;
+
+  span {
+    width: fit-content;
+  }
+}
+
+.codeControl {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-xs;
+}
+
+.select {
+  width: 100%;
+  max-width: 180px;
+
+  padding: $space-xs $space-sm;
+  border: 1px solid rgba($color-border, 0.8);
+  border-radius: $radius-sm;
+
+  background: rgba($color-bg-elevated, 0.95);
+  color: $color-text-primary;
+
+  font-family: $font-family-input;
+  font-size: $font-size-body-sm;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent-primary;
+    box-shadow: 0 0 0 3px rgba($color-accent-primary, 0.2);
+  }
+}
+
+.dirtyBadge,
+.duplicateBadge {
+  flex: 0 0 auto;
+
+  padding: $space-2xs $space-xs;
+  border-radius: $radius-sm;
+
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+}
+
+.dirtyBadge {
+  background: rgba($color-accent-primary, 0.12);
+  color: $color-accent-primary;
+}
+
+.duplicateBadge {
+  background: rgba($color-danger, 0.12);
+  color: $color-danger;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.empty {
+  padding: $space-md;
+
+  border-radius: $radius-md;
+  border: 1px dashed rgba($color-border, 0.7);
+
+  color: $color-text-muted;
+  font-size: $font-size-body-sm;
+  text-align: center;
+}
+
+@include up(sm) {
+  .header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .summary {
+    justify-content: flex-end;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .select {
+    width: 150px;
+  }
+}

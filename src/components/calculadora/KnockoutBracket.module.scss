@@ -312,13 +312,15 @@
 .matchHeaderRight {
   min-width: 0;
 
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.22rem;
+  gap: $space-2xs;
 }
 
 .matchId {
+  flex: 0 0 auto;
+
   color: $color-text-primary;
   font-weight: $font-weight-bold;
 }
@@ -333,6 +335,21 @@
   white-space: nowrap;
 
   color: $color-text-muted;
+}
+
+.matchDate {
+  min-width: 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-family: $font-family-compact;
+  font-weight: $font-weight-bold;
+
+  color: $color-text-muted;
+  letter-spacing: 0.01em;
+
 }
 
 .slots {
@@ -722,7 +739,7 @@
 @media (min-width: 561px) {
   .wrapper {
     --bracket-round-title-height: var(--bracket-round-title-height-desktop);
-    --bracket-track-size: calc(var(--bracket-track-base) * 1.0593);
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
     --bracket-column-width: calc(var(--bracket-column-base) * 1.0615);
     --bracket-column-gap: 0.82rem;
     --bracket-connector-length: 0.72rem;
@@ -806,7 +823,7 @@
 
 @media (min-width: 768px) {
   .wrapper {
-    --bracket-track-size: calc(var(--bracket-track-base) * 1.0678);
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
     --bracket-column-width: calc(var(--bracket-column-base) * 1.0718);
     --bracket-column-gap: 0.84rem;
     --bracket-connector-length: 0.74rem;
@@ -840,7 +857,7 @@
 
 @media (min-width: 1120px) {
   .wrapper {
-    --bracket-track-size: calc(var(--bracket-track-base) * 1.0847);
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
     --bracket-column-width: calc(var(--bracket-column-base) * 1.0872);
     --bracket-column-gap: 0.86rem;
     --bracket-connector-length: 0.76rem;

@@ -13,7 +13,7 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { LuFolderOpen, LuHouse } from "react-icons/lu";
 import { CiViewTable, CiEdit } from "react-icons/ci";
 import { IoMdLogOut } from "react-icons/io";
-import { TbScoreboard , TbTrophy, TbTimelineEvent, TbBook2, TbCalculator } from "react-icons/tb";
+import { TbScoreboard , TbTrophy, TbTimelineEvent, TbBook2, TbCalculator, TbTournament } from "react-icons/tb";
 
 
 export default function Header() {
@@ -79,8 +79,9 @@ export default function Header() {
     },
     {
       to: "/mundial-calculadora",
-      label: 'Mundial + Calculadora (Beta)',
-      icon: <TbCalculator />,
+      // label: 'Mundial + Calculadora',
+      label: 'Cuadro Eliminatorio',
+      icon: <TbTournament />,
     },
     ...(isAdmin ? [
       {

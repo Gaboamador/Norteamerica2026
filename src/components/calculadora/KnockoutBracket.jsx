@@ -124,6 +124,35 @@ function getTopThirdOptionTeam(option) {
   return option?.team || null;
 }
 
+const COMPACT_WEEKDAYS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+function formatCompactMatchDate(startTime) {
+  if (!startTime) return null;
+
+  const date = startTime instanceof Date
+    ? startTime
+    : startTime?.toDate?.();
+
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  const weekday = COMPACT_WEEKDAYS[date.getDay()];
+
+  const dayMonth = date.toLocaleDateString("es-AR", {
+    day: "numeric",
+    month: "numeric",
+  });
+
+  const time = date.toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  return `${weekday}. ${dayMonth}, ${time}`;
+}
+
 function Slot({ slot, selected, canPick, onPick }) {
   const showTeam = Boolean(slot.team);
 
@@ -212,6 +241,7 @@ if (!showTeam) {
 
 function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
   const hasSelection = Boolean(match.selectedWinnerSide);
+  const compactDate = formatCompactMatchDate(match.startTime);
 
   return (
     <article className={styles.match}>
@@ -219,7 +249,11 @@ function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
         <span className={styles.matchId}>{match.matchId}</span>
 
         <span className={styles.matchHeaderRight}>
-          <span className={styles.winnerSlot}>{match.winnerSlot}</span>
+          {compactDate ? (
+            <span className={styles.matchDate}>{compactDate}</span>
+          ) : (
+            <span className={styles.winnerSlot}>{match.winnerSlot}</span>
+          )}
 
           {hasSelection && (
             <button

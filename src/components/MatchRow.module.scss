@@ -346,6 +346,49 @@
   cursor: pointer;
 }
 
+.winnerSideControl {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-2xs;
+
+  padding: $space-sm;
+  border: 1px solid rgba($color-accent-primary, 0.35);
+  border-radius: $radius-md;
+
+  background: rgba($color-accent-primary, 0.08);
+}
+
+.winnerSideLabel {
+  color: $color-text-secondary;
+
+  font-size: $font-size-body-xs;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.winnerSideSelect {
+  width: 100%;
+
+  padding: $space-xs $space-sm;
+  border: 1px solid rgba($color-border, 0.8);
+  border-radius: $radius-sm;
+
+  background: rgba($color-bg-elevated, 0.95);
+  color: $color-text-primary;
+
+  font-family: $font-family-input;
+  font-size: $font-size-body-sm;
+
+  &:focus {
+    outline: none;
+    border-color: $color-accent-primary;
+    box-shadow: 0 0 0 3px rgba($color-accent-primary, 0.2);
+  }
+}
+
 /* BREAKPOINTS */
 
 @include up(md) {
