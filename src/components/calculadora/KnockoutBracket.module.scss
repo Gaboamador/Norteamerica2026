@@ -354,6 +354,7 @@
 
 .slots {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   gap: 0.12rem;
 
@@ -556,19 +557,26 @@
 
 /* ESTADOS
    Jerarquía visual:
-   selected = ganador elegido
    official = slot confirmado / normal
-   projected = proyección no confirmada / muted
+   projected = slot proyectado / muted
+   selected.officialWinner = ganador definido por resultado oficial
+   selected.simulatedWinner = ganador elegido en simulación
    placeholder = pendiente / muted débil
 */
 
 .official {
-  border-color: rgba($color-border, 0.62);
-  background: rgba($color-bg-page, 0.36);
+  border-color: rgba($color-accent-primary, 0.42);
+  background:
+    linear-gradient(
+      135deg,
+      rgba($color-accent-primary, 0.105),
+      rgba($color-bg-page, 0.34)
+    );
+  box-shadow: inset 0 0 0 1px rgba($color-accent-primary, 0.035);
 }
 
 .official .slotLegend {
-  color: $color-text-muted;
+  color: rgba($color-accent-primary, 0.88);
 }
 
 .official .slotName {
@@ -577,11 +585,20 @@
 }
 
 .official:not(.selected):not(:has(.slotButton:disabled)):hover {
-  border-color: rgba($color-border-strong, 0.72);
-  background: rgba($color-bg-elevated-2, 0.52);
-  box-shadow: inset 0 0 0 1px rgba($color-border-strong, 0.08);
+  border-color: rgba($color-accent-primary, 0.62);
+  background:
+    linear-gradient(
+      135deg,
+      rgba($color-accent-primary, 0.15),
+      rgba($color-bg-elevated-2, 0.46)
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba($color-accent-primary, 0.08),
+    0 0 0 1px rgba($color-accent-primary, 0.035);
 }
 
+/* Proyectado común: sin color protagonista.
+   Sirve para slots todavía tentativos, no para marcar ganadores simulados. */
 .projected {
   border-color: rgba($color-border, 0.4);
   background: rgba($color-bg-page, 0.22);
@@ -625,24 +642,9 @@
   opacity: 0.42;
 }
 
-/* Ganador elegido: verde, por encima de official/projected */
+/* Base de cualquier ganador seleccionado */
 .selected {
   opacity: 1;
-  border-color: rgba($color-success, 0.82);
-  border-style: 1px solid;
-  background:
-    linear-gradient(
-      135deg,
-      rgba($color-success, 0.2),
-      rgba($color-success, 0.09)
-    );
-  box-shadow:
-    inset 0 0 0 1px rgba($color-success, 0.16),
-    0 0 0 1px rgba($color-success, 0.1);
-}
-
-.selected .slotLegend {
-  color: rgba($color-success, 0.95);
 }
 
 .selected .slotName {
@@ -650,17 +652,115 @@
   font-weight: $font-weight-bold;
 }
 
-.selected:not(:has(.slotButton:disabled)):hover {
-  border-color: rgba($color-success, 1);
+/* Ganador definido por resultado oficial */
+.selected.officialWinner {
+  --selected-color: #{$color-accent-warm};
+
+  border-color: color-mix(in srgb, var(--selected-color) 82%, transparent);
+  border-style: solid;
   background:
     linear-gradient(
       135deg,
-      rgba($color-success, 0.28),
-      rgba($color-success, 0.13)
+      color-mix(in srgb, var(--selected-color) 24%, transparent),
+      color-mix(in srgb, var(--selected-color) 8.5%, transparent)
     );
   box-shadow:
-    inset 0 0 0 1px rgba($color-success, 0.22),
-    0 0 0 1px rgba($color-success, 0.14);
+    inset 2px 0 0 color-mix(in srgb, var(--selected-color) 95%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--selected-color) 16%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--selected-color) 10%, transparent);
+}
+
+.selected.officialWinner .slotLegend {
+  color: color-mix(in srgb, var(--selected-color) 98%, transparent);
+}
+
+.selected.officialWinner:not(:has(.slotButton:disabled)):hover {
+  border-color: color-mix(in srgb, var(--selected-color) 96%, transparent);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--selected-color) 30%, transparent),
+      color-mix(in srgb, var(--selected-color) 12%, transparent)
+    );
+  box-shadow:
+    inset 2px 0 0 var(--selected-color),
+    inset 0 0 0 1px color-mix(in srgb, var(--selected-color) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--selected-color) 14%, transparent);
+}
+
+/* Ganador elegido manualmente en la simulación */
+.selected.simulatedWinner {
+  --selected-color: #{$color-info};
+
+  border-color: color-mix(in srgb, var(--selected-color) 90%, transparent);
+  border-style: dashed;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--selected-color) 28%, transparent),
+      color-mix(in srgb, var(--selected-color) 9.5%, transparent)
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--selected-color) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--selected-color) 10%, transparent);
+}
+
+.selected.simulatedWinner .slotLegend {
+  color: color-mix(in srgb, var(--selected-color) 96%, transparent);
+}
+
+.selected.simulatedWinner .slotName {
+  color: $color-text-primary;
+}
+
+.selected.simulatedWinner .flag {
+  opacity: 1;
+}
+
+.selected.simulatedWinner:not(:has(.slotButton:disabled)):hover {
+  border-color: var(--selected-color);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--selected-color) 34%, transparent),
+      color-mix(in srgb, var(--selected-color) 13%, transparent)
+    );
+  box-shadow:
+    inset 3px 0 0 var(--selected-color),
+    inset 0 0 0 1px color-mix(in srgb, var(--selected-color) 24%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--selected-color) 14%, transparent);
+}
+
+/* Perdedor de un partido con ganador oficial */
+.officialLoser {
+  opacity: 0.62;
+  border-color: rgba($color-border, 0.32);
+  background: rgba($color-bg-page, 0.14);
+  box-shadow: none;
+}
+
+.officialLoser .slotLegend {
+  color: $color-text-disabled;
+}
+
+.officialLoser .slotName {
+  color: $color-text-muted;
+  font-weight: $font-weight-regular;
+}
+
+.officialLoser .flag {
+  opacity: 0.58;
+  filter: grayscale(0.35);
+}
+
+.officialLoser:not(:has(.slotButton:disabled)):hover {
+  opacity: 0.78;
+  border-color: rgba($color-border, 0.44);
+  background: rgba($color-bg-elevated-2, 0.22);
+}
+
+.officialLoser:not(:has(.slotButton:disabled)):hover .flag {
+  opacity: 0.72;
 }
 
 .placeholder {
@@ -705,6 +805,10 @@
   box-shadow: none;
 }
 
+/*
+-------------------------- FIN ESTILOS DE ESTADOS --------------------------
+*/
+
 /* Botón limpiar */
 .clearWinner {
   flex: 0 0 auto;
@@ -739,7 +843,7 @@
 @media (min-width: 561px) {
   .wrapper {
     --bracket-round-title-height: var(--bracket-round-title-height-desktop);
-    --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
+    --bracket-track-size: calc(var(--bracket-track-base) * 1.15);
     --bracket-column-width: calc(var(--bracket-column-base) * 1.0615);
     --bracket-column-gap: 0.82rem;
     --bracket-connector-length: 0.72rem;
@@ -823,7 +927,7 @@
 
 @media (min-width: 768px) {
   .wrapper {
-    --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
+    // --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
     --bracket-column-width: calc(var(--bracket-column-base) * 1.0718);
     --bracket-column-gap: 0.84rem;
     --bracket-connector-length: 0.74rem;
@@ -857,7 +961,7 @@
 
 @media (min-width: 1120px) {
   .wrapper {
-    --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
+    // --bracket-track-size: calc(var(--bracket-track-base) * 1.1);
     --bracket-column-width: calc(var(--bracket-column-base) * 1.0872);
     --bracket-column-gap: 0.86rem;
     --bracket-connector-length: 0.76rem;

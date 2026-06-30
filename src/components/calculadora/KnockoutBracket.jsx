@@ -80,20 +80,40 @@ function getOrderedMatches(matches = []) {
   });
 }
 
-function getSlotClassName(slot, selected) {
-  if (selected) return styles.selected;
-  if (slot.source === "official") return styles.official;
-  if (slot.source === "projected") return styles.projected;
+function getSlotClassName(slot, selected, selectedSource, isOfficialLoser) {
+  const classes = [];
 
-  if (
+  if (slot.source === "official") {
+    classes.push(styles.official);
+  } else if (slot.source === "projected") {
+    classes.push(styles.projected);
+  } else if (
     slot.source === "third-matrix-missing" ||
     slot.source === "third-column-missing" ||
     slot.source === "third-row-missing"
   ) {
-    return styles.matrixError;
+    classes.push(styles.matrixError);
+  } else {
+    classes.push(styles.placeholder);
   }
 
-  return styles.placeholder;
+  if (selected) {
+    classes.push(styles.selected);
+
+    if (selectedSource === "manual" || selectedSource === "simulation") {
+      classes.push(styles.simulatedWinner);
+    }
+
+    if (selectedSource === "official") {
+      classes.push(styles.officialWinner);
+    }
+  }
+
+  if (isOfficialLoser) {
+    classes.push(styles.officialLoser);
+  }
+
+  return classes.join(" ");
 }
 
 function formatProbability(value) {
@@ -153,7 +173,7 @@ function formatCompactMatchDate(startTime) {
   return `${weekday}. ${dayMonth}, ${time}`;
 }
 
-function Slot({ slot, selected, canPick, onPick }) {
+function Slot({ slot, selected, selectedSource, isOfficialLoser, canPick, onPick }) {
   const showTeam = Boolean(slot.team);
 
 if (!showTeam) {
@@ -214,7 +234,7 @@ if (!showTeam) {
 
   return (
     <fieldset
-      className={`${styles.slotFieldset} ${getSlotClassName(slot, selected)}`}
+      className={`${styles.slotFieldset} ${getSlotClassName(slot, selected, selectedSource, isOfficialLoser)}`}
     >
       <legend className={styles.slotLegend}>{slot.label}</legend>
 
@@ -241,6 +261,7 @@ if (!showTeam) {
 
 function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
   const hasSelection = Boolean(match.selectedWinnerSide);
+  const canClearWinner = Boolean(match.canClearWinner ?? match.hasManualWinnerPick);
   const compactDate = formatCompactMatchDate(match.startTime);
 
   return (
@@ -255,7 +276,7 @@ function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
             <span className={styles.winnerSlot}>{match.winnerSlot}</span>
           )}
 
-          {hasSelection && (
+          {hasSelection && canClearWinner && (
             <button
               type="button"
               className={styles.clearWinner}
@@ -273,6 +294,11 @@ function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
         <Slot
           slot={match.home}
           selected={match.selectedWinnerSide === "home"}
+          selectedSource={match.selectedWinnerSource}
+          isOfficialLoser={
+            match.selectedWinnerSource === "official" &&
+            match.selectedWinnerSide === "away"
+          }
           canPick={match.canPickWinner}
           onPick={() => onPickWinner(match.matchId, "home")}
         />
@@ -280,6 +306,11 @@ function KnockoutMatch({ match, onPickWinner, onClearWinner }) {
         <Slot
           slot={match.away}
           selected={match.selectedWinnerSide === "away"}
+          selectedSource={match.selectedWinnerSource}
+          isOfficialLoser={
+            match.selectedWinnerSource === "official" &&
+            match.selectedWinnerSide === "home"
+          }
           canPick={match.canPickWinner}
           onPick={() => onPickWinner(match.matchId, "away")}
         />

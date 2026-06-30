@@ -336,20 +336,28 @@ function buildKnockoutMatch({
     resolvedSlots[builtMatch.loserSlot] = loser;
   }
 
+  const manualWinnerSide = knockoutPicks?.[builtMatch.matchId] ?? null;
   const officialWinnerSide = getOfficialWinnerSide(builtMatch.officialMatch);
   const selectedWinnerSide =
     officialWinnerSide ?? knockoutPicks?.[builtMatch.matchId] ?? null;
+  const selectedWinnerSource = officialWinnerSide
+  ? "official"
+  : manualWinnerSide
+    ? "manual"
+    : null;
 
   return {
     ...builtMatch,
     selectedWinnerSide,
     officialWinnerSide,
+    selectedWinnerSource,
     hasOfficialResult: Boolean(officialWinnerSide),
     canPickWinner: Boolean(
       !officialWinnerSide &&
       builtMatch.home.team &&
       builtMatch.away.team
     ),
+    canClearWinner: Boolean(knockoutPicks?.[builtMatch.matchId]),
   };
 }
 
