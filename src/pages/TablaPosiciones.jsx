@@ -1,5 +1,11 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+
+import { useAdmin } from "@/hooks/useAdmin";
+import { useToast } from "@/context/ToastContext";
+import { exportStandingsPDF } from "@/utils/exportStandingsPDF";
+import { LuFileDown } from "react-icons/lu";
+
 import { useUserGroupsState } from "@/hooks/useUserGroups";
 import { useGroupStandings } from "@/hooks/useGroupStandings";
 import { useMultiGroupStandings } from "@/hooks/useMultiGroupStandings";
@@ -52,6 +58,10 @@ const StandingAvatar = ({ user }) => {
 const TablaPosiciones = () => {
 
   const { user } = useAuth();
+
+  const { isAdmin } = useAdmin();
+  const { showToast } = useToast();
+
   const { groups, loading: groupsLoading } = useUserGroupsState();
 
   // selector: "all" = unificada
@@ -137,6 +147,30 @@ const TablaPosiciones = () => {
   }, [activeSelected, groups, hasMultipleGroups, groupsLoading]);
 
 
+  const handleExportPDF = () => {
+    try {
+      exportStandingsPDF({
+        table,
+        tableTitle: activeGroupName,
+      });
+
+      showToast({
+        type: "success",
+        message: "Tabla exportada",
+      });
+    } catch (error) {
+      console.error("Error exportando tabla a PDF", error);
+
+      showToast({
+        type: "error",
+        message:
+          error?.message ||
+          "No se pudo exportar la tabla",
+      });
+    }
+  };
+
+
   const hasGroups = groups.length > 0;
   const hasTable = Array.isArray(table) && table.length > 0;
 
@@ -184,6 +218,16 @@ const TablaPosiciones = () => {
             {activeGroupName}
           </div>
 
+          {isAdmin && hasTable && (
+            <button
+              type="button"
+              className="button button--secondary button--small"
+              onClick={handleExportPDF}
+            >
+              <LuFileDown aria-hidden="true" />
+              Exportar PDF
+            </button>
+          )}
 
           {hasTable ? (
             <p className={styles.tableHint}>
